@@ -25,14 +25,3 @@ function initMod(playerId, roomId) {
     //     });
     // }
 }
-
-function cuevaPerspective(sprite) {
-    let s;
-    let pos = round(sprite.position.y + sprite.depthOffset);
-    if (pos < 117) {
-        s = map(sprite.depth, 0 , 116, 1, 3);
-    } else {
-        s = map(sprite.depth, 117 , height, 3, 10);
-    }
-    return s;
-}
