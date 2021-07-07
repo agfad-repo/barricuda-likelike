@@ -16,12 +16,47 @@ function initMod(playerId, roomId) {
 
     // add custom client listeners HERE
 
-    // //prevent duplicate listeners
-    // if (!socket.hasListeners('event')) {
-    //     socket.on("event", function (msg) {
-    //         if (socket.id) {
-    //             console.log('event happend');
-    //         }
-    //     });
-    // }
+    //prevent duplicate listeners
+    if (!socket.hasListeners('event')) {
+
+        socket.on("event", function (msg) {
+            if (socket.id) {
+                console.log('event happend');
+            }
+        });
+
+        socket.on('musicOn', function (beat) {
+            SOUNDS["beat" + beat].loop();
+            // bg.play();
+        });
+
+        //music is playing
+        socket.on('musicEnter', function (beat) {
+            //start from random
+            SOUNDS["beat" + beat].loop();
+        });
+
+        socket.on('musicOff', function (beat) {
+            // print("The MOD module communicates with a custom socket event: music off");
+            //just to be sure I stop all the beats
+            SOUNDS["beat" + beat].stop();
+        });
+
+        socket.on('musicOffAll', function () {
+            // print("The MOD module communicates with a custom socket event: music off");
+            //just to be sure I stop all the beats
+            SOUNDS["beat1"].stop();
+            SOUNDS["beat2"].stop();
+            SOUNDS["beat3"].stop();
+            SOUNDS.DJStop.play();
+        });
+
+
+        //music is playing stop all bit without record scratch
+        socket.on('musicExit', function () {
+            SOUNDS["beat1"].stop();
+            SOUNDS["beat2"].stop();
+            SOUNDS["beat3"].stop();
+        });
+    }
 }
