@@ -35,7 +35,7 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // // #0066ff
-            h0066ff: { cmd: "text", label: "créditos", point: [50, 80], obstacle: false },
+            h0066ff: { cmd: "text", label: "créditos", txt:"aquí irán los creditos", lines: 8, point: [50, 80], obstacle: false },
             // #ff9900
             hff9900: { cmd: "enter", room: "r02Entrada", label: "entrada", point: [64, 60], enterPoint: [65, 95], obstacle: false },
         }
@@ -47,20 +47,20 @@ module.exports.ROOMS = {
         pageBg: "#1c2016",
         area: "/salas/r02Entrada_Int.png",
         tint: "#fdeac8",
-        bubblesY: 44,
+        bubblesY: 36,
         spawn: [60, 88, 70, 95],
         areaColors: {
             //h will be replaced by #
             // #ff0000
             hff0000: { cmd: "enter", room: "r01Patio", label: "patio", point: [66, 98], enterPoint: [64, 65], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "enter", room: "r04SalaX", label: "?", point: [98, 72], enterPoint: [60, 95], obstacle: false },
+            h0066ff: { cmd: "enter", room: "r04SalaX", label: "cookie de terceros", point: [98, 72], enterPoint: [60, 95], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "enter", room: "r03Cookies", label: "?", point: [32, 72], enterPoint: [70, 95], obstacle: false },
+            hff9900: { cmd: "enter", room: "r03Cookies", label: "malware de secuestro de datos", point: [32, 72], enterPoint: [70, 95], obstacle: false },
             // #999900
             h999900: { cmd: "text", label: "?", point: [65, 95], obstacle: false },
             // #ff00ff
-            hff00ff: { cmd: "text", label: "?", point: [65, 95], obstacle: false },
+            hff00ff: { cmd: "text", txt: "a continuacion de este mensaje va la encuesta", lines: 2, actionId: "Survey1",  label: "encuesta", point: [65, 95], obstacle: false },
         }
     },
     r03Cookies: {
@@ -70,24 +70,24 @@ module.exports.ROOMS = {
         pageBg: "#1c2016",
         area: "/salas/r03Cookies_Int.png",
         tint: "#fdeac8",
-        bubblesY: 44,
+        bubblesY: 24,
         spawn: [60, 88, 70, 95],
         areaColors: {
             //h will be replaced by #
             // #ff0000
             hff0000: { cmd: "enter", room: "r02Entrada", label: "entrada", point: [66, 98], enterPoint: [32, 72], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "galletas", point: [45, 82], obstacle: false },
+            h0066ff: { cmd: "text", actionId: 'Cookies', label: "galletas", txt: "mmmm... deliciosas galletas", point: [45, 85], obstacle: false },
             // #29adff
-            h29adff: { cmd: "enter", room: "r05SalaXCopia", label: "?", point: [65, 72], enterPoint: [60, 95], obstacle: false },
+            h29adff: { cmd: "enter", room: "r05SalaXCopia", label: "cookies propias", point: [65, 72], enterPoint: [60, 95], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r08Huella", label: "huella", point: [10, 85], enterPoint: [120, 84], obstacle: false },
+            hffec27: { cmd: "enter", room: "r08Huella", label: "cookies de terceros", point: [10, 85], enterPoint: [120, 84], obstacle: false },
             // #00cc99
             h00cc99: { cmd: "text", label: "robot", point: [37, 85], obstacle: false },
             //
             // CONVERTIR EN objeto
             // #ff00ff
-            hff00ff: { cmd: "text", label: "mostruo de las galletas", point: [87, 89], obstacle: false },
+            hff00ff: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este video para descubrirlo, además te recomiendo fijarte en el precio del paraguas. Cuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.", lines: 8, url: "https://www.youtube.com/embed/4n2Syt0P4js", iframe: true, point: [87, 89], obstacle: false },
         }
     },
     r04SalaX: {
@@ -142,7 +142,7 @@ module.exports.ROOMS = {
             // #29adff
             h29adff: { cmd: "enter", room: "r08Huella", label: "huella", point: [68, 47], enterPoint: [92, 95], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r07Marionetas", label: "marionetas", point: [10, 85], enterPoint: [65, 72], obstacle: false },
+            hffec27: { cmd: "enter", room: "r07Marionetas", label: "marionetas", point: [10, 85], enterPoint: [115, 86], obstacle: false },
             // #0066ff
             h0066ff: { cmd: "text", label: "residuo", point: [86, 87], obstacle: false },
             // #00cc99
@@ -153,18 +153,22 @@ module.exports.ROOMS = {
             hff9900: { cmd: "text", label: "residuo", point: [40, 80], obstacle: false },
         }
     },
-    // r07Marionetas: {
-    //     bg: "/salas/r07Marionetas.png",
-    //     frameDelay: 60,
-    //     avatarScale: 3,
-    //     pageBg: "#1c2016",
-    //     area: "/salas/r07Marionetas_Int.png",
-    //     tint: "#fdeac8",
-    //     bubblesY: 44,
-    //     spawn: [58, 69, 75, 75],
-    //     areaColors: {
-    //     }
-    // },
+    r07Marionetas: {
+        bg: "/salas/r09FakeNews.png",
+        frameDelay: 60,
+        avatarScale: 3,
+        pageBg: "#1c2016",
+        area: "/salas/r09FakeNews_Int.png",
+        tint: "#fdeac8",
+        bubblesY: 44,
+        spawn: [58, 80, 75, 95],
+        areaColors: {
+            // #00e436
+            h00e436: { cmd: "enter", room: "r06Reciclaje", label: "reciclaje", point: [120, 85], enterPoint: [16, 85], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r08Huella", label: "huella", point: [10, 86], enterPoint: [36, 95], obstacle: false },
+        }
+    },
     r08Huella: {
         bg: "/salas/r08Huella.png",
         frameDelay: 60,
@@ -177,21 +181,21 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #ff0000
-            hff0000: { cmd: "enter", room: "r06Reciclaje", label: "reciclaje", point: [92, 95], enterPoint: [68, 47], obstacle: false },
+            hff0000: { cmd: "enter", room: "r06Reciclaje", label: "Materiales y residuos", point: [92, 95], enterPoint: [68, 47], obstacle: false },
             // #00e436
             h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
             // #ff77a8
-            hff77a8: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [98, 72], enterPoint: [60, 98], obstacle: false },
+            hff77a8: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [98, 72], enterPoint: [60, 98], obstacle: false },
             // #29adff
-            h29adff: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [32, 72], enterPoint: [60, 98], obstacle: false },
+            h29adff: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [32, 72], enterPoint: [60, 98], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r09FakeNews", label: "fake", point: [10, 85], enterPoint: [120, 86], obstacle: false },
+            hffec27: { cmd: "enter", room: "r09FakeNews", label: "Fake News", point: [10, 85], enterPoint: [120, 86], obstacle: false },
             // #be1250
-            hbe1250: { cmd: "enter", room: "r07Marionetas", label: "marionetas", point: [36, 95], enterPoint: [60, 95], obstacle: false },
+            hbe1250: { cmd: "enter", room: "r07Marionetas", label: "Que no jueguen contigo", point: [36, 95], enterPoint: [10, 85], obstacle: false },
             //
             // CONVERTIR EN objeto
             // #9900cc
-            h9900cc: { cmd: "text", label: "personaje", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 2, point: [69, 88], obstacle: false },
+            h9900cc: { cmd: "text", label: "personaje", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false },
             // #ff9900
             hff9900: { cmd: "text", label: "espejo", txt: "¿Quién eres en internet? Busca tu nombre y apellidos entrecomillados en el buscador ¿que aparece?", lines: 3, point: [36, 84], obstacle: false },
             // #0066ff
@@ -226,7 +230,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "news", point: [30, 80], obstacle: false },
             // #9900cc
-            h9900cc: { cmd: "text", label: "personaje", point: [69, 80], obstacle: false },
+            h9900cc: { cmd: "text", label: "personaje", txt: "¡No soporto las fake news! Maldita desinformación ¿sabes reconocerlas? Mientras juegas fíjate en el año de las noticias mostradas en el juego, si eliminas los números que se repiten, puedes restar al resultado el precio del paraguas.", lines: 8, url:"https://juego.verdaderofalso.com/", iframe: true, point: [69, 80], obstacle: false },
         }
     },
     r10Nubes: {
@@ -247,17 +251,17 @@ module.exports.ROOMS = {
             // #ff77a8
             hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "cartel", point: [60, 80], obstacle: false },
-            // #ff00ff
-            hff00ff: { cmd: "text", label: "nube", point: [60, 80], obstacle: false },
+            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, el número de conexiones de las Baleares", lines: 2, point: [60, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "nube", point: [60, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "nube mediana", point: [60, 80], obstacle: false },
             // #689156
-            h689156: { cmd: "text", label: "nube", point: [60, 80], obstacle: false },
-            // #9900cc
-            h9900cc: { cmd: "text", label: "nube", point: [60, 80], obstacle: false },
+            h689156: { cmd: "text", label: "nube grande", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", lines: 3, point: [60, 80], obstacle: false },
+            // #ff00ff
+            hff00ff: { cmd: "text", label: "nube oscura 1", txt: "¿Tienes una web propia? ¿hay una web que te encante visitar? Aquí puedes ver el impacto que tiene en huella de carbono:", url: "https://www.websitecarbon.com/", iframe: true, lines: 4, point: [40, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "nube", point: [60, 80], obstacle: false },
+            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto (embeber nada más la infografía que se mueve. Si pudiésemos hacerla nosotros en castellano mucho mejor ", url: "https://www.ticbeat.com/innovacion/huella-carbono-internet/", iframe: true, lines: 5, point: [60, 85], obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "text", label: "nube oscura 3", txt: "hacer una infografía similar a esta, que muestre más información y datos.", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 3, point: [80, 80], obstacle: false },
         }
     },
     r11Lago: {
@@ -286,8 +290,14 @@ module.exports.ROOMS = {
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
-            // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            // #00e436
+            h00e436: { cmd: "enter", room: "r14Creacion", label: "Planta 2", point: [110, 89], enterPoint: [15, 85], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [10, 87], enterPoint: [65, 96], obstacle: false },
+            // #ff00ff
+            hff00ff: { cmd: "text", txt: "Vuelve al vertedero y ve a buscar material para crear un nuevo ordenador. cuando lo tengas regresas aquí y te explicaré como montar paso a paso un nuevo ordenador", lines: 6, actionId: "NpcFixit", label: "personaje", point: [50, 85], obstacle: false },
+            // #33ffaa
+            h33ffaa: { cmd: "text", txt: "necesitas reinstalar el sistema operativo, mejor pasarse a Gnu/linux ->  guía paso a paso: ", url: "https://www.youtube.com/embed/n9q-LVM_X7o", lines: 3, iframe: true, label: "?", point: [80, 85], obstacle: false },
         }
     },
     r13Netiqueta: {
@@ -303,6 +313,9 @@ module.exports.ROOMS = {
             //h will be replaced by #
             // #be1250
             hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+        },
+        things: {
+            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", actionId: "Cabinet", txt: "Oh, un teletransporte", lines: 1, point: [38, 86] } },
         }
     },
     r14Creacion: {
@@ -316,25 +329,46 @@ module.exports.ROOMS = {
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
-            // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r12Resolucion", label: "resolucion", point: [10, 86], enterPoint: [110, 87], obstacle: false },
+            // #00e436
+            h00e436: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [118, 85], enterPoint: [15, 85], obstacle: false },
+
+            // #ff9900
+            hff9900: { cmd: "text", txt: "algo del dibujo", url: "https://www.iloveimg.com/es/crear-meme", iframe: true, label: "Memes", point: [29, 85], obstacle: false },
+            // #0066ff
+            h0066ff: { cmd: "text", txt: "algo del dibujo", url: "https://audio-joiner.com/es/", iframe: true, label: "Sonido", point: [47, 85], obstacle: false },
+            // #999900
+            h999900: { cmd: "text", txt: "twine + scratch + bitsi", url: "", iframe: true, label: "Videojuegos", point: [66, 85], obstacle: false },
+            // #0f8a61
+            h0f8a61: { cmd: "text", txt: "mozilla hubs", url: "", iframe: true, label: "Realidad aumentada", point: [84, 85], obstacle: false },
+            // #98504f
+            h98504f: { cmd: "text", txt: "algo del dibujo", url: "https://appinventor.mit.edu/", iframe: true, label: "Apps", point: [103, 85], obstacle: false },
         }
     },
-    // r15Pasillo: {
-    //     bg: "/salas/r15Pasillo.png",
-    //     frameDelay: 60,
-    //     avatarScale: 3,
-    //     pageBg: "#1c2016",
-    //     area: "/salas/r15Pasillo_Int.png",
-    //     tint: "#fdeac8",
-    //     bubblesY: 44,
-    //     spawn: [40, 85, 90, 95],
-    //     areaColors: {
-    //         //h will be replaced by #
-    //         // #be1250
-    //         hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
-    //     }
-    // },
+    r15Pasillo: {
+        bg: "/salas/r09FakeNews.png",
+        frameDelay: 60,
+        avatarScale: 3,
+        pageBg: "#1c2016",
+        area: "/salas/r09FakeNews_Int.png",
+        tint: "#fdeac8",
+        bubblesY: 44,
+        spawn: [40, 85, 90, 95],
+        areaColors: {
+            //h will be replaced by #
+            // #00e436
+            h00e436: { cmd: "enter", room: "r16Colabora", label: "colabora", point: [115, 85], enterPoint: [45, 96], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r14Creacion", label: "creacion", point: [15, 85], enterPoint: [110, 85], obstacle: false },
+            // // #00cc99
+            // h00cc99: { cmd: "text", label: "news", point: [97, 80], obstacle: false },
+            // // #ff00ff
+            // hff00ff: { cmd: "text", label: "news", point: [30, 80], obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "enter", room: "r17SalaCrypto", label: "cripto", point: [70, 80], enterPoint: [15, 85], obstacle: false },
+        }
+    },
     r16Colabora: {
         bg: "/salas/r16Colabora.png",
         frameDelay: 60,
@@ -347,7 +381,14 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            hbe1250: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [60, 95], enterPoint: [115, 85], obstacle: false },
+
+            // #ff00ff
+            hff00ff: { cmd: "text", label: "arcade", point: [36, 80], obstacle: false },
+            // #ff9900
+            hff9900: { cmd: "text", label: "terminal", point: [92, 80], obstacle: false },
+            // #0066ff
+            h0066ff: { cmd: "text", label: "robot", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
         }
     },
     r17SalaCrypto: {
@@ -361,8 +402,10 @@ module.exports.ROOMS = {
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
-            // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [15, 86], enterPoint: [86, 77], obstacle: false },
+            // #29adff
+            h29adff: { cmd: "enter", room: "r18Biblioteca", label: "biblioteca", point: [65, 80], enterPoint: [16, 87], obstacle: false },
         }
     },
     r18Biblioteca: {
@@ -370,14 +413,28 @@ module.exports.ROOMS = {
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r18Biblioteca_Int.png",
+        area: "/salas/r18Biblioteca_Int_temp.png",
         tint: "#fdeac8",
         bubblesY: 44,
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
-            // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            // #aa2244
+            haa2244: { cmd: "enter", room: "r17SalaCrypto", label: "crypto", point: [15, 85], enterPoint: [86, 77], obstacle: false },
+            // #b75714
+            hb75714: { cmd: "text", label: "ordenador", point: [64, 45], obstacle: false },
+
+            // #ff00ff
+            hff00ff: { cmd: "text", label: "libros", point: [25, 80], txt: "", iframe: true, url:"", obstacle: false },
+            // #00cc99
+            h00cc99: { cmd: "text", label: "libros", point: [49, 80], txt: "", iframe: true, url:"", obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "text", label: "libros", point: [90, 80], txt: "", iframe: true, url:"", obstacle: false },
+            // #ff9900
+            hff9900: { cmd: "text", label: "libros", point: [30, 45], txt: "", iframe: true, url:"", obstacle: false },
+            // #0066ff
+            h0066ff: { cmd: "text", label: "libros", point: [79, 45], txt: "", iframe: true, url:"", obstacle: false },
+
         }
     },
 };
