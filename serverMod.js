@@ -32,7 +32,8 @@ module.exports.initMod = function (io, gameState, DATA) {
             ransomwareActive: false,
             usersList: [],
             talkCounter: 0,
-            surveyActive: false
+            surveyActive: false,
+            registeredUsers: [],
         },
         r03Cookies: {
             populated: false,
@@ -41,6 +42,27 @@ module.exports.initMod = function (io, gameState, DATA) {
             talkCounter: 0,
         }
     };
+
+    global.increaseTalkCounter = function(roomId, talkLength) {
+        global.roomStates[roomId].talkCounter++;
+        if (global.roomStates[roomId].talkCounter > talkLength - 1) {
+            global.roomStates[roomId].talkCounter = 0;
+            global.roomStates[roomId].talk = false;
+        }
+    }
+
+    global.resetTalk = function(roomId, talk) {
+        global.roomStates[roomId].talk = false;
+        global.roomStates[roomId].talkCounter = 0;
+        global.roomStates[roomId].followPlayer = false;
+    }
+
+    //  _        _ _        
+    // | |_ __ _| | | _____ 
+    // | __/ _` | | |/ / __|
+    // | || (_| | |   <\__ \
+    //  \__\__,_|_|_|\_\___/
+    //                     
 
     global.recepcionistaTalk = [
         "¡Qué bien que estás aquí!",
@@ -73,6 +95,13 @@ module.exports.initMod = function (io, gameState, DATA) {
         "qué es el ransomware."
     ];
 
+    //  _   _ ____   ____     
+    // | \ | |  _ \ / ___|___ 
+    // |  \| | |_) | |   / __|
+    // | |\  |  __/| |___\__ \
+    // |_| \_|_|    \____|___/
+    //                       
+
     var recepcionistaNpc = new NPC({
         id: "recepcionista",
         nickName: "recepcionista",
@@ -81,7 +110,8 @@ module.exports.initMod = function (io, gameState, DATA) {
         y: 90,
         avatar: 1,
         colors: [2, 2, 1, 5],
-        labelColor: "#1e839d"
+        labelColor: "#1e839d",
+        actionId: "Recepcionista"
     });
 
     var divulgadorNpc = new NPC({
@@ -92,22 +122,9 @@ module.exports.initMod = function (io, gameState, DATA) {
         y: 81,
         avatar: 1,
         colors: [2, 2, 1, 5],
-        labelColor: "#1e839d"
+        labelColor: "#1e839d",
+        actionId: "Divulgador"
     });
-
-    global.increaseTalkCounter = function(roomId, talkLength) {
-        global.roomStates[roomId].talkCounter++;
-        if (global.roomStates[roomId].talkCounter > talkLength - 1) {
-            global.roomStates[roomId].talkCounter = 0;
-            global.roomStates[roomId].talk = false;
-        }
-    }
-
-    global.resetTalk = function(roomId) {
-        global.roomStates[roomId].talk = false;
-        global.roomStates[roomId].talkCounter = 0;
-        global.roomStates[roomId].followPlayer = false;
-    }
 
     divulgadorNpc.behavior = setTimeout(function ramble() {
         var talkCounter = global.roomStates[divulgadorNpc.room].talkCounter;
@@ -129,6 +146,12 @@ module.exports.initMod = function (io, gameState, DATA) {
     }, random(1000, 2000));
 
 }
+
+//  _ __ ___   ___  _ __ ___  ___ 
+// | '__/ _ \ / _ \| '_ ` _ \/ __|
+// | | | (_) | (_) | | | | | \__ \
+// |_|  \___/ \___/|_| |_| |_|___/                          
+//
 
 //force change room
 module.exports.transferPlayer = function (playerId, from, to, x, y) {
@@ -187,6 +210,15 @@ module.exports.r02EntradaJoin = function(player, roomId) {
 
     if (roomState.usersList.length === 1) {
         global.resetTalk(roomId);
+        
+        if (roomState.registeredUsers.includes(player.id) === false) {
+            roomState.ransomwareActive = false;
+            roomState.surveyActive = false;
+        }
+
+        setTimeout(function() {
+            roomState.talk = true;
+        }, 2000);
     }
 
     setTimeout(function() {
@@ -247,6 +279,13 @@ module.exports.r10NubesJoin = function(player, roomId) {
     // io.emit('musicOn', 3);
 }
 
+//             _   _                 
+//   __ _  ___| |_(_) ___  _ __  ___ 
+//  / _` |/ __| __| |/ _ \| '_ \/ __|
+// | (_| | (__| |_| | (_) | | | \__ \
+//  \__,_|\___|\__|_|\___/|_| |_|___/
+//        
+
 module.exports.onCookies = function(playerId, roomId) {
     global.roomStates['r03Cookies'].monsterActive = true;
     console.log('monstruo----------------activo')
@@ -255,6 +294,7 @@ module.exports.onCookies = function(playerId, roomId) {
 module.exports.onSurvey1 = function(playerId) {
     console.log('survey1----------------action');
     global.roomStates["r02Entrada"].ransomwareActive = true;
+    global.roomStates["r02Entrada"].registeredUsers.push(playerId);
     global.resetTalk("r02Entrada");
     global.roomStates["r02Entrada"].talk = true;
 }
@@ -268,4 +308,25 @@ module.exports.onCabinet = function(playerId, roomId) {
 module.exports.onNpcFixit = function(playerId, roomId) {
     console.log('npcFixit----------------action');
     this.transferPlayer(playerId, "r12Resolucion", "r06Reciclaje", 68 * 2, 65 * 2);
+}
+
+module.exports.onRecepcionista = function(playerId, roomId) {
+    console.log('recepcionista----------------action');
+}
+
+module.exports.onDivulgador = function(playerId, roomId) {
+    console.log('Divulgador----------------action');
+    let roomState = global.roomStates["r02Entrada"];
+
+    if (roomState.registeredUsers.includes(playerId) === false) {
+        roomState.ransomwareActive = false;
+        roomState.surveyActive = false;
+    } else {
+        roomState.ransomwareActive = true;
+        roomState.surveyActive = true;
+    }
+
+    setTimeout(function() {
+        roomState.talk = true;
+    }, 1000);
 }
