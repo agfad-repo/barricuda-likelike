@@ -60,7 +60,7 @@ module.exports.ROOMS = {
             // #999900
             h999900: { cmd: "text", label: "?", point: [65, 95], obstacle: false },
             // #ff00ff
-            hff00ff: { cmd: "text", label: "?", point: [65, 95], obstacle: false },
+            hff00ff: { cmd: "text", txt: "a continuacion de este mensaje va la encuesta", lines: 2, postAction: true, pool: "pool1", section: 'pool-section', label: "encuesta", point: [65, 95], obstacle: false },
         }
     },
     r03Cookies: {
