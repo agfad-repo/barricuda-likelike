@@ -106,8 +106,8 @@ module.exports.initMod = function (io, gameState, DATA) {
         id: "recepcionista",
         nickName: "recepcionista",
         room: "r03Cookies",
-        x: 28,
-        y: 90,
+        x: 30,
+        y: 77,
         avatar: 1,
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
@@ -138,7 +138,7 @@ module.exports.initMod = function (io, gameState, DATA) {
             talk = global.roomStates[divulgadorNpc.room].talk;
             if (talk === false) {
                 global.roomStates[divulgadorNpc.room].surveyActive = true;
-                onr02pantalla02();
+                deactivateSurvey();
             }
             divulgadorNpc.behavior = setTimeout(ramble, random(2000, 3000));
         } else {
@@ -211,15 +211,16 @@ module.exports.r02EntradaJoin = function(player, roomId) {
 
     if (roomState.usersList.length === 1) {
         global.resetTalk(roomId);
-        
+        let talkValue = false;
         if (roomState.registeredUsers.includes(player.id) === false) {
             roomState.ransomwareActive = false;
             roomState.surveyActive = false;
-            onr02pantalla01();
+            activateSurvey();
+            talkValue = true
         }
 
         setTimeout(function() {
-            roomState.talk = true;
+            roomState.talk = talkValue;
         }, 2000);
     }
 
@@ -237,7 +238,8 @@ module.exports.r02EntradaLeave = function(player, roomId) {
 
     if (roomState.usersList.length === 0) {
         global.roomStates['r03Cookies'].monsterActive = false;
-        console.log('monstruo----------------off')
+        deactivateCookieMonster();
+        // console.log('monstruo----------------off')
     }
 }
 
@@ -260,7 +262,8 @@ module.exports.r03CookiesLeave = function(player, roomId) {
 
     if (global.roomStates[roomId].usersList.length === 0) {
         global.roomStates['r03Cookies'].monsterActive = false;
-        console.log('monstruo----------------off')
+        deactivateCookieMonster();
+        // console.log('monstruo----------------off')
     }
 }
 
@@ -290,7 +293,8 @@ module.exports.r10NubesJoin = function(player, roomId) {
 
 module.exports.onCookies = function(playerId, roomId) {
     global.roomStates['r03Cookies'].monsterActive = true;
-    console.log('monstruo----------------activo')
+    activateCookieMonster();
+    // console.log('monstruo----------------activo')
 }
 
 module.exports.onSurvey1 = function(playerId) {
@@ -323,11 +327,11 @@ module.exports.onDivulgador = function(playerId, roomId) {
     if (roomState.registeredUsers.includes(playerId) === false) {
         roomState.ransomwareActive = false;
         roomState.surveyActive = false;
-        onr02pantalla01();
+        activateSurvey();
     } else {
         roomState.ransomwareActive = true;
         roomState.surveyActive = true;
-        onr02pantalla02();
+        deactivateSurvey();
     }
 
     setTimeout(function() {
@@ -335,12 +339,22 @@ module.exports.onDivulgador = function(playerId, roomId) {
     }, 1000);
 }
 
-const onr02pantalla01 = function() {
+const activateSurvey = function() {
     io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: true });
     io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: false });
 }
 
-const onr02pantalla02 = function() {
+const deactivateSurvey = function() {
     io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: false });
     io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: true });
+}
+
+const activateCookieMonster = function() {
+    io.sockets.emit("thingChanged", { thingId: "cookieMonsterA", room: "r03Cookies", property: "visible", value: false });
+    io.sockets.emit("thingChanged", { thingId: "cookieMonsterB", room: "r03Cookies", property: "visible", value: true });
+}
+
+const deactivateCookieMonster = function() {
+    io.sockets.emit("thingChanged", { thingId: "cookieMonsterA", room: "r03Cookies", property: "visible", value: true });
+    io.sockets.emit("thingChanged", { thingId: "cookieMonsterB", room: "r03Cookies", property: "visible", value: false });
 }
