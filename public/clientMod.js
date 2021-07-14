@@ -41,40 +41,59 @@ const POOLS = {
                 images: true,
                 options: [
                     {
-                        text: "banana",
-                        label: 'banana',
-                        class: 'image-checkbox',
-                        image: 'assets/fruits/banana.jpg',
+                        label: '1',
+                        image: 'assets/form-imgs/1/1.png',
                     },
                     {
-                        text: "blueberries",
-                        label: 'blueberries',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/blueberry.jpg',
+                        label: '2',
+                        image: 'assets/form-imgs/1/2.png',
                     },
                     {
-                        text: "watermelon",
-                        label: 'watermelon',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/watermelon.jpg',
+                        label: '3',
+                        image: 'assets/form-imgs/1/3.png',
+                    },
+                    {
+                        label: '4',
+                        image: 'assets/form-imgs/1/4.png',
+                    },
+                    {
+                        label: '5',
+                        image: 'assets/form-imgs/1/5.png',
+                    },
+                    {
+                        label: '6',
+                        image: 'assets/form-imgs/1/6.png',
+                    },
+                    {
+                        label: '7',
+                        image: 'assets/form-imgs/1/7.png',
+                    },
+                    {
+                        label: '8',
+                        image: 'assets/form-imgs/1/8.png',
+                    },
+                    {
+                        label: '9',
+                        image: 'assets/form-imgs/1/9.png',
+                    },
+                    {
+                        label: '10',
+                        image: 'assets/form-imgs/1/10.png',
                     },
                 ]
             },
             question2: {
                 type: 'radio',
                 text: '¿sabes emplear comandos de búsquedas para obtener resultados más acertados?',
-                image: 'assets/fruits/banana.jpg',
+                image: 'assets/form-imgs/2/1.jpg',
                 options: [
                     {
-                        text: "option 1",
                         label: 'Conozco todos esos comandos y muchos más',
                     },
                     {
-                        text: "option 2",
                         label: 'Conozco algunos, otros no',
                     },
                     {
-                        text: "option 3",
                         label: 'No conocía ninguno',
                     },
                 ]
@@ -84,19 +103,15 @@ const POOLS = {
                 text: 'Hace unos meses viste un video que te encantó en twitter y quieres enseñárselo a un amigo/a ¿cómo lo buscas?',
                 options: [
                     {
-                        text: "option 1",
                         label: 'Lo tengo en una carpeta de videos en mis marcadores'
                     },
                     {
-                        text: "option 2",
                         label: 'buscando en twitter por el tema del video para volverlo a encontrar'
                     },
                     {
-                        text: "option 3",
                         label: 'ufff, no creo que lo vuelva a encontrar, pero se lo cuento'
                     },
                     {
-                        text: "option 3",
                         label: 'Con las opciones de búsqueda avanzada en el buscador'
                     },
                 ]
@@ -107,22 +122,44 @@ const POOLS = {
                 images: true,
                 options: [
                     {
-                        text: "banana",
-                        label: 'banana',
-                        class: 'image-checkbox',
-                        image: 'assets/fruits/banana.jpg',
+                        label: '1',
+                        image: 'assets/form-imgs/4/1.png',
                     },
                     {
-                        text: "blueberries",
-                        label: 'blueberries',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/blueberry.jpg',
+                        label: '2',
+                        image: 'assets/form-imgs/4/2.png',
                     },
                     {
-                        text: "watermelon",
-                        label: 'watermelon',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/watermelon.jpg',
+                        label: '3',
+                        image: 'assets/form-imgs/4/3.png',
+                    },
+                    {
+                        label: '4',
+                        image: 'assets/form-imgs/4/4.png',
+                    },
+                    {
+                        label: '5',
+                        image: 'assets/form-imgs/4/5.png',
+                    },
+                    {
+                        label: '6',
+                        image: 'assets/form-imgs/4/6.png',
+                    },
+                    {
+                        label: '7',
+                        image: 'assets/form-imgs/4/7.png',
+                    },
+                    {
+                        label: '8',
+                        image: 'assets/form-imgs/4/8.png',
+                    },
+                    {
+                        label: '9',
+                        image: 'assets/form-imgs/4/9.png',
+                    },
+                    {
+                        label: '10',
+                        image: 'assets/form-imgs/4/10.png',
                     },
                 ]
             },
@@ -131,23 +168,18 @@ const POOLS = {
                 text: 'Tus contraseñas…',
                 options: [
                     {
-                        text: "option 1",
                         label: 'Son algo como 1234'
                     },
                     {
-                        text: "option 2",
                         label: 'Son algo como VTYf3bsu36@mp_34'
                     },
                     {
-                        text: "option 3",
                         label: 'fechas, lugares o algo que tiene que ver con mi vida'
                     },
                     {
-                        text: "option 4",
                         label: 'Uso la misma contraseña en todo, así no se me olvida'
                     },
                     {
-                        text: "option 5",
                         label: 'No me preocupo por recordar contraseñas, tengo un gestor de contraseñas que lo hace por mi.'
                     },
                 ]
@@ -155,47 +187,114 @@ const POOLS = {
             question6: {
                 type: 'radio',
                 text: '¿Qué significa esta imagen? ',
-                image: 'assets/fruits/watermelon.jpg',
+                image: 'assets/form-imgs/6/1.png',
                 options: [
                     {
-                        text: "option 1",
                         label: 'Es una licencia que dice que puedo usarlo siempre que diga de quién es',
                     },
                     {
-                        text: "option 2",
                         label: 'Ni idea',
                     },
                     {
-                        text: "option 3",
                         label: 'Es una licencia que dice que puedo usarlo sin modificarlo',
                     },
                 ]
                 
             },
-            question4: {
+            question7: {
                 type: 'checkbox',
                 text: '¿Cuáles de estas cosas sabes hacer?',
                 images: true,
                 options: [
                     {
-                        text: "banana",
-                        label: 'banana',
-                        class: 'image-checkbox',
-                        image: 'assets/fruits/banana.jpg',
+                        label: '1',
+                        text: 'Memes',
+                        image: 'assets/form-imgs/7/1.png',
                     },
                     {
-                        text: "blueberries",
-                        label: 'blueberries',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/blueberry.jpg',
+                        label: '2',
+                        text: 'Mods',
+                        image: 'assets/form-imgs/7/2.png',
                     },
                     {
-                        text: "watermelon",
-                        label: 'watermelon',
-                        class: 'image-checkbox',
-                        image: './assets/fruits/watermelon.jpg',
+                        label: '3',
+                        text: 'Apps',
+                        image: 'assets/form-imgs/7/3.png',
+                    },
+                    {
+                        label: '4',
+                        text: 'Webs',
+                        image: 'assets/form-imgs/7/4.png',
+                    },
+                    {
+                        label: '5',
+                        text: 'Editar Wikipedia',
+                        image: 'assets/form-imgs/7/5.png',
+                    },
+                    {
+                        label: '6',
+                        text: 'Videojuegos',
+                        image: 'assets/form-imgs/7/6.png',
+                    },
+                    {
+                        label: '7',
+                        text: 'Edición audio/música',
+                        image: 'assets/form-imgs/7/7.png',
+                    },
+                    {
+                        label: '8',
+                        text: 'Edición video',
+                        image: 'assets/form-imgs/7/8.png',
+                    },
+                    {
+                        label: '9',
+                        text: 'Otras',
+                        image: 'assets/form-imgs/7/9.png',
+                    },
+                    {
+                        label: '10',
+                        text: 'Ninguna, noy así de freak',
+                        image: 'assets/form-imgs/7/10.png',
                     },
                 ]
+            },
+            question8: {
+                type: 'radio',
+                text: '¿Conoces tu huella digital?',
+                options: [
+                    {
+                        label: 'Conozco todo lo que hay sobre mi en internet y sé controlarlo (historial de ubicaciones, de búsquedas, el rastreo de facebook en otras webs...)',
+                    },
+                    {
+                        label: 'Ni idea',
+                    },
+                    {
+                        label: 'Sé algunas cosas',
+                    },
+                ]
+                
+            },
+            question8: {
+                type: 'radio',
+                text: 'En el entorno digital sobre todo…',
+                options: [
+                    {
+                        label: 'Creo',
+                    },
+                    {
+                        label: 'Comunico',
+                    },
+                    {
+                        label: 'Busco',
+                    },
+                    {
+                        label: 'Me protejo',
+                    },
+                    {
+                        label: 'Resuelvo problemas',
+                    },
+                ]
+                
             },
         }
     },
