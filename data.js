@@ -41,7 +41,7 @@ module.exports.ROOMS = {
         }
     },
     r02Entrada: {
-        bg: "/salas/r02Entrada.png",
+        bg: "/salas/r02Entrada_Fondo.png",
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -61,6 +61,11 @@ module.exports.ROOMS = {
             h999900: { cmd: "text", label: "?", point: [65, 95], obstacle: false },
             // #ff00ff
             hff00ff: { cmd: "text", txt: "a continuacion de este mensaje va la encuesta", lines: 2, postAction: true, actionId: "Survey1",  label: "encuesta", point: [65, 95], obstacle: false },
+        },
+        things: {
+            mesa: { file: "salas/r02Entrada_Sprite_Mesa.png", id: "mesa", offset: 7.5, scale: 2, position: [44, 57], frames: 1, frameDelay: 60, visible: true, },
+            pantalla1: { file: "salas/r02Entrada_Sprite_Pantalla01.png", id: "pantalla1", offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: true, },
+            pantalla2: { file: "salas/r02Entrada_Sprite_Pantalla02.png", id: "pantalla2", label: "encuesta",  offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: false, command: { cmd: "text", txt: "a continuacion de este mensaje va la encuesta", lines: 2, postAction: true, actionId: "Survey1",  label: "encuesta", point: [65, 95], obstacle: false } },
         }
     },
     r03Cookies: {

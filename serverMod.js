@@ -118,8 +118,8 @@ module.exports.initMod = function (io, gameState, DATA) {
         id: "divulgador",
         nickName: "divulgador",
         room: "r02Entrada",
-        x: 64,
-        y: 81,
+        x: 65,
+        y: 73,
         avatar: 1,
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
@@ -135,9 +135,10 @@ module.exports.initMod = function (io, gameState, DATA) {
         if (talk === true) {
             divulgadorNpc.talk(talkList[talkCounter]);
             global.increaseTalkCounter(divulgadorNpc.room, talkList.length);
+            talk = global.roomStates[divulgadorNpc.room].talk;
             if (talk === false) {
                 global.roomStates[divulgadorNpc.room].surveyActive = true;
-
+                onr02pantalla02();
             }
             divulgadorNpc.behavior = setTimeout(ramble, random(2000, 3000));
         } else {
@@ -214,6 +215,7 @@ module.exports.r02EntradaJoin = function(player, roomId) {
         if (roomState.registeredUsers.includes(player.id) === false) {
             roomState.ransomwareActive = false;
             roomState.surveyActive = false;
+            onr02pantalla01();
         }
 
         setTimeout(function() {
@@ -321,12 +323,24 @@ module.exports.onDivulgador = function(playerId, roomId) {
     if (roomState.registeredUsers.includes(playerId) === false) {
         roomState.ransomwareActive = false;
         roomState.surveyActive = false;
+        onr02pantalla01();
     } else {
         roomState.ransomwareActive = true;
         roomState.surveyActive = true;
+        onr02pantalla02();
     }
 
     setTimeout(function() {
         roomState.talk = true;
     }, 1000);
+}
+
+const onr02pantalla01 = function() {
+    io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: true });
+    io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: false });
+}
+
+const onr02pantalla02 = function() {
+    io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: false });
+    io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: true });
 }
