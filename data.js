@@ -299,8 +299,12 @@ module.exports.ROOMS = {
         },
     },
     r11Lago: {
-        bg: "/salas/r11Lago.png",
+        bg: "/salas/r11Lago_Anim.png",
         frames: 2,
+        animations: {
+            "pescador": [0, 2],
+            "vacio": [2, 2],
+        },
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -316,8 +320,8 @@ module.exports.ROOMS = {
             h9900cc: { cmd: "text", txt: "como te llamas?", label: "pescador", point: [109, 74], obstacle: false },
         },
         things: {
-            // pescador: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
-            // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
+            pescador: { file: "salas/r11Lago_NPC.png", id: "Phishing", position: [101, 63], frames: 2, frameDelay: 30, visible: true, label: "Phishing",
+                command: { cmd: "text", txt: "hola, ¿quieres charlar un rato?", lines: 2, postAction: true, actionId: "Phishing", point: [94, 68], obstacle: false } },
         },
     },
     r12Resolucion: {

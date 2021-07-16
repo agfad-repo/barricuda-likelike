@@ -176,6 +176,7 @@ canvas {
 
 /*TEXT FIELDS*/
 .talk-field,
+.phishing-field,
 .lobby-field {
 	font-family: monogram;
 	border: none;
@@ -197,17 +198,19 @@ canvas {
 
 
 /*USERNAME*/
-
+.phishing-message,
 .lobby-message {
     font-size: 64px;
     margin-bottom: 32px;
 }
 
+.phishing-error-message,
 .lobby-error-message {
 	font-size: 32px;
 	color: #ff004d;
 }
 
+.phishing-field,
 .lobby-field {
 	border: 4px solid #757575;
 	text-align: center;
@@ -245,6 +248,7 @@ canvas {
 }
 
 /*USERNAME CONTINUE*/
+.phishing-button,
 .lobby-button {
 	padding-left: 16px;
 	padding-right: 16px;
@@ -341,6 +345,7 @@ canvas {
 
 
 /*LOBBY OVERLAYS*/
+#phishing-container,
 #lobby-container {
 	display: block;
     height: 100%;
