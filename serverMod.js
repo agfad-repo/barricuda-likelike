@@ -43,8 +43,14 @@ module.exports.initMod = function (io, gameState, DATA) {
         },
         r06Reciclaje: {
             usersList: [],
-            // components: [],
             userComponents: {},
+        },
+        r10Nubes: {
+            machineActive: false,
+            usersList: [],
+        },
+        r11Lago: {
+            phishingList: [],
         },
         r12Resolucion: {
             usersList: [],
@@ -342,15 +348,21 @@ module.exports.r09FakeNewsJoin = function(player, roomId) {
 }
 
 module.exports.r10NubesJoin = function(player, roomId) {
-    // console.log("MOD: " + player.nickName + " entered room " + roomId);
-    // io.emit('musicExit');
-    // io.emit('musicOn', 3);
-    setTimeout(function() {
-        io.sockets.emit('changeBgAnim', 'transformacion' );
-        setTimeout(function() {
-            io.sockets.emit('changeBgAnim', 'cables' );
-        }, 3000);
-    }, 5000);
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+}
+
+module.exports.r10NubesLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.usersList.length === 0)
+        io.sockets.emit('changeBgAnim', 'nube' );
+        roomState.machineActive = false;
 }
 
 module.exports.r12ResolucionJoin = function(player, roomId) {
@@ -546,4 +558,46 @@ module.exports.onRemoveComponents = function(playerId) {
     let components = global.roomStates["r06Reciclaje"].userComponents;
     delete components[playerId];
     
+}
+
+module.exports.onNube = function(playerId) {
+    let roomState = global.roomStates['r10Nubes'];
+    if (roomState.machineActive === false) {
+        setTimeout(function() {
+            io.sockets.emit('changeBgAnim', 'transformacion' );
+            setTimeout(function() {
+                io.sockets.emit('changeBgAnim', 'cables' );
+            }, 3000);
+        }, 1000);
+    }
+}
+
+module.exports.onPhishing = function(playerId) {
+    let roomState = global.roomStates['r11Lago'];
+    io.to(playerId).emit("showPhishing", 0);  
+}
+
+module.exports.onPlayerPhishing = function(playerId) {
+    let roomState = global.roomStates["r11Lago"];
+    roomState.phishingList.push(playerId);
+    console.log("PLAYER PHISHING:  CREAR NPCs");
+
+    let player = global.gameState.players[playerId];
+
+    var phishingNPC = new NPC({
+        id: "_" + player.nickName,
+        nickName: player.nickName,
+        room: "r11Lago",
+        x: 22,
+        y: 75,
+        avatar: player.avatar,
+        colors: player.colors,
+        labelColor: "#f00",
+        actionId: "FakePlayer"
+    });
+
+}
+
+module.exports.onFakePlayer = function() {
+    console.log('HABLANDO FAKE');
 }
