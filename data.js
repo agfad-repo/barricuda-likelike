@@ -204,11 +204,12 @@ module.exports.ROOMS = {
             // #ff0000
             hff0000: { cmd: "enter", room: "r06Reciclaje", label: "Materiales y residuos", point: [92, 95], enterPoint: [68, 47], obstacle: false },
             // #00e436
-            h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
+            // h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r12Resolucion", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
             // #ff77a8
-            hff77a8: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [98, 72], enterPoint: [60, 98], obstacle: false },
+            // hff77a8: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [98, 72], enterPoint: [120, 92], obstacle: false },
             // #29adff
-            h29adff: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [32, 72], enterPoint: [60, 98], obstacle: false },
+            h29adff: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [32, 72], enterPoint: [120, 92], obstacle: false },
             // #ffec27
             hffec27: { cmd: "enter", room: "r09FakeNews", label: "Fake News", point: [10, 85], enterPoint: [120, 86], obstacle: false },
             // #be1250
@@ -229,7 +230,7 @@ module.exports.ROOMS = {
             h00cc99: { cmd: "text", label: "espejo 6", txt: "¡Genial! Si te interesa saber más sobre seguridad en la red, por aquí te dejamos información más amplia: ", lines: 4, url: "https://arsgames.net/wp-content/uploads/2019/02/manual-de-seguridad-digital.pdf", iframe: true, point: [87, 84], obstacle: false },
         },
         things: {
-            personaje: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", offset: 2, position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
+            personaje: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
             // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
         }
         
@@ -246,9 +247,9 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #00e436
-            h00e436: { cmd: "enter", room: "r08Huella", label: "huella", point: [120, 85], enterPoint: [10, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r08Huella", label: "Huella", point: [120, 85], enterPoint: [10, 85], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [10, 85], enterPoint: [60, 98], obstacle: false },
+            hffec27: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [10, 85], enterPoint: [60, 98], obstacle: false },
             // #00cc99
             h00cc99: { cmd: "text", label: "news1", point: [97, 80], obstacle: false, txt: "hay que poner algo", url:"https://juego.verdaderofalso.com/", iframe: true },
             // #ff00ff
@@ -258,20 +259,29 @@ module.exports.ROOMS = {
         }
     },
     r10Nubes: {
-        bg: "/salas/r10Nubes.png",
+        bg: "/salas/r10Nubes_anim2.png",
+        frames: 2,
+        animations: { 
+            nube: [0, 2], 
+            transformacion: [2, 2], 
+            cables: [4, 2],
+        },
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r10Nubes_Int.png",
+        area: "/salas/r10Nubes_Int_Anim.png",
         tint: "#fdeac8",
         bubblesY: 44,
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
-
+            // #00e436
+            h00e436: { cmd: "enter", room: "r08Huella", label: "Huella", point: [115, 92], enterPoint: [32, 72], obstacle: false },
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r11Lago", label: "Lago", point: [20, 85], enterPoint: [32, 72], obstacle: false },
             // HABRIA QUE PONER OTRA SALIDA???
             // #ff0000
-            hff0000: { cmd: "enter", room: "r08Huella", label: "huella", point: [60, 98], enterPoint: [32, 72], obstacle: false },
+            hff0000: { cmd: "enter", room: "r09FakeNews", label: "Fake News", point: [60, 98], enterPoint: [10, 86], obstacle: false },
             // #ff77a8
             hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
@@ -286,22 +296,33 @@ module.exports.ROOMS = {
             h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto (embeber nada más la infografía que se mueve. Si pudiésemos hacerla nosotros en castellano mucho mejor ", url: "https://www.ticbeat.com/innovacion/huella-carbono-internet/", iframe: true, lines: 5, point: [60, 85], obstacle: false },
             // #9900cc
             h9900cc: { cmd: "text", label: "nube oscura 3", txt: "hacer una infografía similar a esta, que muestre más información y datos.", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 3, point: [80, 80], obstacle: false },
-        }
+        },
+        things: {
+            // nubeA: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
+            // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
+        },
     },
     r11Lago: {
         bg: "/salas/r11Lago.png",
+        frames: 2,
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r11Lago_Int.png",
+        area: "/salas/r11Lago_Int2.png",
         tint: "#fdeac8",
         bubblesY: 44,
-        spawn: [40, 85, 90, 95],
+        spawn: [10, 72, 21, 82],
         areaColors: {
             //h will be replaced by #
-            // #be1250
-            hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
-        }
+            // #ffec27
+            hffec27: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [15, 80], enterPoint: [10, 86], obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "text", txt: "como te llamas?", label: "pescador", point: [109, 74], obstacle: false },
+        },
+        things: {
+            // pescador: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
+            // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
+        },
     },
     r12Resolucion: {
         bg: "/salas/r12Resolucion.png",
@@ -333,6 +354,7 @@ module.exports.ROOMS = {
     },
     r13Netiqueta: {
         bg: "/salas/r13Netiqueta.png",
+        frames: 2,
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -344,13 +366,18 @@ module.exports.ROOMS = {
             //h will be replaced by #
             // #be1250
             hbe1250: { cmd: "enter", room: "r10Nubes", label: "nubes", point: [60, 95], enterPoint: [86, 77], obstacle: false },
+            // #29adff
+            h29adff: { cmd: "enter", room: "r12Resolucion", label: "Resolución", point: [100, 76], enterPoint: [10, 85], obstacle: false },
         },
         things: {
-            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", actionId: "Cabinet", txt: "Oh, un teletransporte", lines: 1, point: [38, 86] } },
+            // teletransport cabinet
+            // cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", actionId: "Cabinet", txt: "Oh, un teletransporte", lines: 1, point: [38, 86] } },
+            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", txt: "Iframe netiqueta", iframe: true, url:"https://es.wikipedia.org/wiki/Netiqueta", lines: 1, point: [38, 86] } },
         }
     },
     r14Creacion: {
         bg: "/salas/r14Creacion.png",
+        frames: 2,
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -402,6 +429,7 @@ module.exports.ROOMS = {
     },
     r16Colabora: {
         bg: "/salas/r16Colabora.png",
+        frames: 2,
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -424,6 +452,7 @@ module.exports.ROOMS = {
     },
     r17SalaCrypto: {
         bg: "/salas/r17SalaCrypto.png",
+        frames: 2,
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
