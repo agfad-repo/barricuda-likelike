@@ -259,17 +259,17 @@ module.exports.ROOMS = {
         }
     },
     r10Nubes: {
-        bg: "/salas/r10Nubes_anim2.png",
+        bg: "/salas/r10Nubes_anim3.png",
         frames: 2,
         animations: { 
-            nube: [0, 2], 
-            transformacion: [2, 2], 
-            cables: [4, 2],
+            nube: [0, 3], 
+            transformacion: [3, 3], 
+            cables: [6, 3],
         },
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r10Nubes_Int_Anim.png",
+        area: "/salas/r10Nubes_anim3_Int.png",
         tint: "#fdeac8",
         bubblesY: 44,
         spawn: [40, 85, 90, 95],
@@ -278,28 +278,24 @@ module.exports.ROOMS = {
             // #00e436
             h00e436: { cmd: "enter", room: "r08Huella", label: "Huella", point: [115, 92], enterPoint: [32, 72], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r11Lago", label: "Lago", point: [20, 85], enterPoint: [32, 72], obstacle: false },
+            hffec27: { cmd: "enter", room: "r11Lago", label: "Lago", point: [10, 85], enterPoint: [10, 83], obstacle: false },
             // HABRIA QUE PONER OTRA SALIDA???
             // #ff0000
             hff0000: { cmd: "enter", room: "r09FakeNews", label: "Fake News", point: [60, 98], enterPoint: [10, 86], obstacle: false },
             // #ff77a8
             hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, el número de conexiones de las Baleares", lines: 2, point: [60, 80], obstacle: false },
+            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, el número de conexiones de las Baleares", lines: 2, point: [46, 78], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "nube mediana", point: [60, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "nube mediana", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: true, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #689156
-            h689156: { cmd: "text", label: "nube grande", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", lines: 3, point: [60, 80], obstacle: false },
+            h689156: { cmd: "text", label: "nube grande", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: true, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #ff00ff
             hff00ff: { cmd: "text", label: "nube oscura 1", txt: "¿Tienes una web propia? ¿hay una web que te encante visitar? Aquí puedes ver el impacto que tiene en huella de carbono:", url: "https://www.websitecarbon.com/", iframe: true, lines: 4, point: [40, 80], obstacle: false },
             // #0066ff
             h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto (embeber nada más la infografía que se mueve. Si pudiésemos hacerla nosotros en castellano mucho mejor ", url: "https://www.ticbeat.com/innovacion/huella-carbono-internet/", iframe: true, lines: 5, point: [60, 85], obstacle: false },
             // #9900cc
             h9900cc: { cmd: "text", label: "nube oscura 3", txt: "hacer una infografía similar a esta, que muestre más información y datos.", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 3, point: [80, 80], obstacle: false },
-        },
-        things: {
-            // nubeA: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
-            // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
         },
     },
     r11Lago: {
