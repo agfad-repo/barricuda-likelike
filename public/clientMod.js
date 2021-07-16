@@ -11,17 +11,23 @@ The functions are called by the engine at crucial points, only if they exist.
 
 // BARRICUDA functions
 
+const phishingTalk = [
+    "¿que comida te gusta?",
+    "¿que quieres estudiar?",
+    "¿como te llamas?",
+];
+
 function initMod(playerId, roomId) {
     print("Mod: " + players[playerId].nickName + " (you) joined the game at " + roomId);
 
     // add custom client listeners HERE
 
-    // //prevent duplicate listeners
-    // if (!socket.hasListeners('event')) {
-    //     socket.on("event", function (msg) {
-    //         //
-    //     });
-    // }
+    //prevent duplicate listeners
+    if (!socket.hasListeners('showPhishing')) {
+        socket.on("showPhishing", function (msg) {
+            showPhishingQuestion(msg);
+        });
+    }
 }
 
 function afterPool(data) {
@@ -296,4 +302,62 @@ const POOLS = {
             },
         }
     },
+}
+
+function showPhishingQuestion(msg) {
+    let message = phishingTalk[msg];
+
+    if (!me.phishingTalk)
+        me.phishingTalk = msg + 1;
+
+    document.getElementById("phishing-message").innerHTML = message;
+    
+    var e = document.getElementById("phishing-form");
+    if (e != null)
+        e.style.display = "block";
+
+    e = document.getElementById("phishing-container");
+    if (e != null)
+        e.style.display = "block";
+
+    screen = "user";
+    hideChat();
+}
+
+function hidePhishingQuestion() {
+    var e = document.getElementById("phishing-form");
+    if (e != null)
+        e.style.display = "none";
+
+    e = document.getElementById("phishing-container");
+    if (e != null)
+        e.style.display = "none";
+
+    screen = "game";
+    showChat();
+}
+
+function phishingSubmit () {
+    let v = document.getElementById("phishing-field").value;
+    let playerId = me.id;
+    if (v != "") {
+        if (me.phishingTalk !== 3) {
+            document.getElementById("phishing-field").value = "";
+            showPhishingQuestion(me.phishingTalk++);
+        } else {
+            if (v === players[playerId].nickName) {
+                //if socket !null the connection has been established ie lurk mode
+                if (socket != null) {
+                    console.log('el nombre es: ' + v);
+                    socket.emit("action", "PlayerPhishing");
+                }
+            }
+            document.getElementById("phishing-field").value = "";
+            delete me.phishingTalk;
+            hidePhishingQuestion();
+        } 
+
+        //prevent page from refreshing on enter (default form behavior)
+        return false;
+    }
 }

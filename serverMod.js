@@ -49,6 +49,9 @@ module.exports.initMod = function (io, gameState, DATA) {
             machineActive: false,
             usersList: [],
         },
+        r11Lago: {
+            phishingList: [],
+        },
         r12Resolucion: {
             usersList: [],
             missionUsersList: [],
@@ -567,4 +570,34 @@ module.exports.onNube = function(playerId) {
             }, 3000);
         }, 1000);
     }
+}
+
+module.exports.onPhishing = function(playerId) {
+    let roomState = global.roomStates['r11Lago'];
+    io.to(playerId).emit("showPhishing", 0);  
+}
+
+module.exports.onPlayerPhishing = function(playerId) {
+    let roomState = global.roomStates["r11Lago"];
+    roomState.phishingList.push(playerId);
+    console.log("PLAYER PHISHING:  CREAR NPCs");
+
+    let player = global.gameState.players[playerId];
+
+    var phishingNPC = new NPC({
+        id: "_" + player.nickName,
+        nickName: player.nickName,
+        room: "r11Lago",
+        x: 22,
+        y: 75,
+        avatar: player.avatar,
+        colors: player.colors,
+        labelColor: "#f00",
+        actionId: "FakePlayer"
+    });
+
+}
+
+module.exports.onFakePlayer = function() {
+    console.log('HABLANDO FAKE');
 }
