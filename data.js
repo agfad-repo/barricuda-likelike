@@ -164,10 +164,11 @@ module.exports.ROOMS = {
         things: {
             papelera1: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera1", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, },
             papelera2: { file: "salas/r06Reciclaje_Sprites_NPCsB.png", id: "papelera2", position: [60, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, },
-            monitor: { file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [15, 26], label: "Monitor", frames: 1, frameDelay: 60, visible: true, },
-            placa: { file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [40, 38], label: "Placa", frames: 1, frameDelay: 60, visible: true, },
-            teclado: { file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [80, 30], label: "Teclado", frames: 1, frameDelay: 60, visible: true, },
-            mouse: { file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [105, 50], label: "Mouse", frames: 1, frameDelay: 60, visible: true, },
+            // components
+            monitor: { command: { cmd: "action", actionId: "Monitor", point: [46, 75] }, file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [15, 26], label: "Monitor", frames: 1, frameDelay: 60, visible: false, },
+            placa: { command: { cmd: "action", actionId: "Placa", point: [59, 68] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [40, 38], label: "Placa", frames: 1, frameDelay: 60, visible: false, },
+            teclado: { command: { cmd: "action", actionId: "Teclado", point: [83, 67] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [80, 30], label: "Teclado", frames: 1, frameDelay: 60, visible: false, },
+            mouse: { command: { cmd: "action", actionId: "Mouse", point: [110, 77] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [105, 50], label: "Mouse", frames: 1, frameDelay: 60, visible: false, },
             // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
         }
     },
@@ -304,7 +305,8 @@ module.exports.ROOMS = {
     },
     r12Resolucion: {
         bg: "/salas/r12Resolucion.png",
-        frameDelay: 60,
+        frames: 2,
+        frameDelay: 30,
         avatarScale: 3,
         pageBg: "#1c2016",
         area: "/salas/r12Resolucion_Int.png",
@@ -316,11 +318,17 @@ module.exports.ROOMS = {
             // #00e436
             h00e436: { cmd: "enter", room: "r14Creacion", label: "Planta 2", point: [110, 89], enterPoint: [15, 85], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [10, 87], enterPoint: [65, 96], obstacle: false },
-            // #ff00ff
-            hff00ff: { cmd: "text", txt: "Vuelve al vertedero y ve a buscar material para crear un nuevo ordenador. cuando lo tengas regresas aquí y te explicaré como montar paso a paso un nuevo ordenador", lines: 6, actionId: "NpcFixit", label: "personaje", point: [50, 85], obstacle: false },
+            hffec27: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [10, 87], enterPoint: [99, 73], obstacle: false },
             // #33ffaa
             h33ffaa: { cmd: "text", txt: "necesitas reinstalar el sistema operativo, mejor pasarse a Gnu/linux ->  guía paso a paso: ", url: "https://www.youtube.com/embed/n9q-LVM_X7o", lines: 3, iframe: true, label: "?", point: [80, 85], obstacle: false },
+        },
+        things: {
+            fixit: { file: "salas/r12Resolucion_Sprite_NPC.png", id: "Fixit", offset: 9, position: [50, 65], frames: 4, frameDelay: 30, visible: true, label: "Fixit", command: { cmd: "text", txt: "Vuelve al vertedero y ve a buscar material para crear un nuevo ordenador. cuando lo tengas regresas aquí y te explicaré como montar paso a paso un nuevo ordenador", lines: 6, postAction: true, actionId: "NpcFixit", label: "personaje", point: [50, 85], obstacle: false } },
+            // components
+            monitor: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [10, 60], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
+            placa: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [30, 65], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
+            teclado: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [20, 62], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
+            mouse: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [12, 66], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
         }
     },
     r13Netiqueta: {

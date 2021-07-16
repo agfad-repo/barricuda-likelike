@@ -40,7 +40,16 @@ module.exports.initMod = function (io, gameState, DATA) {
             monsterActive: false,
             usersList: [],
             talkCounter: 0,
-        }
+        },
+        r06Reciclaje: {
+            usersList: [],
+            // components: [],
+            userComponents: {},
+        },
+        r12Resolucion: {
+            usersList: [],
+            missionUsersList: [],
+        },
     };
 
     global.increaseTalkCounter = function(roomId, talkLength) {
@@ -267,6 +276,40 @@ module.exports.r03CookiesLeave = function(player, roomId) {
     }
 }
 
+module.exports.r06ReciclajeJoin = function(player, roomId) {
+    const room12 = global.roomStates['r12Resolucion'];
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+    
+    
+    if (room12.missionUsersList.includes(player.id) === true) {
+        showComponents(true);
+    }
+}
+
+module.exports.r06ReciclajeLeave = function(player, roomId) {
+    const room12 = global.roomStates['r12Resolucion'];
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    let value = false;
+    for (let j = 0; j < roomState.usersList.length; j++) {
+        const element = roomState.usersList[j];
+        if (room12.missionUsersList.includes(element) === true)
+            value = true;
+    }
+    showComponents(value);
+
+    if (roomState.usersList.length === 0) {
+        showComponents(false);
+    }
+}
+
 module.exports.r08HuellaJoin = function(player, roomId) {
     // io.emit('musicExit');
     // io.emit('musicOn', 1);
@@ -282,6 +325,42 @@ module.exports.r10NubesJoin = function(player, roomId) {
     // console.log("MOD: " + player.nickName + " entered room " + roomId);
     // io.emit('musicExit');
     // io.emit('musicOn', 3);
+module.exports.r12ResolucionJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+    
+    
+    if (roomState.missionUsersList.includes(player.id) === true) {
+        let components = global.roomStates['r06Reciclaje'].userComponents[player.id];
+
+        for (let index = 0; index < components.length; index++) {
+            const element = components[index];
+            setTimeout(function() {
+                io.sockets.emit("thingChanged", { thingId: element, room: "r12Resolucion", property: "visible", value: true });
+            }, 1000)
+        }
+    }
+}
+
+module.exports.r12ResolucionLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.missionUsersList.length === 0)
+        showComponents(false)
+
+    if (roomState.usersList.length === 0)
+        showComponents2(false)
+}
+
+module.exports.r13NetiquetaJoin = function(player, roomId) {
+    setTimeout(function() {
+        global.gameState.NPCs['neti'].talk('¡Hola!');
+    }, 5000);
 }
 
 //             _   _                 
@@ -357,4 +436,85 @@ const activateCookieMonster = function() {
 const deactivateCookieMonster = function() {
     io.sockets.emit("thingChanged", { thingId: "cookieMonsterA", room: "r03Cookies", property: "visible", value: true });
     io.sockets.emit("thingChanged", { thingId: "cookieMonsterB", room: "r03Cookies", property: "visible", value: false });
+}
+
+const showComponents = function(value) {
+    io.sockets.emit("thingChanged", { thingId: "monitor", room: "r06Reciclaje", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "placa", room: "r06Reciclaje", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "teclado", room: "r06Reciclaje", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "mouse", room: "r06Reciclaje", property: "visible", value: value });
+}
+
+const showComponents2 = function(value) {
+    io.sockets.emit("thingChanged", { thingId: "monitor", room: "r12Resolucion", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "placa", room: "r12Resolucion", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "teclado", room: "r12Resolucion", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "mouse", room: "r12Resolucion", property: "visible", value: value });
+}
+
+module.exports.startCloudAnimation = function () {
+    // emit to all clients
+    io.sockets.emit('changeBgAnim', 'transformacion' );
+}
+
+module.exports.onMonitor = function(playerId) {
+    io.sockets.emit("thingChanged", { thingId: "monitor", room: "r06Reciclaje", property: "visible", value: false });
+    if (!global.roomStates["r06Reciclaje"].userComponents[playerId])
+        global.roomStates["r06Reciclaje"].userComponents[playerId] = [];
+    global.roomStates["r06Reciclaje"].userComponents[playerId].push('monitor');
+}
+
+
+module.exports.onPlaca = function(playerId) {
+    io.sockets.emit("thingChanged", { thingId: "placa", room: "r06Reciclaje", property: "visible", value: false });
+    if (!global.roomStates["r06Reciclaje"].userComponents[playerId])
+        global.roomStates["r06Reciclaje"].userComponents[playerId] = [];
+    global.roomStates["r06Reciclaje"].userComponents[playerId].push('placa');
+}
+
+module.exports.onTeclado = function(playerId) {
+    io.sockets.emit("thingChanged", { thingId: "teclado", room: "r06Reciclaje", property: "visible", value: false });
+    if (!global.roomStates["r06Reciclaje"].userComponents[playerId])
+        global.roomStates["r06Reciclaje"].userComponents[playerId] = [];
+    global.roomStates["r06Reciclaje"].userComponents[playerId].push('teclado');
+}
+
+module.exports.onMouse = function(playerId) {
+    io.sockets.emit("thingChanged", { thingId: "mouse", room: "r06Reciclaje", property: "visible", value: false });
+    if (!global.roomStates["r06Reciclaje"].userComponents[playerId])
+        global.roomStates["r06Reciclaje"].userComponents[playerId] = [];
+    global.roomStates["r06Reciclaje"].userComponents[playerId].push('mouse');
+}
+
+module.exports.onComponents = function(playerId) {
+    const room12 = global.roomStates['r12Resolucion'];
+    let command;
+    if (room12.missionUsersList.includes(playerId) === true) {
+        let components = global.roomStates["r06Reciclaje"].userComponents[playerId];
+        if (components.length > 3) {
+            command = { cmd: "text", txt: "Aquí está la guia de montaje", iframe: true, url: "https://www.opirata.com/blog/montar-un-ordenador-paso-a-paso/", actionId: "RemoveComponents", postAction: true };
+        } else {
+            command = { cmd: "text", txt: "Me faltan " + (4 - components.length) + "componentes para montar el ordenador", lines: 2};
+        }
+    
+    } else {
+        command = { cmd: "text", txt: "No se que hace eso ahí", lines: 1};
+    }
+    io.to(playerId).emit("executeCommand", command);    
+}
+
+module.exports.onRemoveComponents = function(playerId) {
+    let roomState = global.roomStates['r12Resolucion'];
+    
+    var index = roomState.missionUsersList.indexOf(playerId);
+    if (index !== -1) {
+        roomState.missionUsersList.splice(index, 1);
+    }
+
+    // TODO execute this only if no mission players in the room
+    showComponents2(false);
+
+    let components = global.roomStates["r06Reciclaje"].userComponents;
+    delete components[playerId];
+    
 }
