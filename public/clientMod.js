@@ -11,16 +11,16 @@ The functions are called by the engine at crucial points, only if they exist.
 
 // BARRICUDA functions
 
-function initMod(playerId, roomId) {
+function initMod(playerId, roomId, executeCommand) {
     print("Mod: " + players[playerId].nickName + " (you) joined the game at " + roomId);
 
     // add custom client listeners HERE
 
     // //prevent duplicate listeners
-    // if (!socket.hasListeners('event')) {
-    //     socket.on("event", function (msg) {
+    // if (!socket.hasListeners('executeCommand')) {
+    //     socket.on("executeCommand", function (msg) {
     //         if (socket.id) {
-    //             console.log('event happend');
+    //             executeCommand(msg);
     //         }
     //     });
     // }
