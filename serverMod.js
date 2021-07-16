@@ -104,6 +104,15 @@ module.exports.initMod = function (io, gameState, DATA) {
         "qué es el ransomware."
     ];
 
+    global.netiquetaTalk = [
+        "¿Qué opinas de las reglas de la netiqueta?",
+        "¿Se podrían mejorar?",
+        "Entre las personas que estáis en la sala",
+        "definid las reglas que debería tener este espacio,",
+        "podéis enviarlas a",
+        "educacionconectadaarquitecto@fad.com"
+    ];
+
     //  _   _ ____   ____     
     // | \ | |  _ \ / ___|___ 
     // |  \| | |_) | |   / __|
@@ -133,6 +142,18 @@ module.exports.initMod = function (io, gameState, DATA) {
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
         actionId: "Divulgador"
+    });
+
+    var netiquetaNpc = new NPC({
+        id: "neti",
+        nickName: "neti",
+        room: "r13Netiqueta",
+        x: 72,
+        y: 77,
+        avatar: 1,
+        colors: [2, 2, 1, 5],
+        labelColor: "#1e839d",
+        actionId: "Netiqueta"
     });
 
     divulgadorNpc.behavior = setTimeout(function ramble() {
@@ -248,7 +269,6 @@ module.exports.r02EntradaLeave = function(player, roomId) {
     if (roomState.usersList.length === 0) {
         global.roomStates['r03Cookies'].monsterActive = false;
         deactivateCookieMonster();
-        // console.log('monstruo----------------off')
     }
 }
 
@@ -325,6 +345,14 @@ module.exports.r10NubesJoin = function(player, roomId) {
     // console.log("MOD: " + player.nickName + " entered room " + roomId);
     // io.emit('musicExit');
     // io.emit('musicOn', 3);
+    setTimeout(function() {
+        io.sockets.emit('changeBgAnim', 'transformacion' );
+        setTimeout(function() {
+            io.sockets.emit('changeBgAnim', 'cables' );
+        }, 3000);
+    }, 5000);
+}
+
 module.exports.r12ResolucionJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
@@ -370,7 +398,7 @@ module.exports.r13NetiquetaJoin = function(player, roomId) {
 //  \__,_|\___|\__|_|\___/|_| |_|___/
 //        
 
-module.exports.onCookies = function(playerId, roomId) {
+module.exports.onCookies = function() {
     global.roomStates['r03Cookies'].monsterActive = true;
     activateCookieMonster();
     // console.log('monstruo----------------activo')
@@ -385,21 +413,22 @@ module.exports.onSurvey1 = function(playerId) {
 }
 
 
-module.exports.onCabinet = function(playerId, roomId) {
+module.exports.onCabinet = function(playerId,) {
     console.log('cabinet----------------action');
     this.transferPlayer(playerId, "r13Netiqueta", "r12Resolucion", 10 * 2, 86 * 2);
 }
 
-module.exports.onNpcFixit = function(playerId, roomId) {
-    console.log('npcFixit----------------action');
+module.exports.onNpcFixit = function(playerId) {
+    let roomState = global.roomStates["r12Resolucion"];
+    roomState.missionUsersList.push(playerId);
     this.transferPlayer(playerId, "r12Resolucion", "r06Reciclaje", 68 * 2, 65 * 2);
 }
 
-module.exports.onRecepcionista = function(playerId, roomId) {
+module.exports.onRecepcionista = function(playerId) {
     console.log('recepcionista----------------action');
 }
 
-module.exports.onDivulgador = function(playerId, roomId) {
+module.exports.onDivulgador = function(playerId) {
     console.log('Divulgador----------------action');
     let roomState = global.roomStates["r02Entrada"];
 
