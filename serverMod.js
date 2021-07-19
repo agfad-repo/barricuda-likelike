@@ -152,7 +152,7 @@ module.exports.initMod = function (io, gameState, DATA) {
 
     var netiquetaNpc = new NPC({
         id: "neti",
-        nickName: "neti",
+        nickName: "Neti",
         room: "r13Netiqueta",
         x: 72,
         y: 77,
