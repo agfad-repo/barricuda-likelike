@@ -221,16 +221,16 @@ module.exports.ROOMS = {
             h0066ff: { cmd: "text", label: "espejo 2", txt: "No te gusta lo que aparece y no te gustaría que otras personas lo vieran,tienes derecho al olvido en internet, es decir, a que no aparezcas cuando te busquen. Mira cómo:", lines: 6, url: "https://www.aepd.es/es/areas-de-actuacion/internet-y-redes-sociales/derecho-al-olvido", iframe: false, point: [36, 84], obstacle: false },
             // 
             //#999900
-            h999900: { cmd: "text", label: "espejo 3", txt: "Sé donde has estado y otros también lo saben... ¿quieres revisar tu historial de ubicaciones?", url: "https://www.google.com/maps/timeline", lines: 4, iframe: true, point: [36, 84], obstacle: false },
+            h999900: { cmd: "text", label: "espejo 3", txt: "Sé donde has estado y otros también lo saben... ¿quieres revisar tu historial de ubicaciones?", url: "https://www.google.com/maps/timeline", lines: 4, iframe: false, point: [36, 84], obstacle: false },
             // #0f8a61
             h0f8a61: { cmd: "text", label: "espejo 4", txt: "¿No quieres que sepan dónde has estado? Resuélvelo en simples pasos:", url: "https://datadetoxkit.org/es/privacy/essentials/#step-2", lines: 3, iframe: true, point: [87, 84], obstacle: false },
             // #ff00ff
             hff00ff: { cmd: "text", label: "espejo 5", txt: "Revisa también muchas otras cosas que saben de ti y decide si prefieres mantener tu privacidad.", url: "https://datadetoxkit.org/es/privacy/degooglise/", lines: 3, iframe: true, point: [87, 84], obstacle: false },
             // #00cc99
-            h00cc99: { cmd: "text", label: "espejo 6", txt: "¡Genial! Si te interesa saber más sobre seguridad en la red, por aquí te dejamos información más amplia: ", lines: 4, url: "https://arsgames.net/wp-content/uploads/2019/02/manual-de-seguridad-digital.pdf", iframe: true, point: [87, 84], obstacle: false },
+            h00cc99: { cmd: "text", label: "espejo 6", txt: "¡Genial! Si te interesa saber más sobre seguridad en la red, por aquí te dejamos información más amplia: ", lines: 4, url: "https://arsgames.net/wp-content/uploads/2019/02/manual-de-seguridad-digital.pdf", iframe: false, point: [87, 84], obstacle: false },
         },
         things: {
-            personaje: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [69, 88], obstacle: false }},
+            personaje: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [77, 88], obstacle: false }},
             // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
         }
         
@@ -350,6 +350,7 @@ module.exports.ROOMS = {
             placa: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [30, 65], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             teclado: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [20, 62], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             mouse: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [12, 66], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
+            compu: { command: { cmd: "text", txt: "hace desaparecer el NPC phishing", actionId: "Complain", point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "Post Instagram Denunciar", frames: 1, frameDelay: 60, visible: true },
         }
     },
     r13Netiqueta: {
@@ -402,6 +403,9 @@ module.exports.ROOMS = {
             h0f8a61: { cmd: "text", txt: "mozilla hubs", url: "", iframe: true, label: "Realidad aumentada", point: [84, 85], obstacle: false },
             // #98504f
             h98504f: { cmd: "text", txt: "algo del dibujo", url: "https://appinventor.mit.edu/", iframe: true, label: "Apps", point: [103, 85], obstacle: false },
+        },
+        things: {
+            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, label: "papelito", command: { cmd: "text", txt: " Anota el número de cuadrados de altura que puede tener tu avatar en Bitsy (puedes encontrarlo en el área de videojuegos), ese número es la cantidad total de números del código, si lo has hecho bien, ahora deberías tener 5 números (y un punto), ponle 3 ceros al final para completarlo, cuando hayas resuelto 5 retos lo tendrás completo del todo, entonces comunicalo en la sala de encriptación,te sorprenderás. Introduce la letra resultante en el ordenador de la biblioteca y tendrás tu perfil digital, por fin.", lines: 16, point: [80, 80] } }
         }
     },
     r15Pasillo: {
