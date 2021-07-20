@@ -477,7 +477,7 @@ function setup() {
                 var imageData = DATA.IMAGES;
                 IMAGES = {};
                 for (var i = 0; i < imageData.length; i++) {
-                    IMAGES[imageData[i][0]] = loadImage(ASSETS_FOLDER + imageData[i][1]);
+                    IMAGES[imageData[i][0]] = loadImage(ASSETS_FOLDER + 'extra-characters/' + imageData[i][1]);
                 }
 
                 //load the misc images from data
@@ -1776,14 +1776,22 @@ function Player(p) {
         this.tint = color(ROOMS[p.room].tint);
     }
 
-    //tint the image
-    this.avatarGraphics = paletteSwap(walkSheets[p.avatar], p.colors, this.tint);
-    this.spriteSheet = loadSpriteSheet(this.avatarGraphics, AVATAR_W, AVATAR_H, round(walkSheets[p.avatar].width / AVATAR_W));
-    this.walkAnimation = loadAnimation(this.spriteSheet);
-    //emote
-    this.emoteGraphics = paletteSwap(emoteSheets[p.avatar], p.colors, this.tint);
-    this.emoteSheet = loadSpriteSheet(this.emoteGraphics, AVATAR_W, AVATAR_H, round(emoteSheets[p.avatar].width / AVATAR_W));
-    this.emoteAnimation = loadAnimation(this.emoteSheet);
+    if (this.avatar.constructor.name === 'String') {
+        this.spriteSheet = loadSpriteSheet(IMAGES[this.avatar], AVATAR_W, AVATAR_H, 4);
+        this.walkAnimation = loadAnimation(this.spriteSheet);
+        
+        this.emoteSheet = loadSpriteSheet(IMAGES[this.avatar + 'Emote'], AVATAR_W, AVATAR_H, 2);
+        this.emoteAnimation = loadAnimation(this.emoteSheet);
+    } else {
+        //tint the image
+        this.avatarGraphics = paletteSwap(walkSheets[p.avatar], p.colors, this.tint);
+        this.spriteSheet = loadSpriteSheet(this.avatarGraphics, AVATAR_W, AVATAR_H, round(walkSheets[p.avatar].width / AVATAR_W));
+        this.walkAnimation = loadAnimation(this.spriteSheet);
+        //emote
+        this.emoteGraphics = paletteSwap(emoteSheets[p.avatar], p.colors, this.tint);
+        this.emoteSheet = loadSpriteSheet(this.emoteGraphics, AVATAR_W, AVATAR_H, round(emoteSheets[p.avatar].width / AVATAR_W));
+        this.emoteAnimation = loadAnimation(this.emoteSheet);
+    }
     this.emoteAnimation.frameDelay = 10;
 
     this.sprite = createSprite(100, 100);
