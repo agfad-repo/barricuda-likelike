@@ -56,6 +56,16 @@ module.exports.initMod = function (io, gameState, DATA) {
             usersList: [],
             missionUsersList: [],
         },
+        r13Netiqueta: {
+            talkCounter: 0,
+            talk: false,
+            usersList: [],
+        },
+        r16Colabora: {
+            talkCounter: 0,
+            talk: false,
+            usersList: [],
+        }
     };
 
     global.increaseTalkCounter = function(roomId, talkLength) {
@@ -119,6 +129,16 @@ module.exports.initMod = function (io, gameState, DATA) {
         "educacionconectadaarquitecto@fad.com"
     ];
 
+    global.colaboraTalk = [
+        "Hola,",
+        "esta es una sala para",
+        "más de una persona,",
+        "al menos dos son necesarias",
+        "para participar",
+        "¡invita a alguien o busca gente",
+        "en las otras salas!"
+    ];
+
     //  _   _ ____   ____     
     // | \ | |  _ \ / ___|___ 
     // |  \| | |_) | |   / __|
@@ -132,7 +152,7 @@ module.exports.initMod = function (io, gameState, DATA) {
         room: "r03Cookies",
         x: 30,
         y: 77,
-        avatar: 1,
+        avatar: 'robot',
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
         actionId: "Recepcionista"
@@ -144,7 +164,7 @@ module.exports.initMod = function (io, gameState, DATA) {
         room: "r02Entrada",
         x: 65,
         y: 73,
-        avatar: 1,
+        avatar: 'robot',
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
         actionId: "Divulgador"
@@ -156,10 +176,22 @@ module.exports.initMod = function (io, gameState, DATA) {
         room: "r13Netiqueta",
         x: 72,
         y: 77,
-        avatar: 1,
+        avatar: 'robot',
         colors: [2, 2, 1, 5],
         labelColor: "#1e839d",
         actionId: "Netiqueta"
+    });
+
+    var colaboraNpc = new NPC({
+        id: "colabora",
+        nickName: "Colabora",
+        room: "r16Colabora",
+        x: 64,
+        y: 75,
+        avatar: 'robot',
+        colors: [2, 2, 1, 5],
+        labelColor: "#1e839d",
+        actionId: "Colabora"
     });
 
     divulgadorNpc.behavior = setTimeout(function ramble() {
@@ -179,6 +211,36 @@ module.exports.initMod = function (io, gameState, DATA) {
             divulgadorNpc.behavior = setTimeout(ramble, random(2000, 3000));
         } else {
             divulgadorNpc.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+    }, random(1000, 2000));
+
+    netiquetaNpc.behavior = setTimeout(function ramble() {
+        var talkCounter = global.roomStates[netiquetaNpc.room].talkCounter;
+        var talkList = netiquetaTalk;
+        var talk = global.roomStates[netiquetaNpc.room].talk;
+
+        if (talk === true) {
+            netiquetaNpc.talk(talkList[talkCounter]);
+            global.increaseTalkCounter(netiquetaNpc.room, talkList.length);
+            talk = global.roomStates[netiquetaNpc.room].talk;
+            netiquetaNpc.behavior = setTimeout(ramble, random(2000, 3000));
+        } else {
+            netiquetaNpc.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+    }, random(1000, 2000));
+
+    colaboraNpc.behavior = setTimeout(function ramble() {
+        var talkCounter = global.roomStates[colaboraNpc.room].talkCounter;
+        var talkList = colaboraTalk;
+        var talk = global.roomStates[colaboraNpc.room].talk;
+
+        if (talk === true) {
+            colaboraNpc.talk(talkList[talkCounter]);
+            global.increaseTalkCounter(colaboraNpc.room, talkList.length);
+            talk = global.roomStates[colaboraNpc.room].talk;
+            colaboraNpc.behavior = setTimeout(ramble, random(2000, 3000));
+        } else {
+            colaboraNpc.behavior = setTimeout(ramble, random(1000, 3000));
         }
     }, random(1000, 2000));
 
@@ -398,9 +460,50 @@ module.exports.r12ResolucionLeave = function(player, roomId) {
 }
 
 module.exports.r13NetiquetaJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
     setTimeout(function() {
-        global.gameState.NPCs['neti'].talk('¡Hola!');
-    }, 5000);
+        roomState.talk = true;
+    }, 1000)
+}
+
+module.exports.r13NetiquetaLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.usersList.length === 0) {
+        roomState.talkCounter = 0;
+        roomState.talk = false;
+    }
+}
+
+module.exports.r16ColaboraJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
+    if (roomState.usersList.length === 1)
+        roomState.talkCounter = 0;
+
+    setTimeout(function() {
+        roomState.talk = true;
+    }, 1000)
+}
+
+module.exports.r16ColaboraLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.usersList.length === 0) {
+        roomState.talkCounter = 0;
+        roomState.talk = false;
+    }
 }
 
 //             _   _                 
@@ -457,6 +560,16 @@ module.exports.onDivulgador = function(playerId) {
     setTimeout(function() {
         roomState.talk = true;
     }, 1000);
+}
+
+module.exports.onNetiqueta = function(playerId) {
+    let roomState = global.roomStates["r13Netiqueta"];
+    roomState.talk = true;
+}
+
+module.exports.onColabora = function(playerId) {
+    let roomState = global.roomStates["r13Netiqueta"];
+    roomState.talk = true;
 }
 
 const activateSurvey = function() {
