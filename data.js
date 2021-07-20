@@ -10,7 +10,10 @@ module.exports.SETTINGS = {
 };
 
 //miscellaneous assets to preload
+// add them in extra-character folder
 module.exports.IMAGES = [
+    ["robot", "Robot_Sprite_anim.png"],
+    ["robotEmote", "Robot_Sprite_anim-emote.png"],
 ];
 
 //miscellaneous sounds to preload
@@ -361,7 +364,7 @@ module.exports.ROOMS = {
         pageBg: "#1c2016",
         area: "/salas/r13Netiqueta_Int.png",
         tint: "#fdeac8",
-        bubblesY: 44,
+        bubblesY: 34,
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
@@ -439,7 +442,7 @@ module.exports.ROOMS = {
         pageBg: "#1c2016",
         area: "/salas/r16Colabora_Int.png",
         tint: "#fdeac8",
-        bubblesY: 44,
+        bubblesY: 34,
         spawn: [40, 85, 90, 95],
         areaColors: {
             //h will be replaced by #
