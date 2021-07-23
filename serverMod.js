@@ -481,6 +481,10 @@ module.exports.r13NetiquetaLeave = function(player, roomId) {
     }
 }
 
+module.exports.r14CreacionJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "¡Qué emoción que hayas llegado hasta aquí! Esta es una sala en la que puedes aprender a crear un montón de cosas.\n \n Explora libremente, crea y...\n \n creo que alguien dejó una nota para ti por algún lado, pero la perdí, búscala.");
+}
+
 module.exports.r16ColaboraJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
