@@ -520,7 +520,6 @@ module.exports.onCookies = function() {
 }
 
 module.exports.onSurvey1 = function(playerId) {
-    console.log('survey1----------------action');
     global.roomStates["r02Entrada"].ransomwareActive = true;
     global.roomStates["r02Entrada"].registeredUsers.push(playerId);
     global.resetTalk("r02Entrada");
