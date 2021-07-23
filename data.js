@@ -64,7 +64,7 @@ module.exports.ROOMS = {
         things: {
             mesa: { file: "salas/r02Entrada_Sprite_Mesa.png", id: "mesa", offset: 7.5, scale: 2, position: [44, 57], frames: 1, frameDelay: 60, visible: true, },
             pantalla1: { file: "salas/r02Entrada_Sprite_Pantalla01.png", id: "pantalla1", offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: true, },
-            pantalla2: { file: "salas/r02Entrada_Sprite_Pantalla02.png", id: "pantalla2", label: "encuesta",  offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: false, command: { cmd: "text", txt: "a continuacion de este mensaje va la encuesta", lines: 2, postAction: true, pool: "pool1", section: "pool-section", actionId: "Survey1",  label: "encuesta", point: [65, 95], obstacle: false } },
+            pantalla2: { file: "salas/r02Entrada_Sprite_Pantalla02.png", id: "pantalla2", label: "encuesta",  offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: false, command: { cmd: "text", txt: "Encuesta de 10 preguntas", lines: 2, pool: "pool1", section: "pool-section", label: "encuesta", point: [65, 95], obstacle: false } },
         }
     },
     r03Cookies: {
@@ -95,7 +95,7 @@ module.exports.ROOMS = {
         },
         things: {
             cookieMonsterA: { file: "salas/r03Cookies_Monster_Sprite_A.png", id: "cookie-monsterA", position: [91, 67], label: "mostruo de las galletas", frames: 1, frameDelay: 30, visible: true, },
-            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este video para descubrirlo, además te recomiendo fijarte en el precio del paraguas. Cuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.", lines: 8, url: "https://www.youtube.com/embed/4n2Syt0P4js", iframe: true, point: [84, 89], obstacle: false } },
+            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este video para descubrirlo, además te recomiendo fijarte en el precio de la bombilla. Cuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.", lines: 8, url: "https://www.youtube.com/embed/4n2Syt0P4js", iframe: true, point: [84, 89], obstacle: false } },
             // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
         }
     },
@@ -156,17 +156,17 @@ module.exports.ROOMS = {
             // #ffec27
             hffec27: { cmd: "enter", room: "r07Marionetas", label: "marionetas", point: [10, 85], enterPoint: [115, 86], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "residuo", point: [86, 87], obstacle: false },
-            // #00cc99
-            h00cc99: { cmd: "text", label: "papelera", point: [60, 80], obstacle: false },
-            // #ff00ff
-            hff00ff: { cmd: "text", label: "papelera", point: [60, 80], obstacle: false },
+            h0066ff: { cmd: "text", label: "móvil roto", txt: "¿qué pasa cuando me tiran? Datos e información sobre desechos electrónicos.", lines: 3, url:"https://es.statista.com/grafico/12308/mayores-generados-de-basura-tecnologica-del-mundo/", iframe: false, point: [86, 87], obstacle: false },
+            // // #00cc99
+            // h00cc99: { cmd: "text", label: "papelera1", point: [60, 80], obstacle: false },
+            // // #ff00ff
+            // hff00ff: { cmd: "text", label: "papelera2", point: [60, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "residuo", point: [40, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: true, url: "http://phonestory.org/", point: [40, 80], obstacle: false },
         },
         things: {
-            papelera1: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera1", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, },
-            papelera2: { file: "salas/r06Reciclaje_Sprites_NPCsB.png", id: "papelera2", position: [60, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, },
+            papelera: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿cuál es el porcentaje de materiales reciclables de un teléfono móvil? Encuéntralo aquí y úsalo para conformar tu código", lines: 4, url:"https://www.recuperacion.org/infografia-ciudad/", iframe: true, point: [86, 87], obstacle: false }},
+            contenedor: { file: "salas/r06Reciclaje_Sprites_NPCsB.png", id: "contenedor", position: [60, 100 - 19], label: "contenedor", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿dónde tiro mis residuos electrónicos para que se traten correctamente?", lines: 3, url:"https://www.ecolec.es/reciclar-aparatos-electronicos/", iframe: true, point: [86, 87], obstacle: false }},
             // components
             monitor: { command: { cmd: "action", actionId: "Monitor", point: [46, 75] }, file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [15, 26], label: "Monitor", frames: 1, frameDelay: 60, visible: false, },
             placa: { command: { cmd: "action", actionId: "Placa", point: [59, 68] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [40, 38], label: "Placa", frames: 1, frameDelay: 60, visible: false, },
@@ -207,8 +207,8 @@ module.exports.ROOMS = {
             // #ff0000
             hff0000: { cmd: "enter", room: "r06Reciclaje", label: "Materiales y residuos", point: [92, 95], enterPoint: [68, 47], obstacle: false },
             // #00e436
-            // h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
-            h00e436: { cmd: "enter", room: "r12Resolucion", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
+            // h00e436: { cmd: "enter", room: "r12Resolucion", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
             // #ff77a8
             // hff77a8: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [98, 72], enterPoint: [120, 92], obstacle: false },
             // #29adff
@@ -254,11 +254,11 @@ module.exports.ROOMS = {
             // #ffec27
             hffec27: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [10, 85], enterPoint: [60, 98], obstacle: false },
             // #00cc99
-            h00cc99: { cmd: "text", label: "news1", point: [97, 80], obstacle: false, txt: "hay que poner algo", url:"https://juego.verdaderofalso.com/", iframe: true },
+            h00cc99: { cmd: "text", label: "news1", point: [97, 80], obstacle: false, txt: "juega", url:"https://juego.verdaderofalso.com/", iframe: true },
             // #ff00ff
-            hff00ff: { cmd: "text", label: "news2", point: [30, 80], obstacle: false, txt: "hay que poner algo", url:" https://datadetoxkit.org/es/misinformation/healthhoax/", iframe: true},
+            hff00ff: { cmd: "text", label: "news2", point: [30, 80], obstacle: false, txt: "aprende más", url:" https://datadetoxkit.org/es/misinformation/healthhoax/", iframe: true},
             // #9900cc
-            h9900cc: { cmd: "text", label: "M. Fake", txt: "¡No soporto las fake news! Maldita desinformación ¿sabes reconocerlas? Mientras juegas fíjate en el año de las noticias mostradas en el juego, si eliminas los números que se repiten, puedes restar al resultado el precio del paraguas.", lines: 8, point: [69, 80], obstacle: false },
+            h9900cc: { cmd: "text", label: "M. Fake", txt: "¡No soporto las fake news! Maldita desinformación ¿sabes reconocerlas? Mientras juegas fíjate en el año de las noticias mostradas en el juego, y suma el precio de la bombilla redondeado.", lines: 8, point: [69, 80], obstacle: false },
         }
     },
     r10Nubes: {
@@ -296,7 +296,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "nube oscura 1", txt: "¿Tienes una web propia? ¿hay una web que te encante visitar? Aquí puedes ver el impacto que tiene en huella de carbono:", url: "https://www.websitecarbon.com/", iframe: true, lines: 4, point: [40, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto (embeber nada más la infografía que se mueve. Si pudiésemos hacerla nosotros en castellano mucho mejor ", url: "https://www.ticbeat.com/innovacion/huella-carbono-internet/", iframe: true, lines: 5, point: [60, 85], obstacle: false },
+            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto", url: "https://www.ticbeat.com/innovacion/huella-carbono-internet/", iframe: true, lines: 5, point: [60, 85], obstacle: false },
             // #9900cc
             h9900cc: { cmd: "text", label: "nube oscura 3", txt: "hacer una infografía similar a esta, que muestre más información y datos.", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 3, point: [80, 80], obstacle: false },
         },
@@ -353,7 +353,7 @@ module.exports.ROOMS = {
             placa: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [30, 65], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             teclado: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [20, 62], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             mouse: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [12, 66], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
-            compu: { command: { cmd: "text", txt: "hace desaparecer el NPC phishing", actionId: "Complain", point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "Post Instagram Denunciar", frames: 1, frameDelay: 60, visible: true },
+            compu: { command: { cmd: "text", txt: "denunciar pishing", actionId: 'DenunciarPhishing', postAction: true, point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "denunciar pishing", frames: 1, frameDelay: 60, visible: true },
         }
     },
     r13Netiqueta: {
@@ -374,9 +374,7 @@ module.exports.ROOMS = {
             h29adff: { cmd: "enter", room: "r12Resolucion", label: "Resolución", point: [100, 76], enterPoint: [10, 85], obstacle: false },
         },
         things: {
-            // teletransport cabinet
-            // cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", actionId: "Cabinet", txt: "Oh, un teletransporte", lines: 1, point: [38, 86] } },
-            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "ascensor", command: { cmd: "text", txt: "Iframe netiqueta", iframe: true, url:"https://es.wikipedia.org/wiki/Netiqueta", lines: 1, point: [38, 86] } },
+            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "wikipedia", command: { cmd: "text", txt: "Iframe netiqueta", iframe: true, url:"https://es.wikipedia.org/wiki/Netiqueta", lines: 1, point: [38, 86] } },
         }
     },
     r14Creacion: {
@@ -397,18 +395,18 @@ module.exports.ROOMS = {
             h00e436: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [118, 85], enterPoint: [15, 85], obstacle: false },
 
             // #ff9900
-            hff9900: { cmd: "text", txt: "algo del dibujo", url: "https://www.iloveimg.com/es/crear-meme", iframe: true, label: "Memes", point: [29, 85], obstacle: false },
+            hff9900: { cmd: "text", label: "Memes", txt: "Aprende a crear memes", url: "https://the-image-editor.com/es/meme-generator", iframe: true, point: [29, 85], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", txt: "algo del dibujo", url: "https://audio-joiner.com/es/", iframe: true, label: "Sonido", point: [47, 85], obstacle: false },
+            h0066ff: { cmd: "text", label: "Videojuegos", txt: "Aprende a crear videojuegos", url: "https://scratch.mit.edu/", iframe: false, point: [47, 85], obstacle: false },
             // #999900
-            h999900: { cmd: "text", txt: "twine + scratch + bitsi", url: "", iframe: true, label: "Videojuegos", point: [66, 85], obstacle: false },
+            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "https://pulseboy.com", iframe: true, point: [66, 85], obstacle: false },
             // #0f8a61
-            h0f8a61: { cmd: "text", txt: "mozilla hubs", url: "", iframe: true, label: "Realidad aumentada", point: [84, 85], obstacle: false },
+            h0f8a61: { cmd: "text", label: "Realidad virtual", txt: "Aprende a crear realidad virtual", url: " https://hubs.mozilla.com/", iframe: false, point: [84, 85], obstacle: false },
             // #98504f
-            h98504f: { cmd: "text", txt: "algo del dibujo", url: "https://appinventor.mit.edu/", iframe: true, label: "Apps", point: [103, 85], obstacle: false },
+            h98504f: { cmd: "text", label: "Apps", txt: "Aprende a crear aplicaciones", url: "https://appinventor.mit.edu/", iframe: true, point: [103, 85], obstacle: false },
         },
         things: {
-            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, label: "papelito", command: { cmd: "text", txt: " Anota el número de cuadrados de altura que puede tener tu avatar en Bitsy (puedes encontrarlo en el área de videojuegos), ese número es la cantidad total de números del código, si lo has hecho bien, ahora deberías tener 5 números (y un punto), ponle 3 ceros al final para completarlo, cuando hayas resuelto 5 retos lo tendrás completo del todo, entonces comunicalo en la sala de encriptación,te sorprenderás. Introduce la letra resultante en el ordenador de la biblioteca y tendrás tu perfil digital, por fin.", lines: 16, point: [80, 80] } }
+            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: " Cuenta el número de bloques de eventos (los naranjas) que hay en scratch. Multiplícalos por dos y resta el resultado del número que tenías hasta ahora.", lines: 5, point: [80, 80] } }
         }
     },
     r15Pasillo: {

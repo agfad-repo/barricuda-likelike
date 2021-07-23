@@ -31,7 +31,7 @@ function initMod(playerId, roomId) {
 }
 
 function afterPool(data) {
-    console.log("Answers ", data);
+    socket.emit("action", "Survey1");
 }
 
 const POOLS = {
@@ -89,7 +89,8 @@ const POOLS = {
             question2: {
                 type: 'radio',
                 text: '¿sabes emplear comandos de búsquedas para obtener resultados más acertados?',
-                image: 'assets/form-imgs/2/1.jpg',
+                image: 'assets/form-imgs/2/1.png',
+                imageClass: 'image600px',
                 options: [
                     {
                         label: 'Conozco todos esos comandos y muchos más',
@@ -124,6 +125,7 @@ const POOLS = {
                 type: 'checkbox',
                 text: 'Selecciona todas las imágenes que son falsas',
                 images: true,
+                bigImages: true,
                 options: [
                     {
                         label: '1',
@@ -148,22 +150,6 @@ const POOLS = {
                     {
                         label: '6',
                         image: 'assets/form-imgs/4/6.png',
-                    },
-                    {
-                        label: '7',
-                        image: 'assets/form-imgs/4/7.png',
-                    },
-                    {
-                        label: '8',
-                        image: 'assets/form-imgs/4/8.png',
-                    },
-                    {
-                        label: '9',
-                        image: 'assets/form-imgs/4/9.png',
-                    },
-                    {
-                        label: '10',
-                        image: 'assets/form-imgs/4/10.png',
                     },
                 ]
             },
@@ -194,13 +180,13 @@ const POOLS = {
                 image: 'assets/form-imgs/6/1.png',
                 options: [
                     {
-                        label: 'Es una licencia que dice que puedo usarlo siempre que diga de quién es',
+                        label: 'Es una licencia que dice puedo usar el contenido siempre que diga de quién es',
                     },
                     {
                         label: 'Ni idea',
                     },
                     {
-                        label: 'Es una licencia que dice que puedo usarlo sin modificarlo',
+                        label: 'Es una licencia que dice que puedo usar el contenido sin modificarlo',
                     },
                 ]
                 

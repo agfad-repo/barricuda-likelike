@@ -139,6 +139,19 @@ module.exports.initMod = function (io, gameState, DATA) {
         "en las otras salas!"
     ];
 
+    global.phishingTalk = [
+        "YO soy el auténtico NAME",
+        "ese otro NAME es un impostor",
+        "Mi plato favorito son acelgas con nocilla",
+        "me gustan las croquetas frías",
+        "Me gusta jugar al parchís con los pies",
+        "me gustan las croquetas frías",
+        "me aburro",
+        "me aburroo",
+        "me aburrooo",
+        "me aburroooo",
+    ]
+
     //  _   _ ____   ____     
     // | \ | |  _ \ / ___|___ 
     // |  \| | |_) | |   / __|
@@ -278,6 +291,10 @@ module.exports.transferPlayer = function (playerId, from, to, x, y) {
             p.new = false;
 
             //check if there is a custom function in the MOD to call at this point
+            if (this["anyRoomLeave"] != null) {
+                //call it!
+                this["anyRoomLeave"](p, from);
+            }
             if (this[from + "Leave"] != null) {
                 //call it!
                 this[from + "Leave"](p, from);
@@ -287,6 +304,10 @@ module.exports.transferPlayer = function (playerId, from, to, x, y) {
 
 
             //check if there is a custom function in the MOD to call at this point
+            if (this["anyRoomJoin"] != null) {
+                //call it!
+                this["anyRoomJoin"](p, to);
+            }
             if (this[to + "Join"] != null) {
                 //call it!
                 this[to + "Join"](p, to);
@@ -301,6 +322,19 @@ module.exports.transferPlayer = function (playerId, from, to, x, y) {
                 }
             }
         }
+}
+
+module.exports.anyRoomJoin = function(player, roomId) {
+    if (global.roomStates["r11Lago"].phishingList.includes(player.id) === true) {
+        generateFakePlayer(player, roomId);
+    }
+
+}
+
+module.exports.anyRoomLeave = function(player, roomId) {
+    if (global.roomStates["r11Lago"].phishingList.includes(player.id) === true) {
+        destroyFakePlayer(player, roomId);
+    }
 }
 
 module.exports.r02EntradaJoin = function(player, roomId) {
@@ -481,6 +515,10 @@ module.exports.r13NetiquetaLeave = function(player, roomId) {
     }
 }
 
+module.exports.r14CreacionJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "¡Qué emoción que hayas llegado hasta aquí! Esta es una sala en la que puedes aprender a crear un montón de cosas.\n \n Explora libremente, crea y...\n \n creo que alguien dejó una nota para ti por algún lado, pero la perdí, búscala.");
+}
+
 module.exports.r16ColaboraJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
@@ -520,7 +558,6 @@ module.exports.onCookies = function() {
 }
 
 module.exports.onSurvey1 = function(playerId) {
-    console.log('survey1----------------action');
     global.roomStates["r02Entrada"].ransomwareActive = true;
     global.roomStates["r02Entrada"].registeredUsers.push(playerId);
     global.resetTalk("r02Entrada");
@@ -692,25 +729,87 @@ module.exports.onPhishing = function(playerId) {
 
 module.exports.onPlayerPhishing = function(playerId) {
     let roomState = global.roomStates["r11Lago"];
-    roomState.phishingList.push(playerId);
-    console.log("PLAYER PHISHING:  CREAR NPCs");
+    if (roomState.phishingList.includes(playerId) === false) {
+        roomState.phishingList.push(playerId);
+        console.log("PLAYER PHISHING:  CREAR NPCs");
+        let player = global.gameState.players[playerId];
+        let phishingNPC = generateFakePlayer(player, player.room);
 
-    let player = global.gameState.players[playerId];
+        for (var playerId in global.gameState.players) {
+            if (global.gameState.players[playerId].room === player.room) {
+                console.log('send intro to: ' + playerId);
+                phishingNPC.sendIntroTo(playerId);
+            }
+        }
+    }
+}
 
+const generateFakePlayer = function(player, roomId) {
+    let spawn = DATA.ROOMS[roomId].spawn;
     var phishingNPC = new NPC({
         id: "_" + player.nickName,
-        nickName: player.nickName,
-        room: "r11Lago",
-        x: 22,
-        y: 75,
+        nickName: "_" + player.nickName,
+        room: roomId,
+        x: random(spawn[0], spawn[2]),
+        y: random(spawn[1], spawn[3]),
         avatar: player.avatar,
         colors: player.colors,
         labelColor: "#f00",
         actionId: "FakePlayer"
     });
 
+    phishingNPC.behavior = setTimeout(function ramble() {
+        var dice = random(0, 100);
+
+        if (dice < 40) {
+            let msg = global.phishingTalk[Math.floor(random(0, global.phishingTalk.length - 1))];
+            msg = msg.replace("NAME", player.nickName);
+            phishingNPC.talk(msg);
+            phishingNPC.move(random(17, 113) * 2, random(76, 98) * 2);
+            phishingNPC.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+        else if (dice < 60) {
+            phishingNPC.move(random(17, 113) * 2, random(76, 98) * 2);
+            phishingNPC.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+        else {
+            phishingNPC.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+
+
+    }, random(1000, 2000));
+
+    return phishingNPC;
 }
 
-module.exports.onFakePlayer = function() {
-    console.log('HABLANDO FAKE');
+const destroyFakePlayer = function(player) {
+    for (var NPCId in global.gameState.NPCs) {
+        var npc = global.gameState.NPCs[NPCId];
+
+        if (npc.id === "_" + player.nickName) {
+            //to kill the bot
+            clearTimeout(npc.behavior);
+            npc.delete();
+        }
+    }
+}
+
+module.exports.onFakePlayer = function(playerId) {
+    let msg = global.phishingTalk[Math.floor(random(0, global.phishingTalk.length - 1))];
+    let player = global.gameState.players[playerId];
+    msg = msg.replace("NAME", player.nickName);
+    if (global.gameState.NPCs['_'+player.nickName]) {
+        global.gameState.NPCs['_'+player.nickName].talk(msg);
+    }
+}
+
+module.exports.onDenunciarPhishing = function(playerId) {
+    let roomState = global.roomStates["r11Lago"];
+    var index = roomState.phishingList.indexOf(playerId);
+    if (index !== -1) {
+        roomState.phishingList.splice(index, 1);
+    }
+    let player = global.gameState.players[playerId];
+
+    destroyFakePlayer(player);
 }
