@@ -4,6 +4,12 @@
 require("dotenv").config();
 const DATA = require("./data");
 
+console.silentLog = function(msg) {
+    if (!process.env.VERBOSE || process.env.VERBOSE === 'true') {
+        console.log(msg);
+    }
+}
+
 //.env content
 /*
 ADMINS=username1|pass1,username2|pass2
@@ -16,10 +22,11 @@ MAILPASS = *****
 MAILTO = to@domain.com
 MAILBCC = bcc@domain.com
 TIMEZONE = "Europe/Madrid"
+VERBOSE = false
 */
 
 let allowTrafficLog = false;
-// console.log('traffic log ', allowTrafficLog);
+// console.silentLog('traffic log ', allowTrafficLog);
 
 var port = process.env.PORT || 3000;
 
@@ -112,9 +119,9 @@ if (process.env.TRAFFICLOG != null) {
 
         // every day at 00:00 it changes log filename
         cron.schedule('0 0 0 * * *', () => {
-            console.log('--> cron activity: change log filename');
+            console.silentLog('--> cron activity: change log filename');
             logFileName = tLog.changeLogFileName(Date.now());
-            console.log('new log filename ' + logFileName);
+            console.silentLog('new log filename ' + logFileName);
             // testing
             mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
         }, {
@@ -124,7 +131,7 @@ if (process.env.TRAFFICLOG != null) {
         // every day at 04:00 it collects all previous day logs
         // and move logs to archive folder
         cron.schedule('0 4 * * *', () => {
-            console.log('--> cron activity: generate yesterday resume');
+            console.silentLog('--> cron activity: generate yesterday resume');
             let dailyResume = tLog.generateDailyLog();
             // testing
             mailer.sendMail('cron 04:00', 'generate yesterday resume ' + dailyResume);
@@ -135,7 +142,7 @@ if (process.env.TRAFFICLOG != null) {
         // every monday at 06:00 it collects all daily logs from previous week
         // and move daily logs to archiveDaily folder
         cron.schedule('0 6 * * 1', () => {
-            console.log('--> cron activity: generate weekly resume');
+            console.silentLog('--> cron activity: generate weekly resume');
             let weeklyResume = tLog.generateWeeklyLog();
             // testing
             mailer.sendMail('cron monday 06:00', 'generate weekly resume ' + weeklyResume);
@@ -146,7 +153,7 @@ if (process.env.TRAFFICLOG != null) {
         // every monday at 06:30 it sends a mail with weekly report
         // and move weekly logs to archiveWeekly folder
         cron.schedule('30 6 * * 1', () => {
-            console.log('--> cron activity: send weekly resume');
+            console.silentLog('--> cron activity: send weekly resume');
             tLog.sendWeeklyLog();
             // testing
             mailer.sendMail('cron monday 06:30', 'send weekly resume');
@@ -169,7 +176,7 @@ io.on("connection", function (socket) {
             var p = gameState.players[socket.id];
             p.floodCount++;
             if (p.floodCount > PACKETS_PER_SECONDS) {
-                console.log(socket.id + " is flooding! BAN BAN BAN");
+                console.silentLog(socket.id + " is flooding! BAN BAN BAN");
 
 
                 if (p.IP != "") {
@@ -186,7 +193,7 @@ io.on("connection", function (socket) {
 
 
     //this appears in the terminal
-    console.log("A user connected");
+    console.silentLog("A user connected");
 
     //this is sent to the client upon connection
     socket.emit("serverWelcome", VERSION, DATA, START_TIME);
@@ -194,7 +201,7 @@ io.on("connection", function (socket) {
     //wait for the player to send their name and info, then broadcast them
     socket.on("join", function (playerInfo) {
 
-        //console.log("Number of sockets " + Object.keys(io.sockets.connected).length);
+        //console.silentLog("Number of sockets " + Object.keys(io.sockets.connected).length);
 
         try {
 
@@ -208,10 +215,10 @@ io.on("connection", function (socket) {
                 }
 
             if (playerInfo.nickName == "")
-                console.log("New user joined the server in lurking mode " + socket.id + " " + IP);
+                console.silentLog("New user joined the server in lurking mode " + socket.id + " " + IP);
             else {
                 // avoid password appear in the log
-                console.log("New user joined the game: " + playerInfo.nickName.split('|')[0] + " avatar# " + playerInfo.avatar + " colors# " + playerInfo.colors + " " + socket.id);
+                console.silentLog("New user joined the game: " + playerInfo.nickName.split('|')[0] + " avatar# " + playerInfo.avatar + " colors# " + playerInfo.colors + " " + socket.id);
 
                 if (allowTrafficLog === true) {
                     let data = [playerInfo.nickName.split('|')[0], playerInfo.room, IP ? IP : '-'];
@@ -223,7 +230,7 @@ io.on("connection", function (socket) {
             var myRoom = io.sockets.adapter.rooms[playerInfo.room];
             if (myRoom != undefined) {
                 roomPlayers = myRoom.length + 1;
-                console.log("There are now " + roomPlayers + " users in " + playerInfo.room);
+                console.silentLog("There are now " + roomPlayers + " users in " + playerInfo.room);
             }
 
             var serverPlayers = Object.keys(io.sockets.connected).length + 1;
@@ -235,7 +242,7 @@ io.on("connection", function (socket) {
                 var index = banned.indexOf(IP);
                 //found
                 if (index > -1) {
-                    console.log("ATTENTION: banned " + IP + " is trying to log in again");
+                    console.silentLog("ATTENTION: banned " + IP + " is trying to log in again");
                     isBanned = true;
                     socket.emit("errorMessage", "You have been banned");
                     socket.disconnect();
@@ -256,11 +263,11 @@ io.on("connection", function (socket) {
             }
             //prevent a hacked client from duplicating players
             else if (gameState.players[socket.id] != null) {
-                console.log("ATTENTION: there is already a player associated to the socket " + socket.id);
+                console.silentLog("ATTENTION: there is already a player associated to the socket " + socket.id);
             }
             else if ((serverPlayers > MAX_PLAYERS && MAX_PLAYERS != -1) || (roomPlayers > MAX_PLAYERS_PER_ROOM && MAX_PLAYERS_PER_ROOM != -1)) {
                 //limit the number of players
-                console.log("ATTENTION: " + playerInfo.room + " reached maximum capacity");
+                console.silentLog("ATTENTION: " + playerInfo.room + " reached maximum capacity");
                 socket.emit("errorMessage", "The server is full, please try again later.");
                 socket.disconnect();
             }
@@ -279,7 +286,7 @@ io.on("connection", function (socket) {
                     val = validateName(playerInfo.nickName);
 
                 if (val == 0 || val == 3) {
-                    console.log("ATTENTION: " + socket.id + " tried to bypass username validation");
+                    console.silentLog("ATTENTION: " + socket.id + " tried to bypass username validation");
                 }
                 else {
 
@@ -288,7 +295,7 @@ io.on("connection", function (socket) {
                     playerInfo.nickName = combo[0];
 
                     if (val == 2)
-                        console.log(playerInfo.nickName + " joins as admin");
+                        console.silentLog(playerInfo.nickName + " joins as admin");
 
                     //the player objects on the client will keep track of the room
                     var newPlayer = { id: socket.id, nickName: filter.clean(playerInfo.nickName), colors: playerInfo.colors, room: playerInfo.room, avatar: playerInfo.avatar, x: playerInfo.x, y: playerInfo.y };
@@ -308,7 +315,7 @@ io.on("connection", function (socket) {
 
                     //send the user to the default room
                     socket.join(playerInfo.room, function () {
-                        //console.log(socket.rooms);
+                        //console.silentLog(socket.rooms);
                     });
 
                     newPlayer.new = true;
@@ -342,11 +349,11 @@ io.on("connection", function (socket) {
                     }
 
 
-                    console.log("There are now " + Object.keys(gameState.players).length + " players on this server. Total visits " + visits);
+                    console.silentLog("There are now " + Object.keys(gameState.players).length + " players on this server. Total visits " + visits);
                 }
             }
         } catch (e) {
-            console.log("Error on join, object malformed from" + socket.id + "?");
+            console.silentLog("Error on join, object malformed from" + socket.id + "?");
             console.error(e);
         }
     });
@@ -355,7 +362,7 @@ io.on("connection", function (socket) {
     //or I would end up with ghost players
     socket.on("disconnect", function () {
         try {
-            console.log("Player disconnected " + socket.id);
+            console.silentLog("Player disconnected " + socket.id);
 
             var playerObject = gameState.players[socket.id];
 
@@ -379,13 +386,13 @@ io.on("connection", function (socket) {
             //send the disconnect
             //delete the player object
             delete gameState.players[socket.id];
-            console.log("There are now " + Object.keys(gameState.players).length + " players on this server");
+            console.silentLog("There are now " + Object.keys(gameState.players).length + " players on this server");
 
             if (allowTrafficLog === true)
                 tLog.appendToLog(logFileName, socket.id, 'disconnect');
         }
         catch (e) {
-            console.log("Error on disconnect, object malformed from" + socket.id + "?");
+            console.silentLog("Error on disconnect, object malformed from" + socket.id + "?");
             console.error(e);
         }
     });
@@ -404,7 +411,7 @@ io.on("connection", function (socket) {
                 }
             }
             else {
-                console.log("ATTENTION: Illegitimate intro from " + socket.id);
+                console.silentLog("ATTENTION: Illegitimate intro from " + socket.id);
             }
         }
     });
@@ -422,7 +429,7 @@ io.on("connection", function (socket) {
                 //Admin commands can be typed as messages
                 //is this an admin
                 if (gameState.players[socket.id].admin && obj.message.charAt(0) == "/") {
-                    console.log("Admin " + gameState.players[socket.id].nickName + " attempts command " + obj.message);
+                    console.silentLog("Admin " + gameState.players[socket.id].nickName + " attempts command " + obj.message);
                     adminCommand(socket, obj.message);
                 }
                 else {
@@ -450,7 +457,7 @@ io.on("connection", function (socket) {
                     var test4 = obj.message.replace(/\s/g, "");
 
                     if (filter.isProfane(test) || filter.isProfane(test2) || filter.isProfane(test3) || test4 == "") {
-                        console.log(socket.id + " is problematic");
+                        console.silentLog(socket.id + " is problematic");
                     }
                     else {
 
@@ -461,7 +468,7 @@ io.on("connection", function (socket) {
                             obj.message = MOD[obj.room + "TalkFilter"](gameState.players[socket.id], obj.message);
 
                             if (obj.message == null) {
-                                console.log("MOD: Warning - TalkFilter should return a message ");
+                                console.silentLog("MOD: Warning - TalkFilter should return a message ");
                                 obj.message = "";
                             }
 
@@ -479,7 +486,7 @@ io.on("connection", function (socket) {
                 }
             }
         } catch (e) {
-            console.log("Error on talk, object malformed from" + socket.id + "?");
+            console.silentLog("Error on talk, object malformed from" + socket.id + "?");
             console.error(e);
         }
 
@@ -498,12 +505,12 @@ io.on("connection", function (socket) {
 
             if (roomPlayers > MAX_PLAYERS_PER_ROOM && MAX_PLAYERS_PER_ROOM != -1) {
                 //limit the number of players
-                console.log("ATTENTION: " + obj.to + " reached maximum capacity");
+                console.silentLog("ATTENTION: " + obj.to + " reached maximum capacity");
                 //keep the player in game, send a message
                 socket.emit("godMessage", "The room looks full");
             }
             else {
-                //console.log("Player " + socket.id + " moved from " + obj.from + " to " + obj.to);
+                //console.silentLog("Player " + socket.id + " moved from " + obj.from + " to " + obj.to);
 
                 socket.leave(obj.from);
                 socket.join(obj.to);
@@ -556,7 +563,7 @@ io.on("connection", function (socket) {
                 }
             }
         } catch (e) {
-            console.log("Error on join, object malformed from" + socket.id + "?");
+            console.silentLog("Error on join, object malformed from" + socket.id + "?");
             console.error(e);
         }
 
@@ -571,7 +578,7 @@ io.on("connection", function (socket) {
             io.to(obj.room).emit("playerMoved", { id: socket.id, x: obj.x, y: obj.y, destinationX: obj.destinationX, destinationY: obj.destinationY });
 
         } catch (e) {
-            console.log("Error on join, object malformed from" + socket.id + "?");
+            console.silentLog("Error on join, object malformed from" + socket.id + "?");
             console.error(e);
         }
     });
@@ -585,7 +592,7 @@ io.on("connection", function (socket) {
             //send the code 0 no - 1 ok - 2 admin
             socket.emit("nameValidation", res);
         } catch (e) {
-            console.log("Error on sendName " + socket.id + "?");
+            console.silentLog("Error on sendName " + socket.id + "?");
             console.error(e);
         }
     });
@@ -595,7 +602,7 @@ io.on("connection", function (socket) {
         try {
             io.to(obj.room).emit("playerEmoted", socket.id, obj.em);
         } catch (e) {
-            console.log("Error on emote " + socket.id + "?");
+            console.silentLog("Error on emote " + socket.id + "?");
             console.error(e);
         }
     });
@@ -603,24 +610,24 @@ io.on("connection", function (socket) {
     //user afk
     socket.on("focus", function (obj) {
         try {
-            //console.log(socket.id + " back from AFK");
+            //console.silentLog(socket.id + " back from AFK");
             io.to(obj.room).emit("playerFocused", socket.id);
             if (allowTrafficLog === true)
                 tLog.appendToLog(logFileName, socket.id, 'focus');
         } catch (e) {
-            console.log("Error on focus " + socket.id + "?");
+            console.silentLog("Error on focus " + socket.id + "?");
             console.error(e);
         }
     });
 
     socket.on("blur", function (obj) {
         try {
-            //console.log(socket.id + " is AFK");
+            //console.silentLog(socket.id + " is AFK");
             io.to(obj.room).emit("playerBlurred", socket.id)
             if (allowTrafficLog === true)
                 tLog.appendToLog(logFileName, socket.id, "blur");
         } catch (e) {
-            console.log("Error on blur " + socket.id + "?");
+            console.silentLog("Error on blur " + socket.id + "?");
             console.error(e);
         }
     });
@@ -631,7 +638,7 @@ io.on("connection", function (socket) {
 
         if (MOD["on" + aId] != null) {
             //call it!
-            //console.log("on" + aId + " exists in the mod, call it");
+            //console.silentLog("on" + aId + " exists in the mod, call it");
             MOD["on" + aId](socket.id);
         }
     });
@@ -640,7 +647,7 @@ io.on("connection", function (socket) {
         try {
             tLog.appendToLog(logFileName, socket.id, "openLink", [link]);
         } catch (e) {
-            console.log("Error on openLink " + socket.id + " listener?");
+            console.silentLog("Error on openLink " + socket.id + " listener?");
             console.error(e);
         }
     })
@@ -649,7 +656,7 @@ io.on("connection", function (socket) {
         try {
             tLog.appendToLog(logFileName, socket.id, "openIframe", [link]);
         } catch (e) {
-            console.log("Error on openIframe " + socket.id + " listener?");
+            console.silentLog("Error on openIframe " + socket.id + " listener?");
             console.error(e);
         }
     })
@@ -658,7 +665,7 @@ io.on("connection", function (socket) {
         try {
             tLog.appendToLog(logFileName, socket.id, "closeIframe", [link]);
         } catch (e) {
-            console.log("Error on closeIframe " + socket.id + " listener?");
+            console.silentLog("Error on closeIframe " + socket.id + " listener?");
             console.error(e);
         }
     })
@@ -666,9 +673,9 @@ io.on("connection", function (socket) {
     socket.on("poolAnswers", function (data) {
         try {
             tLog.appendToLog(logFileName, socket.id, "poolAnswers", data);
-            // console.log(socket.id, "poolAnswers", data);
+            // console.silentLog(socket.id, "poolAnswers", data);
         } catch (e) {
-            console.log("Error on closeIframe " + socket.id + " listener?");
+            console.silentLog("Error on closeIframe " + socket.id + " listener?");
             console.error(e);
         }
     })
@@ -729,7 +736,7 @@ function validateName(nn) {
     var id = idByName(nn);
     if (id != null) {
         duplicate = true;
-        console.log("There is already a player named " + nn);
+        console.silentLog("There is already a player named " + nn);
     }
 
     //i hate this double negative logic but I hate learning regex more
@@ -741,7 +748,7 @@ function validateName(nn) {
     else if (duplicate || reserved)
         return 0
     else if (admin) {
-        console.log(nn + " logging as admin");
+        console.silentLog(nn + " logging as admin");
         return 2
     }
     else
@@ -864,7 +871,7 @@ function adminCommand(adminSocket, str) {
         }
     }
     catch (e) {
-        console.log("Error admin command");
+        console.silentLog("Error admin command");
         console.error(e);
     }
 }
@@ -909,7 +916,7 @@ function IPByName(nick) {
 
 //listen to the port 3000 this powers the whole socket.io
 http.listen(port, function () {
-    console.log("listening on *:3000");
+    console.silentLog("listening on *:3000");
 });
 
 //check the last activity and disconnect players that have been idle for too long
@@ -920,7 +927,7 @@ setInterval(function () {
         if (gameState.players.hasOwnProperty(id)) {
 
             if (gameState.players[id].nickName != "" && (time - gameState.players[id].lastActivity) > ACTIVITY_TIMEOUT) {
-                console.log(id + " has been idle for more than " + ACTIVITY_TIMEOUT + " disconnecting");
+                console.silentLog(id + " has been idle for more than " + ACTIVITY_TIMEOUT + " disconnecting");
                 io.sockets.sockets[id].emit("refresh");
                 io.sockets.sockets[id].disconnect();
             }
@@ -936,7 +943,7 @@ var filter = new Filter({ emptyList: true });
 filter.addWords(...myBadWords);
 
 //p5 style alias
-function print(s) { console.log(s); }
+function print(s) { console.silentLog(s); }
 
 /*
 NPC 
@@ -947,7 +954,7 @@ is controlled by the server
 */
 
 global.NPC = function (o) {
-    console.log("Create NPC " + o.id + " in room " + o.room + " nickNamed " + o.nickName);
+    console.silentLog("Create NPC " + o.id + " in room " + o.room + " nickNamed " + o.nickName);
 
     this.id = o.id;
     this.nickName = o.nickName;
@@ -985,7 +992,7 @@ global.NPC = function (o) {
                 actionId: this.actionId
             });
         } else {
-            console.log('intro error with ' + pId);
+            console.silentLog('intro error with ' + pId);
         }
         
     }
@@ -1044,5 +1051,5 @@ try {
     }
 }
 catch (e) {
-    console.log(e);
+    console.silentLog(e);
 }

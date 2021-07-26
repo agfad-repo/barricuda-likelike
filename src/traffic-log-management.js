@@ -16,8 +16,8 @@ module.exports = {
     },
     writeToFile: function (file, data) {
         fs.writeFile(file, data, 'utf8', (err) => {
-            if (err) return console.log(`Error writing file ` + file + ` : ${err}`);
-            console.log(`File ` + file + ` is written successfully!`);
+            if (err) return console.silentLog(`Error writing file ` + file + ` : ${err}`);
+            console.silentLog(`File ` + file + ` is written successfully!`);
         });
     },
     // data is an array with all data
@@ -30,8 +30,8 @@ module.exports = {
         }
         content += '\n';
         fs.appendFile(file, content, (err) => {
-            if (err) return console.log(`Error appending to file ` + file + ` : ${err}`);
-            console.log(`File ` + file + ` is updated successfully!`);
+            if (err) return console.silentLog(`Error appending to file ` + file + ` : ${err}`);
+            console.silentLog(`File ` + file + ` is updated successfully!`);
         })
     },
     serverStart: function (startTime) {
@@ -72,17 +72,17 @@ module.exports = {
                     fs.readFile(filePath, function(err, buf) {
                         appendFile(dailyLog, buf.toString(), function() {
                             fs.rename(filePath, path.join(archiveDir, file), function() {
-                                console.log(`File ` + yesterdayString + `.txt is updated successfully!`);
-                                console.log('moving log ' + file + ' to archive folder');
+                                console.silentLog(`File ` + yesterdayString + `.txt is updated successfully!`);
+                                console.silentLog('moving log ' + file + ' to archive folder');
                             });
                         });
                     });
                 }
             }
             if (fileCount > 0) {
-                console.log('--> daily log ' + yesterdayString + '.txt generated');
+                console.silentLog('--> daily log ' + yesterdayString + '.txt generated');
             } else {
-                console.log('--> skip daily generation');
+                console.silentLog('--> skip daily generation');
             }
         });
 
@@ -110,9 +110,9 @@ module.exports = {
         // to previous sunday (yesterday)
         let weekDates = this.getPreviousWeekArray();
         let weeklyString = this.getPreviousWeekFileName(weekDates);
-        console.log('generating weekly log' + weeklyString);
-        console.log('previous week', weekDates);
-        console.log('week file ', weeklyString);
+        console.silentLog('generating weekly log' + weeklyString);
+        console.silentLog('previous week', weekDates);
+        console.silentLog('week file ', weeklyString);
 
         let logDir = path.join(__dirname, '../logs');
         let archiveDir = path.join(__dirname, '../logs/archiveDaily');
@@ -124,14 +124,14 @@ module.exports = {
             for (let index = 0; index < files.length; index++) {
                 const file = files[index];
                 if (weekDates.includes(file.split('.')[0])) {
-                    console.log('incluido ' + file);
+                    console.silentLog('incluido ' + file);
                     fileCount++;
                     let filePath = path.join(logDir, file);
                     fs.readFile(filePath, function(err, buf) {
                         appendFile(weeklyLog, buf.toString(), function() {
                             fs.rename(filePath, path.join(archiveDir, file), function() {
-                                console.log(`File ` + weeklyString + `.txt is updated successfully!`);
-                                console.log('moving daily ' + file + ' to archive folder');
+                                console.silentLog(`File ` + weeklyString + `.txt is updated successfully!`);
+                                console.silentLog('moving daily ' + file + ' to archive folder');
                             });
                         });
                     })
@@ -148,13 +148,13 @@ module.exports = {
         let archiveDir = path.join(__dirname, '../logs/archiveWeekly');
         let weeklyLog = path.join(logDir, weeklyString + '.txt');
 
-        console.log('sending file ' + weeklyString);
+        console.silentLog('sending file ' + weeklyString);
         
         let subject = "📊📋 Log likelike Test ✔ 🕰️📬 " + weeklyString;
         let content = "Automatic traffic report. Do not reply.";
         mailer.sendMail(subject, content, weeklyString + '.txt', weeklyLog, function() {
             fs.rename(weeklyLog, path.join(archiveDir, weeklyString + '.txt'), function() {
-                console.log('moving weekly ' + weeklyString + ' to archive folder');
+                console.silentLog('moving weekly ' + weeklyString + ' to archive folder');
             })
         });
     }

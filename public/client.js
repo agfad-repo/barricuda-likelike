@@ -14,6 +14,19 @@ var VERSION = "1.0";
 var QUICK_LOGIN = false;
 var DEBUG_CLICKS = false;
 var DEBUG_SPRITES = false;
+var DEBUG_CONSOLE = false;
+
+console.silentLog = function(msg) {
+    if (DEBUG_CONSOLE) {
+        console.log(msg);
+    }
+}
+
+silentPrint = function(msg) {
+    if (DEBUG_CONSOLE) {
+        print(msg);
+    }
+}
 
 //true: preview the room as invisible user
 //false: go directly to the login without previewing the room
@@ -430,7 +443,7 @@ function setup() {
     socket.on("serverWelcome",
         function (serverVersion, DATA, _START_TIME) {
             if (socket.id) {
-                console.log("Welcome! Server version: " + serverVersion + " - client version " + VERSION + " started " + _START_TIME);
+                console.silentLog("Welcome! Server version: " + serverVersion + " - client version " + VERSION + " started " + _START_TIME);
                 START_TIME = _START_TIME;
 
                 //this is before canvas so I have to html brutally
@@ -451,12 +464,12 @@ function setup() {
                         if (room.bg != null)
                             room.bgGraphics = loadImage(ASSETS_FOLDER + room.bg);
                         else
-                            console.log("WARNING: room " + roomId + " has no background graphics");
+                            console.silentLog("WARNING: room " + roomId + " has no background graphics");
 
                         if (room.area != null)
                             room.areaGraphics = loadImage(ASSETS_FOLDER + room.area);
                         else
-                            console.log("WARNING: room " + roomId + " has no area graphics");
+                            console.silentLog("WARNING: room " + roomId + " has no area graphics");
 
                         if (room.music != null) {
                             room.musicLoop = loadSound(ASSETS_FOLDER + room.music);
@@ -488,7 +501,7 @@ function setup() {
                 }
 
 
-                print(">>> DATA RECEIVED " + (DATA.ROOMS != null));
+                silentPrint(">>> DATA RECEIVED " + (DATA.ROOMS != null));
             }
         }
     );
@@ -536,7 +549,7 @@ function draw() {
         }
 
         if (dataLoaded)
-            print("Room data and assets loaded");
+            silentPrint("Room data and assets loaded");
     }
 
     if (dataLoaded && !gameStarted) {
@@ -630,7 +643,7 @@ function newGame() {
     //because I've got the data from the server and I don't want to reinitiate everything 
     //if the server restarts
     if (socket != null) {
-        //console.log("Lurker joins " + socket.id);
+        //console.silentLog("Lurker joins " + socket.id);
         socket.disconnect();
         socket = null;
     }
@@ -675,7 +688,7 @@ function newGame() {
                 var sy = -100;
 
                 if (ROOMS[SETTINGS.defaultRoom].spawn == null) {
-                    console.log("WARNING: " + SETTINGS.defaultRoom + " has no spawn area");
+                    console.silentLog("WARNING: " + SETTINGS.defaultRoom + " has no spawn area");
                 }
                 else {
                     spawnZone = ROOMS[SETTINGS.defaultRoom].spawn;
@@ -693,7 +706,7 @@ function newGame() {
                 socket.emit("join", { nickName: nickName, colors: currentColors, avatar: currentAvatar, room: me.room, x: me.x, y: me.y });
             }
         } catch (e) {
-            console.log("Error on connect");
+            console.silentLog("Error on connect");
             console.error(e);
         }
 
@@ -706,7 +719,7 @@ function newGame() {
             try {
 
 
-                //console.log("new player in the room " + p.room + " " + p.id + " " + p.x + " " + p.y + " color " + p.color);
+                //console.silentLog("new player in the room " + p.room + " " + p.id + " " + p.x + " " + p.y + " color " + p.color);
 
                 //stop moving
                 p.destinationX = p.x;
@@ -807,7 +820,7 @@ function newGame() {
 
                     areas = ROOMS[p.room].areaGraphics;
                     if (areas == null)
-                        print("ERROR: no area assigned to  " + p.room);
+                        silentPrint("ERROR: no area assigned to  " + p.room);
 
                     //create sprites
                     if (ROOMS[p.room].things != null)
@@ -848,7 +861,7 @@ function newGame() {
                     //
                     players[p.id] = new Player(p);
 
-                    //console.log("I shall introduce myself to " + p.id);
+                    //console.silentLog("I shall introduce myself to " + p.id);
 
                     //If I"m not the new player send an introduction to the new player
                     socket.emit("intro", p.id, {
@@ -882,7 +895,7 @@ function newGame() {
                     firstLog = false;
                 }
 
-                console.log("There are now " + Object.keys(players).length + " players in this room");
+                console.silentLog("There are now " + Object.keys(players).length + " players in this room");
 
                 //calling a custom function roomnameEnter if it exists
                 if (window[p.room + "Enter"] != null) {
@@ -891,7 +904,7 @@ function newGame() {
 
             }
             catch (e) {
-                console.log("Error on playerJoined");
+                console.silentLog("Error on playerJoined");
                 console.error(e);
             }
         }
@@ -901,8 +914,8 @@ function newGame() {
     socket.on("onIntro",
         function (p) {
             try {
-                //console.log("Hello newcomer I'm " + p.nickName + " " + p.id);
-                //console.log("INTRO from " + p.room + " " + me.room);
+                //console.silentLog("Hello newcomer I'm " + p.nickName + " " + p.id);
+                //console.silentLog("INTRO from " + p.room + " " + me.room);
 
                 players[p.id] = new Player(p);
 
@@ -915,9 +928,9 @@ function newGame() {
                     if (window[p.room + "Intro"] != null) {
                         window[p.room + "Intro"](p.id, p.room);
                     }
-                console.log("There are now " + Object.keys(players).length + " players in this room");
+                console.silentLog("There are now " + Object.keys(players).length + " players in this room");
             } catch (e) {
-                console.log("Error on onIntro");
+                console.silentLog("Error on onIntro");
                 console.error(e);
             }
         }
@@ -928,7 +941,7 @@ function newGame() {
     socket.on("playerMoved",
         function (p) {
             try {
-                //console.log(p.id + " moves to: " + p.destinationX + " " + p.destinationY);
+                //console.silentLog(p.id + " moves to: " + p.destinationX + " " + p.destinationY);
 
                 //make sure the player exists
                 if (players.hasOwnProperty(p.id)) {
@@ -937,7 +950,7 @@ function newGame() {
                     players[p.id].destinationY = p.destinationY;
                 }
             } catch (e) {
-                console.log("Error on playerMoved");
+                console.silentLog("Error on playerMoved");
                 console.error(e);
             }
         });
@@ -947,10 +960,10 @@ function newGame() {
     socket.on("playerLeft",
         function (p) {
             try {
-                console.log("Player " + p.id + " left " + p.room);
+                console.silentLog("Player " + p.id + " left " + p.room);
 
                 if (p.id == me.id) {
-                    print("STOP MUSIC");
+                    silentPrint("STOP MUSIC");
                     //stop music before you leave, if any
                     if (ROOMS[p.room].musicLoop != null) {
                         ROOMS[p.room].musicLoop.stop();
@@ -987,10 +1000,10 @@ function newGame() {
                 }
 
                 delete players[p.id];
-                console.log("There are now " + Object.keys(players).length + " players in this room");
+                console.silentLog("There are now " + Object.keys(players).length + " players in this room");
 
             } catch (e) {
-                console.log("Error on playerLeft");
+                console.silentLog("Error on playerLeft");
                 console.error(e);
             }
         }
@@ -1003,7 +1016,7 @@ function newGame() {
         function (p) {
             try {
 
-                console.log("new message from " + p.id + ": " + p.message + " bubble color " + p.color);
+                console.silentLog("new message from " + p.id + ": " + p.message + " bubble color " + p.color);
 
                 //make sure the player exists in the client
                 if (players.hasOwnProperty(p.id)) {
@@ -1028,7 +1041,7 @@ function newGame() {
                     }
                 }
             } catch (e) {
-                console.log("Error on playerTalked");
+                console.silentLog("Error on playerTalked");
                 console.error(e);
             }
         }
@@ -1051,7 +1064,7 @@ function newGame() {
                     blips[floor(random(0, blips.length))].play();
                 }
             } catch (e) {
-                console.log("Error on nonPlayerTalked");
+                console.silentLog("Error on nonPlayerTalked");
                 console.error(e);
             }
         }
@@ -1112,7 +1125,7 @@ function newGame() {
                 }
 
             } catch (e) {
-                console.log("Error on playerTalked");
+                console.silentLog("Error on playerTalked");
                 console.error(e);
             }
         });
@@ -1131,13 +1144,13 @@ function newGame() {
             //change the value
             dataThing[t.property] = t.value;
 
-            print("Change property " + t.property + " of " + t.thingId + " in room " + t.room + " to " + t.value);
+            silentPrint("Change property " + t.property + " of " + t.thingId + " in room " + t.room + " to " + t.value);
 
             //recreate it
             createThing(dataThing, t.thingId);
         }
         else {
-            //print("Warning: I can't find " + t.thingId + " in room " + t.room);
+            //silentPrint("Warning: I can't find " + t.thingId + " in room " + t.room);
         }
     });
 
@@ -1173,7 +1186,7 @@ function newGame() {
 
     //when the client realizes it's being disconnected
     socket.on("disconnect", function () {
-        //console.log("OH NO");
+        //console.silentLog("OH NO");
     });
 
     //server forces refresh (on disconnect or to force load a new version of the client)
@@ -1184,7 +1197,7 @@ function newGame() {
 
     // listen to change background anim
     socket.on("changeBgAnim", function (animName) {
-        // console.log('client bgAnim listener', animName);
+        // console.silentLog('client bgAnim listener', animName);
         if (socket.id) {
             let background;
             allSprites.forEach((sprite) => {
@@ -1398,7 +1411,7 @@ function update() {
                     //because I really don't want to enforce this on the server side
                     var illegal = isObstacle(p.x, p.y, p.room, areas);
                     if (illegal) {
-                        //print(">>>>>>>>>>>" + p.id + " is in an illegal position<<<<<<<<<<<<<<<");
+                        //silentPrint(">>>>>>>>>>>" + p.id + " is in an illegal position<<<<<<<<<<<<<<<");
                         p.ignore = true;
                         if (p.sprite != null)
                             p.sprite.ignore = true;
@@ -2086,7 +2099,7 @@ function canvasPressed() {
 function canvasReleased() {
 
     if (DEBUG_CLICKS)
-        print(["CLICK ", window.colorClicked, mouseButton , round(mouseX/2), round(mouseY/2)].join(" "));
+        silentPrint(["CLICK ", window.colorClicked, mouseButton , round(mouseX/2), round(mouseY/2)].join(" "));
 
     if (screen == "error") {
     }
@@ -2336,7 +2349,7 @@ function sendPool(poolId, questions, onlyValidate) {
     
     
     if (valid && !onlyValidate) {
-        console.log('sending pool');
+        console.silentLog('sending pool');
         var section = document.getElementById(activeSection);
         section.style.opacity = 0
         section.style.pointerEvents = 'none';
@@ -2405,7 +2418,7 @@ function getCommand(c, roomId) {
         }
     }
     catch (e) {
-        console.log("Get command error " + roomId + " color " + c);
+        console.silentLog("Get command error " + roomId + " color " + c);
         console.error(e);
     }
 
@@ -2415,7 +2428,7 @@ function getCommand(c, roomId) {
 
 function executeCommand(c) {
     areaLabel = "";
-    //print("Executing command " + c.cmd);
+    //silentPrint("Executing command " + c.cmd);
 
     switch (c.cmd) {
         case "enter":
@@ -2439,7 +2452,7 @@ function executeCommand(c) {
                     socket.emit("changeRoom", { from: me.room, to: c.room, x: sx, y: sy });
                 }
                 else {
-                    console.log("ERROR: No spawn point or area set for " + c.room);
+                    console.silentLog("ERROR: No spawn point or area set for " + c.room);
                 }
 
 
@@ -2497,7 +2510,7 @@ function executeCommand(c) {
 
             }
             else
-                print("Warning for text: make sure to specify arg as text")
+                silentPrint("Warning for text: make sure to specify arg as text")
             break;
 
 
@@ -2755,7 +2768,7 @@ function nameValidationCallBack(code) {
     if (socket.id) {
 
         if (code == 0) {
-            console.log("Username already taken");
+            console.silentLog("Username already taken");
             var e = document.getElementById("lobby-error");
 
             if (e != null)
@@ -2837,7 +2850,7 @@ function paletteSwap(ss, paletteNumbers, t) {
 
             //non transparent pix replace with palette
             for (var j = 0; j < REF_COLORS_RGB.length && !found; j++) {
-                //print("Ref color " + j + " " + palette[j]);
+                //silentPrint("Ref color " + j + " " + palette[j]);
 
                 if (img.pixels[i] == REF_COLORS_RGB[j][0] && img.pixels[i + 1] == REF_COLORS_RGB[j][1] && img.pixels[i + 2] == REF_COLORS_RGB[j][2]) {
                     found = true;
