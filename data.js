@@ -190,6 +190,14 @@ module.exports.ROOMS = {
             h00e436: { cmd: "enter", room: "r06Reciclaje", label: "reciclaje", point: [120, 85], enterPoint: [16, 85], obstacle: false },
             // #ffec27
             hffec27: { cmd: "enter", room: "r08Huella", label: "huella", point: [10, 86], enterPoint: [36, 95], obstacle: false },
+            // #ff00ff
+            hff00ff: { cmd: "text", label: "marioneta 1", txt: "cada vuelta al reloj gano una moneda, tengo que esperar 30 vueltas del reloj para ganar un diamante, si no estoy pendiente los perderé.", lines: 5, url: "https://derechoaljuego.digital/patronesoscuros/temporales/", iframe: true, point: [33, 86], obstacle: false },
+            // #00cc99
+            h00cc99: { cmd: "text", label: "marioneta 2", txt: "dame un like y yo te doy otro, necesito 20 más para desbloquear el logro.", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/sociales/", iframe: true, point: [53, 86], obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "text", label: "marioneta 3", txt: "¿tienes unas monedas? las necesito para ganar.", lines: 2, url: "https://derechoaljuego.digital/patronesoscuros/monetarios/", iframe: true, point: [77, 86], obstacle: false },
+            // #b75714
+            hb75714: { cmd: "text", label: "marioneta 4", txt: "no puedo atenderte, tengo que lograr más estrellas, la última la conseguí hace ya tiempo...", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/sociales/psicologicos/", iframe: true, point: [95, 86], obstacle: false },
         }
     },
     r08Huella: {
@@ -410,11 +418,11 @@ module.exports.ROOMS = {
         }
     },
     r15Pasillo: {
-        bg: "/salas/r09FakeNews.png",
+        bg: "/salas/r15Pasillo.png",
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r09FakeNews_Int.png",
+        area: "/salas/r15Pasillo_Int.png",
         tint: "#fdeac8",
         bubblesY: 44,
         spawn: [40, 85, 90, 95],
@@ -452,7 +460,7 @@ module.exports.ROOMS = {
             // #ff9900
             hff9900: { cmd: "text", label: "terminal", point: [92, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "robot", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
+            h0066ff: { cmd: "text", label: "Borabora", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
         }
     },
     r17SalaCrypto: {
