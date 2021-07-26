@@ -65,6 +65,9 @@ module.exports.initMod = function (io, gameState, DATA) {
             talkCounter: 0,
             talk: false,
             usersList: [],
+        },
+        r17SalaCrypto: {
+            usersList: [],
         }
     };
 
@@ -813,3 +816,13 @@ module.exports.onDenunciarPhishing = function(playerId) {
 
     destroyFakePlayer(player);
 }
+
+module.exports.onCrypto = function(playerId) {
+    let roomState = global.roomStates["r17SalaCrypto"];
+    if (roomState.usersList.length === 0) {
+        this.transferPlayer(playerId, "r15Pasillo", "r17SalaCrypto", 22 * 2, 87 * 2);
+    } else {
+        io.to(playerId).emit('godMessage', "lo siento, está ocupado. A la sala de criptografía se entra de 1 en 1. Espera un poco");
+    }
+}
+

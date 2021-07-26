@@ -437,7 +437,8 @@ module.exports.ROOMS = {
             // // #ff00ff
             // hff00ff: { cmd: "text", label: "news", point: [30, 80], obstacle: false },
             // #9900cc
-            h9900cc: { cmd: "enter", room: "r17SalaCrypto", label: "cripto", point: [70, 80], enterPoint: [15, 85], obstacle: false },
+            // h9900cc: { cmd: "enter", room: "r17SalaCrypto", label: "cripto", point: [70, 80], enterPoint: [15, 85], obstacle: false },
+            h9900cc: { cmd: "action", label: "cripto", point: [70, 80], actionId: "Crypto", obstacle: false },
         }
     },
     r16Colabora: {
