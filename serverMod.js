@@ -603,6 +603,11 @@ module.exports.onSurvey1 = function(playerId) {
     global.roomStates["r02Entrada"].talk = true;
 }
 
+module.exports.onSurvey2 = function(playerId) {
+    io.to(playerId).emit('godMessage', "¡Gracias por participar!");
+    this.transferPlayer(playerId, "r18Biblioteca", "r01Patio", 64 * 2, 86 * 2);
+}
+
 
 module.exports.onCabinet = function(playerId,) {
     console.log('cabinet----------------action');
@@ -871,7 +876,8 @@ module.exports.onAccess = function(playerId) {
 }
 
 module.exports.onAccessSuccess = function(playerId) {
-    io.to(playerId).emit('godMessage', "¡¡¡Lo has conseguido!!!\n\nEnhorabuena\n\nA continuación haremos otra encuesta");
+    io.to(playerId).emit('godMessage', "Oh ¿lo has logrado? genial, pero seguro has aprendido mucho en el camino y tu perfil digital ha cambiado, ahora que ya tenemos el acceso a tus resultados ¿por qué no vuelves a hacer el test?");
+    io.to(playerId).emit('showFinalPool');    
 }
 
 module.exports.onAccessFailed = function(playerId) {
