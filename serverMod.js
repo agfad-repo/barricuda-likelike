@@ -8,7 +8,7 @@ The functions are called by the engine at crucial points, only if they exist.
 
 //called at the beginning
 module.exports.initMod = function (io, gameState, DATA) {
-    console.log("MOD: Initialized");
+    console.silentLog("MOD: Initialized");
 
     //EVERYTHING GLOBALLLLL
     global.gameState = gameState;
@@ -270,7 +270,7 @@ module.exports.initMod = function (io, gameState, DATA) {
 
 //force change room
 module.exports.transferPlayer = function (playerId, from, to, x, y) {
-    console.log(playerId + " is transfered to " + to);
+    console.silentLog(playerId + " is transfered to " + to);
 
     var s = io.sockets.sockets[playerId];
     var p = gameState.players[playerId];
@@ -397,7 +397,7 @@ module.exports.r03CookiesLeave = function(player, roomId) {
     if (global.roomStates[roomId].usersList.length === 0) {
         global.roomStates['r03Cookies'].monsterActive = false;
         deactivateCookieMonster();
-        // console.log('monstruo----------------off')
+        // console.silentLog('monstruo----------------off')
     }
 }
 
@@ -441,7 +441,7 @@ module.exports.r08HuellaJoin = function(player, roomId) {
 }
 
 module.exports.r09FakeNewsJoin = function(player, roomId) {
-    // console.log("MOD: " + player.nickName + " entered room " + roomId);
+    // console.silentLog("MOD: " + player.nickName + " entered room " + roomId);
     // io.emit('musicExit');
     // io.emit('musicOn', 2);
 }
@@ -593,7 +593,7 @@ module.exports.r17SalaCryptoLeave = function(player, roomId) {
 module.exports.onCookies = function() {
     global.roomStates['r03Cookies'].monsterActive = true;
     activateCookieMonster();
-    // console.log('monstruo----------------activo')
+    // console.silentLog('monstruo----------------activo')
 }
 
 module.exports.onSurvey1 = function(playerId) {
@@ -610,7 +610,7 @@ module.exports.onSurvey2 = function(playerId) {
 
 
 module.exports.onCabinet = function(playerId,) {
-    console.log('cabinet----------------action');
+    console.silentLog('cabinet----------------action');
     this.transferPlayer(playerId, "r13Netiqueta", "r12Resolucion", 10 * 2, 86 * 2);
 }
 
@@ -621,11 +621,11 @@ module.exports.onNpcFixit = function(playerId) {
 }
 
 module.exports.onRecepcionista = function(playerId) {
-    console.log('recepcionista----------------action');
+    console.silentLog('recepcionista----------------action');
 }
 
 module.exports.onDivulgador = function(playerId) {
-    console.log('Divulgador----------------action');
+    console.silentLog('Divulgador----------------action');
     let roomState = global.roomStates["r02Entrada"];
 
     if (roomState.registeredUsers.includes(playerId) === false) {
@@ -775,13 +775,13 @@ module.exports.onPlayerPhishing = function(playerId) {
     let roomState = global.roomStates["r11Lago"];
     if (roomState.phishingList.includes(playerId) === false) {
         roomState.phishingList.push(playerId);
-        console.log("PLAYER PHISHING:  CREAR NPCs");
+        console.silentLog("PLAYER PHISHING:  CREAR NPCs");
         let player = global.gameState.players[playerId];
         let phishingNPC = generateFakePlayer(player, player.room);
 
         for (var playerId in global.gameState.players) {
             if (global.gameState.players[playerId].room === player.room) {
-                console.log('send intro to: ' + playerId);
+                console.silentLog('send intro to: ' + playerId);
                 phishingNPC.sendIntroTo(playerId);
             }
         }

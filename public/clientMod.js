@@ -18,7 +18,7 @@ const phishingTalk = [
 ];
 
 function initMod(playerId, roomId) {
-    print("Mod: " + players[playerId].nickName + " (you) joined the game at " + roomId);
+    silentPrint("Mod: " + players[playerId].nickName + " (you) joined the game at " + roomId);
 
     // add custom client listeners HERE
 
@@ -385,7 +385,7 @@ function phishingSubmit () {
             if (v === players[playerId].nickName) {
                 //if socket !null the connection has been established ie lurk mode
                 if (socket != null) {
-                    console.log('el nombre es: ' + v);
+                    console.silentLog('el nombre es: ' + v);
                     socket.emit("action", "PlayerPhishing");
                 }
             }
@@ -432,11 +432,11 @@ function accessSubmit () {
     let playerId = me.id;
     if (v != "") {
         if (v === '10100') {
-            console.log("¡exito!");
+            console.silentLog("¡exito!");
             hideAccessQuestion();
             socket.emit("action", "AccessSuccess");
         } else {
-            console.log("¡No!");
+            console.silentLog("¡No!");
             hideAccessQuestion();
             socket.emit("action", "AccessFailed");
         }
