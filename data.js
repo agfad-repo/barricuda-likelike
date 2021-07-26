@@ -496,18 +496,19 @@ module.exports.ROOMS = {
             // #aa2244
             haa2244: { cmd: "enter", room: "r17SalaCrypto", label: "crypto", point: [15, 85], enterPoint: [86, 77], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "ordenador", point: [64, 45], obstacle: false },
+            // hb75714: { cmd: "text", label: "ordenador", point: [64, 45], obstacle: false },
+            hb75714: { cmd: "text", label: "ordenador", txt: "Introduce a continuación la clave de acceso", lines: 2, postAction: true, actionId: "Access", point: [64, 45], obstacle: false },
 
             // #ff00ff
-            hff00ff: { cmd: "text", label: "libros", point: [25, 80], txt: "", iframe: true, url:"", obstacle: false },
+            hff00ff: { cmd: "text", lines: 3, label: "pista 1", point: [25, 80], txt: "El precio de la bombilla redondeado que puedes encontrar en el video sobre las cookies", iframe: true, url:"", obstacle: false },
             // #00cc99
-            h00cc99: { cmd: "text", label: "libros", point: [49, 80], txt: "", iframe: true, url:"", obstacle: false },
+            h00cc99: { cmd: "text", lines: 3, label: "pista 2", point: [49, 80], txt: "Suma el precio de la bombilla al año de las noticias del juego sobre fake news ", iframe: true, url:"", obstacle: false },
             // #9900cc
-            h9900cc: { cmd: "text", label: "libros", point: [90, 80], txt: "", iframe: true, url:"", obstacle: false },
+            h9900cc: { cmd: "text", lines: 6, label: "pista 3", point: [90, 80], txt: "Multiplica el número de conexiones de las baleares por 1000 (puedes encontrarlas en el mapa de cables de internet de la sala nube), réstaselo al número que tenías hasta ahora", iframe: true, url:"", obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "libros", point: [30, 45], txt: "", iframe: true, url:"", obstacle: false },
+            hff9900: { cmd: "text", lines: 4, label: "pista 4", point: [30, 45], txt: "Multiplícalo por el número de objetos que recogiste del vertedero para construir tu ordenador", iframe: true, url:"", obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "libros", point: [79, 45], txt: "", iframe: true, url:"", obstacle: false },
+            h0066ff: { cmd: "text", lines: 5, label: "pista 5", point: [79, 45], txt: "Cuenta el número de bloques de eventos (los naranjas) que hay en scratch. Multiplícalos por dos y resta el resultado del número que tenías hasta ahora", iframe: true, url:"", obstacle: false },
 
         }
     },
