@@ -192,7 +192,7 @@ module.exports.ROOMS = {
             // #9900cc
             h9900cc: { cmd: "text", label: "marioneta 3", txt: "¿tienes unas monedas? las necesito para ganar.", lines: 2, url: "https://derechoaljuego.digital/patronesoscuros/monetarios/", iframe: true, point: [77, 86], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "marioneta 4", txt: "no puedo atenderte, tengo que lograr más estrellas, la última la conseguí hace ya tiempo...", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/sociales/psicologicos/", iframe: true, point: [95, 86], obstacle: false },
+            hb75714: { cmd: "text", label: "marioneta 4", txt: "no puedo atenderte, tengo que lograr más estrellas, la última la conseguí hace ya tiempo...", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/psicologicos/", iframe: true, point: [95, 86], obstacle: false },
         }
     },
     r08Huella: {
@@ -356,7 +356,7 @@ module.exports.ROOMS = {
             placa: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [30, 65], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             teclado: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [20, 62], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             mouse: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [12, 66], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
-            compu: { command: { cmd: "text", txt: "denunciar pishing", actionId: 'DenunciarPhishing', postAction: true, point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "denunciar pishing", frames: 1, frameDelay: 60, visible: true },
+            compu: { command: { cmd: "text", txt: "denunciar pishing", url: "https://ihackear.com/que-es-el-phishing/", iframe: true, actionId: 'DenunciarPhishing', postAction: true, point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "denunciar pishing", frames: 1, frameDelay: 60, visible: true },
         }
     },
     r13Netiqueta: {
@@ -377,7 +377,7 @@ module.exports.ROOMS = {
             h29adff: { cmd: "enter", room: "r12Resolucion", label: "Resolución", point: [100, 76], enterPoint: [10, 85], obstacle: false },
         },
         things: {
-            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "wikipedia", command: { cmd: "text", txt: "Iframe netiqueta", iframe: true, url:"https://es.wikipedia.org/wiki/Netiqueta", lines: 1, point: [38, 86] } },
+            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "Netiqueta", command: { cmd: "text", txt: "reglas netiqueta", iframe: true, url:"https://arsgames.net/netiqueta", lines: 1, point: [38, 86] } },
         }
     },
     r14Creacion: {
@@ -454,7 +454,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "arcade", point: [36, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "terminal", point: [92, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "terminal", txt: "Si quieres podemos jugar (no es obligatorio), tendremos que llegar a una página específica de la Wikipedia a partir de otra, seleccionando los enlaces en cada artículo para llegar a nuestro objetivo. ¿De qué página parto y a cuál tengo que llegar?\n\nPide a alguien en la sala que te proponga un reto (debe asegurarse de que están en la wikipedia antes de empezar a jugar).\n  Si no hay nadie cerca prueba con estos: brecha digital - gamergate", lines: 15, point: [92, 80], obstacle: false },
             // #0066ff
             h0066ff: { cmd: "text", label: "Borabora", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
         }
