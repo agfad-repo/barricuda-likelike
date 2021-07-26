@@ -190,6 +190,14 @@ module.exports.ROOMS = {
             h00e436: { cmd: "enter", room: "r06Reciclaje", label: "reciclaje", point: [120, 85], enterPoint: [16, 85], obstacle: false },
             // #ffec27
             hffec27: { cmd: "enter", room: "r08Huella", label: "huella", point: [10, 86], enterPoint: [36, 95], obstacle: false },
+            // #ff00ff
+            hff00ff: { cmd: "text", label: "marioneta 1", txt: "cada vuelta al reloj gano una moneda, tengo que esperar 30 vueltas del reloj para ganar un diamante, si no estoy pendiente los perderé.", lines: 5, url: "https://derechoaljuego.digital/patronesoscuros/temporales/", iframe: true, point: [33, 86], obstacle: false },
+            // #00cc99
+            h00cc99: { cmd: "text", label: "marioneta 2", txt: "dame un like y yo te doy otro, necesito 20 más para desbloquear el logro.", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/sociales/", iframe: true, point: [53, 86], obstacle: false },
+            // #9900cc
+            h9900cc: { cmd: "text", label: "marioneta 3", txt: "¿tienes unas monedas? las necesito para ganar.", lines: 2, url: "https://derechoaljuego.digital/patronesoscuros/monetarios/", iframe: true, point: [77, 86], obstacle: false },
+            // #b75714
+            hb75714: { cmd: "text", label: "marioneta 4", txt: "no puedo atenderte, tengo que lograr más estrellas, la última la conseguí hace ya tiempo...", lines: 3, url: "https://derechoaljuego.digital/patronesoscuros/sociales/psicologicos/", iframe: true, point: [95, 86], obstacle: false },
         }
     },
     r08Huella: {
