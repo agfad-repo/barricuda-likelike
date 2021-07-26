@@ -6,7 +6,7 @@ module.exports.SETTINGS = {
     //minimum time between talk messages enforced by both client and server
     ANTI_SPAM: 1000,
     //shows up at first non lurking login
-    INTRO_TEXT: "Click/tap to move",
+    INTRO_TEXT: "Click/tap para mover",
 };
 
 //miscellaneous assets to preload

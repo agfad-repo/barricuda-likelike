@@ -400,7 +400,7 @@ function phishingSubmit () {
 }
 
 function showAccessQuestion() {
-    document.getElementById("access-message").innerHTML = "password";
+    // document.getElementById("access-message").innerHTML = "password";
     
     var e = document.getElementById("access-form");
     if (e != null)

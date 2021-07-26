@@ -6,7 +6,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <meta name="title" content="FAD likelike beta  Online" />
+    <meta name="title" content="arsgames FAD likelike demo" />
     <meta name="description" content="A tiny MMO" />
 
 
@@ -14,20 +14,20 @@
     <meta name="author" content="Carlos Padial, Molleindustria" />
     <meta name="copyright" content="Carlos Padial, Molleindustria" />
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="The tiniest MMORPG. FAD online meeting point." />
+    <meta name="description" content="The tiniest MMORPG. Arsgames/Fad online meeting point." />
     <meta name="keywords" content="Game,Art,Molleindustria,videogame" />
 
-    <!-- <meta property="og:image" content="" /> -->
-    <meta property="og:title" content="FAD likelike beta  Online" />
+    <meta property="og:image" content="" />
+    <meta property="og:title" content="" />
     <meta property="og:description"
-        content="The tiniest MMORPG. FAD online meeting point." />
+        content="The tiniest MMORPG. Arsgames/Fad online meeting point." />
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@likelikearcade" />
-    <meta name="twitter:title" content="FAD likelike beta  Online" />
+    <meta name="twitter:title" content="" />
     <meta name="twitter:description"
-        content="The tiniest MMORPG. FAD online meeting point." />
-    <!-- <meta name="twitter:image" content="" /> -->
+        content="The tiniest MMORPG. Arsgames/Fad online meeting point." />
+    <meta name="twitter:image" content="" />
 
     <!-- This is a standard p5.js index, NOTE the p5.dom.min.js -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js'></script>
@@ -48,9 +48,10 @@
         <!-- the lobby element is displayed before the canvas is loaded -->
         <div id="lobby-container" style="display: none;">
             <div class="content-center">
-                <div class="lobby-message">What's your name?</div>
+
+                <div class="lobby-message">¿Cual es tu nombre?</div>
                 <form action="" onsubmit="return nameOk()">
-                    <input id="lobby-field" class="lobby-field" placeholder="username" maxlength="16" autocomplete="off"
+                    <input id="lobby-field" class="lobby-field" placeholder="nombre de usuario" maxlength="16" autocomplete="off"
                         autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </form>
                 <div id="lobby-error" class="lobby-error-message"></div>
@@ -70,7 +71,7 @@
 
         <div id="access-container" style="display: none;">
             <div class="content-center">
-                <div id="access-message" class="access-message">¿Como te llamas?</div>
+                <div id="access-message" class="access-message">¿Cual es el código?</div>
                 <form action="" onsubmit="return accessSubmit()">
                     <input id="access-field" class="access-field" placeholder="password" maxlength="16" autocomplete="off"
                         autocorrect="off" autocapitalize="off" spellcheck="false" />
@@ -86,12 +87,12 @@
         <!-- talk form is below canvas getTalkInput is what happens when return is pressed-->
         <form id="join-form" action="" onsubmit="return joinGame()" style="display: none;">
             <!-- call the function below on button press-->
-            <button class="join-button" type="button" onclick="joinGame();">JOIN</button>
+            <button class="join-button" type="button" onclick="joinGame();">ENTRAR</button>
         </form>
 
         <form id="user-form" action="" onsubmit="return nameOk()" style="display: none;">
             <!-- call the function below on button press-->
-            <button class="user-button" type="button" onclick="nameOk();">CONTINUE</button>
+            <button class="user-button" type="button" onclick="nameOk();">CONTINUAR</button>
         </form>
 
         <form id="phishing-form" action="" onsubmit="return phishingSubmit()" style="display: none;">
@@ -106,16 +107,16 @@
 
         <form id="avatar-form" action="" onsubmit="return bodyOk()" style="display: none;">
             <!-- call the function below on button press-->
-            <button class="avatar-button" type="button" onclick="bodyOk();">CONTINUE</button>
+            <button class="avatar-button" type="button" onclick="bodyOk();">CONTINUAR</button>
         </form>
 
         <form id="talk-form" action="" onsubmit="return getTalkInput()" style="display: none;">
-            <input class="talk-field" placeholder="TYPE HERE" maxlength="40" id="chatField" autocomplete="off" />
+            <input class="talk-field" placeholder="ESCRIBE AQUÍ" maxlength="40" id="chatField" autocomplete="off" />
             <!-- call the function below on button press-->
-            <button class="talk-button" type="button" onclick="getTalkInput();">TALK</button>
+            <button class="talk-button" type="button" onclick="getTalkInput();">HABLAR</button>
         </form>
 
-        <button class="exit-frame-button" style="display:none" id="exit-frame-button" type="button" onclick="exitFrame();">back to room</button>
+        <button class="exit-frame-button" style="display:none" id="exit-frame-button" type="button" onclick="exitFrame();">volver a la sala</button>
     </div>
 
     <iframe id="iframe" src="" frameborder="0"></iframe>
