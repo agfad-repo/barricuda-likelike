@@ -126,7 +126,7 @@ module.exports.initMod = function (io, gameState, DATA) {
         "Entre las personas que estáis en la sala",
         "definid las reglas que debería tener este espacio,",
         "podéis enviarlas a",
-        "educacionconectadaarquitecto@fad.com"
+        "educacionconectada@fad.com"
     ];
 
     global.colaboraTalk = [
