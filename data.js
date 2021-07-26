@@ -407,7 +407,7 @@ module.exports.ROOMS = {
             // #0066ff
             h0066ff: { cmd: "text", label: "Videojuegos", txt: "Aprende a crear videojuegos", url: "https://scratch.mit.edu/", iframe: false, point: [47, 85], obstacle: false },
             // #999900
-            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "https://pulseboy.com", iframe: true, point: [66, 85], obstacle: false },
+            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "http://sampulator.com/", iframe: true, point: [66, 85], obstacle: false },
             // #0f8a61
             h0f8a61: { cmd: "text", label: "Realidad virtual", txt: "Aprende a crear realidad virtual", url: " https://hubs.mozilla.com/", iframe: false, point: [84, 85], obstacle: false },
             // #98504f
