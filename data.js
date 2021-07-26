@@ -418,11 +418,11 @@ module.exports.ROOMS = {
         }
     },
     r15Pasillo: {
-        bg: "/salas/r09FakeNews.png",
+        bg: "/salas/r15Pasillo.png",
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
-        area: "/salas/r09FakeNews_Int.png",
+        area: "/salas/r15Pasillo_Int.png",
         tint: "#fdeac8",
         bubblesY: 44,
         spawn: [40, 85, 90, 95],
