@@ -460,7 +460,7 @@ module.exports.ROOMS = {
             // #ff9900
             hff9900: { cmd: "text", label: "terminal", point: [92, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "robot", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
+            h0066ff: { cmd: "text", label: "Borabora", txt: "Hola, esta es una sala para más de una persona, al menos dos son necesarias para participar ¡invita a alguien o busca gente en las otras salas!", lines: 5, point: [50, 87], obstacle: false },
         }
     },
     r17SalaCrypto: {
