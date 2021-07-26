@@ -31,7 +31,7 @@ module.exports = {
         }
 
         sendMail().then(function() {
-            console.log("----- Message sent to: %s", to, bcc);
+            console.silentLog("----- Message sent to: %s", to, bcc);
             if (callback) {
                 callback();
             }
