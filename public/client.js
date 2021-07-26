@@ -66,7 +66,7 @@ var AVATAR_H = 18;
 //number of avatars in the sheets
 var AVATARS = 37;
 //the big file if used
-var ALL_AVATARS_SHEET = "allAvatars.png";
+var ALL_AVATARS_SHEET = "characters/allAvatars.png";
 //the number of frames for walk cycle and emote animation
 //the first frame of emote is also the idle frame
 var WALK_F = 4;
@@ -367,17 +367,17 @@ function preload() {
 
     blips = [];
     for (var i = 0; i <= 5; i++) {
-        var blip = loadSound(ASSETS_FOLDER + "blip" + i);
+        var blip = loadSound(ASSETS_FOLDER + "audio/blip" + i);
         blip.playMode("sustain");
         blip.setVolume(0.3);
         blips.push(blip);
     }
 
-    appearSound = loadSound(ASSETS_FOLDER + "appear");
+    appearSound = loadSound(ASSETS_FOLDER + "audio/appear");
     appearSound.playMode("sustain");
     appearSound.setVolume(0.3);
 
-    disappearSound = loadSound(ASSETS_FOLDER + "disappear");
+    disappearSound = loadSound(ASSETS_FOLDER + "audio/disappear");
     disappearSound.playMode("sustain");
     disappearSound.setVolume(0.3);
 
@@ -497,7 +497,7 @@ function setup() {
                 var soundData = DATA.SOUNDS;
                 SOUNDS = {};
                 for (var i = 0; i < soundData.length; i++) {
-                    SOUNDS[soundData[i][0]] = loadSound(ASSETS_FOLDER + soundData[i][1]);
+                    SOUNDS[soundData[i][0]] = loadSound(ASSETS_FOLDER + "audio/" + soundData[i][1]);
                 }
 
 

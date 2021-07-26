@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>La Barricuda Online</title>
+    <title>FAD likelike beta Online</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <meta name="title" content="La Barricuda Online" />
+    <meta name="title" content="FAD likelike beta  Online" />
     <meta name="description" content="A tiny MMO" />
 
 
@@ -14,20 +14,20 @@
     <meta name="author" content="Carlos Padial, Molleindustria" />
     <meta name="copyright" content="Carlos Padial, Molleindustria" />
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="The tiniest MMORPG. Aventuras Visuales online meeting point." />
+    <meta name="description" content="The tiniest MMORPG. FAD online meeting point." />
     <meta name="keywords" content="Game,Art,Molleindustria,videogame" />
 
-    <meta property="og:image" content="https://raw.githubusercontent.com/surreal6/barricuda-likelike/main/Panorama_barricuda.jpg" />
-    <meta property="og:title" content="La Barricuda Online" />
+    <!-- <meta property="og:image" content="" /> -->
+    <meta property="og:title" content="FAD likelike beta  Online" />
     <meta property="og:description"
-        content="The tiniest MMORPG. Aventuras Visuales online meeting point." />
+        content="The tiniest MMORPG. FAD online meeting point." />
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@likelikearcade" />
-    <meta name="twitter:title" content="La Barricuda Online" />
+    <meta name="twitter:title" content="FAD likelike beta  Online" />
     <meta name="twitter:description"
-        content="The tiniest MMORPG. Aventuras Visuales online meeting point." />
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/surreal6/barricuda-likelike/main/Panorama_barricuda.jpg" />
+        content="The tiniest MMORPG. FAD online meeting point." />
+    <!-- <meta name="twitter:image" content="" /> -->
 
     <!-- This is a standard p5.js index, NOTE the p5.dom.min.js -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js'></script>
@@ -48,15 +48,34 @@
         <!-- the lobby element is displayed before the canvas is loaded -->
         <div id="lobby-container" style="display: none;">
             <div class="content-center">
-
                 <div class="lobby-message">What's your name?</div>
                 <form action="" onsubmit="return nameOk()">
                     <input id="lobby-field" class="lobby-field" placeholder="username" maxlength="16" autocomplete="off"
                         autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </form>
                 <div id="lobby-error" class="lobby-error-message"></div>
+            </div>
+        </div>
 
+        <div id="phishing-container" style="display: none;">
+            <div class="content-center">
+                <div id="phishing-message" class="phishing-message">¿Como te llamas?</div>
+                <form action="" onsubmit="return phishingSubmit()">
+                    <input id="phishing-field" class="phishing-field" placeholder="respuesta" maxlength="16" autocomplete="off"
+                        autocorrect="off" autocapitalize="off" spellcheck="false" />
+                </form>
+                <div id="phishing-error" class="phishing-error-message"></div>
+            </div>
+        </div>
 
+        <div id="access-container" style="display: none;">
+            <div class="content-center">
+                <div id="access-message" class="access-message">¿Como te llamas?</div>
+                <form action="" onsubmit="return accessSubmit()">
+                    <input id="access-field" class="access-field" placeholder="password" maxlength="16" autocomplete="off"
+                        autocorrect="off" autocapitalize="off" spellcheck="false" />
+                </form>
+                <div id="access-error" class="access-error-message"></div>
             </div>
         </div>
 
@@ -73,6 +92,16 @@
         <form id="user-form" action="" onsubmit="return nameOk()" style="display: none;">
             <!-- call the function below on button press-->
             <button class="user-button" type="button" onclick="nameOk();">CONTINUE</button>
+        </form>
+
+        <form id="phishing-form" action="" onsubmit="return phishingSubmit()" style="display: none;">
+            <!-- call the function below on button press-->
+            <button class="user-button" type="button" onclick="phishingSubmit();">CONTINUAR</button>
+        </form>
+
+        <form id="access-form" action="" onsubmit="return accessSubmit()" style="display: none;">
+            <!-- call the function below on button press-->
+            <button class="user-button" type="button" onclick="accessSubmit();">CONTINUAR</button>
         </form>
 
         <form id="avatar-form" action="" onsubmit="return bodyOk()" style="display: none;">
