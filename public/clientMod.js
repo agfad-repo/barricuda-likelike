@@ -31,6 +31,17 @@ function initMod(playerId, roomId) {
         socket.on("showAccess", function () {
             showAccessQuestion();
         });
+
+        socket.on("showPhishingDestroy", function () {
+            function sendCommand(event) {
+                socket.emit("action", "DestroyFakePlayer");
+
+                document.getElementById('defaultCanvas0').removeEventListener('click', sendCommand)
+            }
+
+            document.getElementById('defaultCanvas0').addEventListener('click', sendCommand);
+        });
+        
     }
 }
 
