@@ -27,6 +27,10 @@ function initMod(playerId, roomId) {
         socket.on("showPhishing", function (msg) {
             showPhishingQuestion(msg);
         });
+
+        socket.on("showAccess", function () {
+            showAccessQuestion();
+        });
     }
 }
 
@@ -343,6 +347,52 @@ function phishingSubmit () {
             hidePhishingQuestion();
         } 
 
+        //prevent page from refreshing on enter (default form behavior)
+        return false;
+    }
+}
+
+function showAccessQuestion() {
+    document.getElementById("access-message").innerHTML = "password";
+    
+    var e = document.getElementById("access-form");
+    if (e != null)
+        e.style.display = "block";
+
+    e = document.getElementById("access-container");
+    if (e != null)
+        e.style.display = "block";
+
+    screen = "user";
+    hideChat();
+}
+
+function hideAccessQuestion() {
+    var e = document.getElementById("access-form");
+    if (e != null)
+        e.style.display = "none";
+
+    e = document.getElementById("access-container");
+    if (e != null)
+        e.style.display = "none";
+
+    screen = "game";
+    showChat();
+}
+
+function accessSubmit () {
+    let v = document.getElementById("access-field").value;
+    let playerId = me.id;
+    if (v != "") {
+        if (v === '1001100') {
+            console.log("¡exito!");
+            hideAccessQuestion();
+            socket.emit("action", "AccessSuccess");
+        } else {
+            console.log("¡No!");
+            hideAccessQuestion();
+            socket.emit("action", "AccessFailed");
+        }
         //prevent page from refreshing on enter (default form behavior)
         return false;
     }

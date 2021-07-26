@@ -862,3 +862,14 @@ module.exports.onCrypto = function(playerId) {
     }
 }
 
+module.exports.onAccess = function(playerId) {
+    io.to(playerId).emit("showAccess", 0);  
+}
+
+module.exports.onAccessSuccess = function(playerId) {
+    io.to(playerId).emit('godMessage', "¡¡¡Lo has conseguido!!!\n\nEnhorabuena\n\nA continuación haremos otra encuesta");
+}
+
+module.exports.onAccessFailed = function(playerId) {
+    io.to(playerId).emit('godMessage', "No es correcto, revisa tus pistas");
+}
