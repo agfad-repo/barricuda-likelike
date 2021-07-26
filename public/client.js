@@ -1236,10 +1236,10 @@ function update() {
         textFont(font, FONT_SIZE * 2);
         textAlign(CENTER, BASELINE);
         fill(0);
-        text("Body", 24 * ASSET_SCALE, 44 * ASSET_SCALE);
+        text("Cuerpo", 24 * ASSET_SCALE, 44 * ASSET_SCALE);
         text("Color", 105 * ASSET_SCALE, 44 * ASSET_SCALE);
 
-        text("Choose your avatar", 64 * ASSET_SCALE, 18 * ASSET_SCALE);
+        text("Escoge tu avatar", 64 * ASSET_SCALE, 18 * ASSET_SCALE);
 
         menuGroup.draw();
 

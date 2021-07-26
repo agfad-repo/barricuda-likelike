@@ -228,7 +228,6 @@ canvas {
 }
 
 .phishing-error-message,
-.access-message,
 .lobby-error-message {
 	font-size: 32px;
 	color: #ff004d;
