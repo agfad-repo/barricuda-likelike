@@ -332,6 +332,10 @@ io.on("connection", function (socket) {
                     }
 
                     //check if there is a custom function in the MOD to call at this point
+                    if (MOD["anyRoomJoin"] != null) {
+                        //call it!
+                        MOD["anyRoomJoin"](newPlayer, playerInfo.room);
+                    }
                     if (MOD[playerInfo.room + "Join"] != null) {
                         //call it!
                         MOD[playerInfo.room + "Join"](newPlayer, playerInfo.room);
@@ -361,6 +365,11 @@ io.on("connection", function (socket) {
             //check if there is a custom function in the MOD to call at this point
             if (playerObject != null)
                 if (playerObject.room != null) {
+                    // call a function for all rooms
+                    if (MOD["anyRoomLeave"] != null) {
+                        //call it!
+                        MOD["anyRoomLeave"](playerObject, playerObject.room);
+                    }
                     if (MOD[playerObject.room + "Leave"] != null) {
                         //call it!
                         MOD[playerObject.room + "Leave"](playerObject, playerObject.room);
@@ -514,6 +523,10 @@ io.on("connection", function (socket) {
                 playerObject.new = false;
 
                 //check if there is a custom function in the MOD to call at this point
+                if (MOD["anyRoomLeave"] != null) {
+                    //call it!
+                    MOD["anyRoomLeave"](playerObject, obj.from);
+                }
                 if (MOD[obj.from + "Leave"] != null) {
                     //call it!
                     MOD[obj.from + "Leave"](playerObject, obj.from);
@@ -524,6 +537,10 @@ io.on("connection", function (socket) {
                 io.to(obj.to).emit("playerJoined", playerObject);
 
                 //check if there is a custom function in the MOD to call at this point
+                if (MOD["anyRoomJoin"] != null) {
+                    //call it!
+                    MOD["anyRoomJoin"](playerObject, obj.to);
+                }
                 if (MOD[obj.to + "Join"] != null) {
                     //call it!
                     MOD[obj.to + "Join"](playerObject, obj.to);
@@ -649,8 +666,7 @@ io.on("connection", function (socket) {
     socket.on("poolAnswers", function (data) {
         try {
             tLog.appendToLog(logFileName, socket.id, "poolAnswers", data);
-
-            console.log(socket.id, "poolAnswers", data);
+            // console.log(socket.id, "poolAnswers", data);
         } catch (e) {
             console.log("Error on closeIframe " + socket.id + " listener?");
             console.error(e);
@@ -955,18 +971,23 @@ global.NPC = function (o) {
         //If I"m not the new player send an introduction to the new player 
         //slight issue, server doesn't compute movements so if moving it appears at the destination
         //a way to solve this would be to save the time of the movement and lerp it
-        io.sockets.sockets[pId].emit("onIntro", {
-            id: this.id,
-            nickName: this.nickName,
-            colors: this.colors,
-            avatar: this.avatar,
-            room: this.room,
-            x: this.destinationX,
-            y: this.destinationY,
-            destinationX: this.destinationX,
-            destinationY: this.destinationY,
-            actionId: this.actionId
-        });
+        if (io.sockets.sockets[pId]) {
+            io.sockets.sockets[pId].emit("onIntro", {
+                id: this.id,
+                nickName: this.nickName,
+                colors: this.colors,
+                avatar: this.avatar,
+                room: this.room,
+                x: this.destinationX,
+                y: this.destinationY,
+                destinationX: this.destinationX,
+                destinationY: this.destinationY,
+                actionId: this.actionId
+            });
+        } else {
+            console.log('intro error with ' + pId);
+        }
+        
     }
 
 

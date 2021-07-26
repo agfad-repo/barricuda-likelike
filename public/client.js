@@ -2551,9 +2551,14 @@ function populateCheckbox(q, div, poolId, questionIndex) {
             input.classList.add('image-checkbox');
             label.style.backgroundImage = 'url(' + option.image + ')';
             if (option.text) {
-                label.innerHTML = option.text;
-                // label.style.lineHeight = "178px";
-                label.style.color = "#ff004d";
+                let title = document.createElement('h3');
+                title.innerHTML = option.text;
+                label.appendChild(title);
+                label.style.color = "#ff0";
+                label.classList.add('visible-text')
+            }
+            if (q.bigImages) {
+                input.classList.add('image-checkbox-big');
             }
             flexDiv.appendChild(input);
             flexDiv.appendChild(label);
@@ -2616,7 +2621,11 @@ function populatePool(poolId, section) {
             imageDiv.classList.add('question-image-div');
             image = document.createElement('img');
             image.src = pool.questions[q].image;
-            image.classList.add('question-image');
+            if (pool.questions[q].imageClass) {
+                image.classList.add(pool.questions[q].imageClass);
+            } else {
+                image.classList.add('question-image');
+            }
             imageDiv.append(image);
             div.append(imageDiv);
             div.append(document.createElement('br'));
