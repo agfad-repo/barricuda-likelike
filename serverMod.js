@@ -547,6 +547,42 @@ module.exports.r16ColaboraLeave = function(player, roomId) {
     }
 }
 
+module.exports.r17SalaCryptoJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
+    io.to(player.id).emit('godMessage', "en esta sala se encriptarán todos tus mensajes");
+}
+
+module.exports.r17SalaCryptoTalkFilter = function (player, message) {
+
+    function dec2bin(dec) {
+        return (dec >>> 0).toString(2);
+    }
+    let newMessage = "";
+    message.split(" ").forEach((element) => {
+        if (isNaN(element) === false)
+            newMessage += dec2bin(element) + " ";
+        else {
+            newMessage += element.replace(/[aeiou]/ig, 'i') + " ";
+        }
+    })
+    return newMessage;
+}
+
+module.exports.r17SalaCryptoLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.usersList.length === 0) {
+        roomState.talkCounter = 0;
+        roomState.talk = false;
+    }
+}
+
 //             _   _                 
 //   __ _  ___| |_(_) ___  _ __  ___ 
 //  / _` |/ __| __| |/ _ \| '_ \/ __|
