@@ -65,6 +65,9 @@ module.exports.initMod = function (io, gameState, DATA) {
             talkCounter: 0,
             talk: false,
             usersList: [],
+        },
+        r17SalaCrypto: {
+            usersList: [],
         }
     };
 
@@ -544,6 +547,42 @@ module.exports.r16ColaboraLeave = function(player, roomId) {
     }
 }
 
+module.exports.r17SalaCryptoJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
+    io.to(player.id).emit('godMessage', "en esta sala se encriptarán todos tus mensajes");
+}
+
+module.exports.r17SalaCryptoTalkFilter = function (player, message) {
+
+    function dec2bin(dec) {
+        return (dec >>> 0).toString(2);
+    }
+    let newMessage = "";
+    message.split(" ").forEach((element) => {
+        if (isNaN(element) === false)
+            newMessage += dec2bin(element) + " ";
+        else {
+            newMessage += element.replace(/[aeiou]/ig, 'i') + " ";
+        }
+    })
+    return newMessage;
+}
+
+module.exports.r17SalaCryptoLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+
+    if (roomState.usersList.length === 0) {
+        roomState.talkCounter = 0;
+        roomState.talk = false;
+    }
+}
+
 //             _   _                 
 //   __ _  ___| |_(_) ___  _ __  ___ 
 //  / _` |/ __| __| |/ _ \| '_ \/ __|
@@ -562,6 +601,11 @@ module.exports.onSurvey1 = function(playerId) {
     global.roomStates["r02Entrada"].registeredUsers.push(playerId);
     global.resetTalk("r02Entrada");
     global.roomStates["r02Entrada"].talk = true;
+}
+
+module.exports.onSurvey2 = function(playerId) {
+    io.to(playerId).emit('godMessage', "¡Gracias por participar!");
+    this.transferPlayer(playerId, "r18Biblioteca", "r01Patio", 64 * 2, 86 * 2);
 }
 
 
@@ -808,8 +852,34 @@ module.exports.onDenunciarPhishing = function(playerId) {
     var index = roomState.phishingList.indexOf(playerId);
     if (index !== -1) {
         roomState.phishingList.splice(index, 1);
-    }
-    let player = global.gameState.players[playerId];
 
+        io.to(playerId).emit('showPhishingDestroy');
+    }
+}
+
+module.exports.onDestroyFakePlayer = function(playerId) {
+    let player = global.gameState.players[playerId];
     destroyFakePlayer(player);
+}
+
+module.exports.onCrypto = function(playerId) {
+    let roomState = global.roomStates["r17SalaCrypto"];
+    if (roomState.usersList.length === 0) {
+        this.transferPlayer(playerId, "r15Pasillo", "r17SalaCrypto", 22 * 2, 87 * 2);
+    } else {
+        io.to(playerId).emit('godMessage', "lo siento, está ocupado. A la sala de criptografía se entra de 1 en 1. Espera un poco");
+    }
+}
+
+module.exports.onAccess = function(playerId) {
+    io.to(playerId).emit("showAccess", 0);  
+}
+
+module.exports.onAccessSuccess = function(playerId) {
+    io.to(playerId).emit('godMessage', "Oh ¿lo has logrado? genial, pero seguro has aprendido mucho en el camino y tu perfil digital ha cambiado, ahora que ya tenemos el acceso a tus resultados ¿por qué no vuelves a hacer el test?");
+    io.to(playerId).emit('showFinalPool');    
+}
+
+module.exports.onAccessFailed = function(playerId) {
+    io.to(playerId).emit('godMessage', "No es correcto, revisa tus pistas");
 }
