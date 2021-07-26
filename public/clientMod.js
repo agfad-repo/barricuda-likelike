@@ -384,7 +384,7 @@ function accessSubmit () {
     let v = document.getElementById("access-field").value;
     let playerId = me.id;
     if (v != "") {
-        if (v === '1001100') {
+        if (v === '10100') {
             console.log("¡exito!");
             hideAccessQuestion();
             socket.emit("action", "AccessSuccess");
