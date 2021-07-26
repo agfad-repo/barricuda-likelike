@@ -847,9 +847,13 @@ module.exports.onDenunciarPhishing = function(playerId) {
     var index = roomState.phishingList.indexOf(playerId);
     if (index !== -1) {
         roomState.phishingList.splice(index, 1);
-    }
-    let player = global.gameState.players[playerId];
 
+        io.to(playerId).emit('showPhishingDestroy');
+    }
+}
+
+module.exports.onDestroyFakePlayer = function(playerId) {
+    let player = global.gameState.players[playerId];
     destroyFakePlayer(player);
 }
 
