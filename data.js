@@ -157,7 +157,7 @@ module.exports.ROOMS = {
             // // #ff00ff
             // hff00ff: { cmd: "text", label: "papelera2", point: [60, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: true, url: "http://phonestory.org/", point: [40, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: false, url: "http://phonestory.org/", point: [40, 80], obstacle: false },
         },
         things: {
             papelera: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿cuál es el porcentaje de materiales reciclables de un teléfono móvil? Encuéntralo aquí y úsalo para conformar tu código", lines: 4, url:"https://www.recuperacion.org/infografia-ciudad/", iframe: true, point: [86, 87], obstacle: false }},
