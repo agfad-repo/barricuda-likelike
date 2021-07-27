@@ -1642,11 +1642,9 @@ function scaleCanvas() {
 
     // if frame in use, make it active once rescaled
     if (me && me.activeLink && me.activeLink !== "") {
-        frame.style.pointerEvents = "inherit";
-        frame.style.opacity = 1;
-        canvas.style.pointerEvents = "none";
+        showIframe();
     } else {
-        canvas.style.pointerEvents = "inherit";
+        hideIframe();
     }
 
     // scale active section to always match viewport
@@ -2126,24 +2124,15 @@ function canvasReleased() {
                 if (sendToIframe === true) {
                     socket.emit("openIframe", longTextLink);
                     me.activeLink = longTextLink;
-
                     var frame = document.getElementById("iframe");
-
+                    showIframe();
                     // make iframe visible onload
                     frame.onload = function() {
                         if (this.src === "") {
-                            canvas.style.pointerEvents = "inherit";
+                            hideIframe();
                             socket.emit("exitIframe", longTextLink);
                         } else {
-                            this.style.pointerEvents = "inherit";
-                            this.style.opacity = 1;
-
-                            var exitButton = document.getElementById("exit-frame-button");
-                            exitButton.style.display = 'inherit';
-
-                            var talkForm = document.getElementById("talk-form");
-                            talkForm.style.display = 'none';
-                            canvas.style.pointerEvents = "none";
+                            frame.style.backgroundImage = "";
                         }
                     };
 
@@ -2230,27 +2219,6 @@ function canvasReleased() {
         }
     }
 
-}
-
-// make frame invisible and talkForm visible again
-function exitFrame() {
-    socket.emit("closeIframe", me.activeLink);
-
-    var frame = document.getElementById("iframe");
-    frame.onload = function() {
-        this.style.pointerEvents = "none";
-        this.style.opacity = 0;
-
-        var exitButton = document.getElementById("exit-frame-button");
-        exitButton.style.display = 'none';
-
-        var talkForm = document.getElementById("talk-form");
-        talkForm.style.display = 'inherit';
-
-        me.activeLink = "";
-    };
-
-    frame.setAttribute("src", "");
 }
 
 function sendPoolfromSection() {
@@ -2424,7 +2392,6 @@ function getCommand(c, roomId) {
 
     return command;
 }
-
 
 function executeCommand(c) {
     areaLabel = "";
@@ -3070,6 +3037,49 @@ function showChat() {
 
 function hideChat() {
     var e = document.getElementById("talk-form");
+    if (e != null)
+        e.style.display = "none";
+}
+
+//enable the iframe input when it's time
+function showIframe() {
+    var e = document.getElementById("iframe");
+
+    if (e != null) {
+        e.style.display = "block";
+        hideChat();
+        showIframeButton();
+        let c = document.getElementById('canvas-container');
+        c.style.pointerEvents = "none";
+    }
+}
+
+function hideIframe() {
+    let e = document.getElementById("iframe");
+    if (e != null) {
+        e.style.display = "none";
+        e.style.backgroundImage = 'url("assets/clock2.gif")';
+        showChat();
+        hideIframeButton();
+        let c = document.getElementById('canvas-container');
+        c.style.pointerEvents = "all";
+        if (me) {
+            me.activeLink = "";
+        }
+        
+        c.setAttribute("src", "");
+    }
+}
+
+//enable the chat input when it's time
+function showIframeButton() {
+    var e = document.getElementById("exit-frame-button");
+    if (e != null)
+        e.style.display = "inherit";
+}
+
+function hideIframeButton() {
+    var e = document.getElementById("exit-frame-button");
     if (e != null)
         e.style.display = "none";
 }
