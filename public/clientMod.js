@@ -58,8 +58,96 @@ function afterPool(data) {
     socket.emit("action", "Survey1");
 }
 
+function addPoint(type, personalidad) {
+    if (personalidad[type]) {
+        personalidad[type] = personalidad[type] + 1;
+    } else {
+        personalidad[type] = 1;
+    }
+}
+
 function afterPool2(data) {
-    socket.emit("action", "Survey2");
+    let personalidad = {};
+
+    for (let index = 0; index < data.length; index++) {
+        const answer = data[index];
+        const question = questions['question' + (index + 1)];
+        switch (question.solve) {
+            case 'basic':
+                if (answer.constructor.name === 'Array') {
+                    answer.forEach((result) => {
+                        let op = result.split('option')[1];
+                        option = question.options[op - 1];
+                        if (option.result.constructor.name === 'Array') {
+                            for (let j = 0; j < option.result.length; j++) {
+                                const element = option.result[j];
+                                addPoint(element, personalidad);
+                            }
+                        } else {
+                            addPoint(option.result, personalidad);
+                        }
+                    });
+                }    
+                break;
+        
+            default:
+                break;
+        }
+    }
+
+    let v = 0;
+    let value = "";
+
+    for (let index = 0; index < Object.keys(personalidad).length; index++) {
+        const p = Object.keys(personalidad)[index]
+        Object.keys(personalidad)[index];
+        if (personalidad[p] > v) {
+            v = personalidad[p];
+            value = p;
+        }
+    }
+
+    // alfabeto https://arsgames.net/perfilesFAD/alfabeto.html
+    // comunicador https://arsgames.net/perfilesFAD/comunicadora.html
+    // creador https://arsgames.net/perfilesFAD/creadora.html
+    // experta https://arsgames.net/perfilesFAD/experta.html
+    // integrador https://arsgames.net/perfilesFAD/integradora.html
+    // principiante https://arsgames.net/perfilesFAD/principiante.html
+    // resolucion https://arsgames.net/perfilesFAD/resolucion.html
+
+    // seguridad ???
+
+    let command;
+
+    switch (value) {
+        case "alfabeto":
+            command = { cmd: "text", txt: "Tu perfil es alfabeto", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/alfabeto.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "comunicador":
+            command = { cmd: "text", txt: "Tu perfil es comunicador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/comunicadora.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "creador":
+            command = { cmd: "text", txt: "Tu perfil es creador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/creadora.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "experta":
+            command = { cmd: "text", txt: "Tu perfil es experta", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/experta.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "integrador":
+            command = { cmd: "text", txt: "Tu perfil es integrador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/integradora.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "principiante":
+            command = { cmd: "text", txt: "Tu perfil es principiante", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/principiante.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "resolucion":
+            command = { cmd: "text", txt: "Tu perfil es resolucion", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            break;
+        case "seguridad":
+            command = { cmd: "text", txt: "Tu perfil es seguridad", lines: 1, iframe: true, url:" https://arsgames.net/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            break;
+        default:
+            break;
+    }
+    executeCommand(command);
 }
 
 const questions = {
@@ -67,46 +155,57 @@ const questions = {
         type: 'checkbox',
         text: '¿Qué imágenes te definen más?',
         images: true,
+        solve: 'basic',
         options: [
             {
                 label: '1',
                 image: 'assets/form-imgs/1/1.png',
+                result: 'creador',
             },
             {
                 label: '2',
                 image: 'assets/form-imgs/1/2.png',
+                result: 'comunicador',
             },
             {
                 label: '3',
                 image: 'assets/form-imgs/1/3.png',
+                result: 'comunicador',
             },
             {
                 label: '4',
                 image: 'assets/form-imgs/1/4.png',
+                result: 'resolucion',
             },
             {
                 label: '5',
                 image: 'assets/form-imgs/1/5.png',
+                result: 'comunicador',
             },
             {
                 label: '6',
                 image: 'assets/form-imgs/1/6.png',
+                result: 'comunicador',
             },
             {
                 label: '7',
                 image: 'assets/form-imgs/1/7.png',
+                result: 'principiante',
             },
             {
                 label: '8',
                 image: 'assets/form-imgs/1/8.png',
+                result: ['seguridad', 'resolucion'],
             },
             {
                 label: '9',
                 image: 'assets/form-imgs/1/9.png',
+                result: 'creador',
             },
             {
                 label: '10',
                 image: 'assets/form-imgs/1/10.png',
+                result: ['creador', 'seguridad', 'resolucion'],
             },
         ]
     },
@@ -115,86 +214,108 @@ const questions = {
         text: '¿sabes emplear comandos de búsquedas para obtener resultados más acertados?',
         image: 'assets/form-imgs/2/1.png',
         imageClass: 'image600px',
+        solve: 'basic',
         options: [
             {
                 label: 'Conozco todos esos comandos y muchos más',
+                result: 'integrador',
             },
             {
                 label: 'Conozco algunos, otros no',
+                result: 'alfabeto',
             },
             {
                 label: 'No conocía ninguno',
+                result: 'principiante',
             },
         ]
     },
     question3: {
         type: 'radio',
         text: 'Hace unos meses viste un video que te encantó en twitter y quieres enseñárselo a un amigo/a ¿cómo lo buscas?',
+        solve: 'basic',
         options: [
             {
-                label: 'Lo tengo en una carpeta de videos en mis marcadores'
+                label: 'Lo tengo en una carpeta de videos en mis marcadores',
+                result: 'integrador',
             },
             {
-                label: 'buscando en twitter por el tema del video para volverlo a encontrar'
+                label: 'buscando en twitter por el tema del video para volverlo a encontrar',
+                result: 'alfabeto',
             },
             {
-                label: 'ufff, no creo que lo vuelva a encontrar, pero se lo cuento'
+                label: 'ufff, no creo que lo vuelva a encontrar, pero se lo cuento',
+                result: 'principiante',
             },
             {
-                label: 'Con las opciones de búsqueda avanzada en el buscador'
+                label: 'Con las opciones de búsqueda avanzada en el buscador',
+                result: 'alfabeto',
             },
         ]
     },
     question4: {
         type: 'checkbox',
         text: 'Selecciona todas las imágenes que son falsas',
+        solve: 'q4',
         images: true,
         bigImages: true,
         options: [
             {
                 label: '1',
                 image: 'assets/form-imgs/4/1.png',
+                result: true,
             },
             {
                 label: '2',
                 image: 'assets/form-imgs/4/2.png',
+                result: true,
             },
             {
                 label: '3',
                 image: 'assets/form-imgs/4/3.png',
+                result: false,
             },
             {
                 label: '4',
                 image: 'assets/form-imgs/4/4.png',
+                result: false,
             },
             {
                 label: '5',
                 image: 'assets/form-imgs/4/5.png',
+                result: true,
             },
             {
                 label: '6',
                 image: 'assets/form-imgs/4/6.png',
+                result: true,
             },
         ]
     },
     question5: {
         type: 'radio',
         text: 'Tus contraseñas…',
+        solve: 'basic',
         options: [
             {
-                label: 'Son algo como 1234'
+                label: 'Son algo como 1234',
+                result: "principiante"
             },
             {
-                label: 'Son algo como VTYf3bsu36@mp_34'
+                label: 'Son algo como VTYf3bsu36@mp_34',
+                result: "alfabeto"
             },
             {
-                label: 'fechas, lugares o algo que tiene que ver con mi vida'
+                label: 'fechas, lugares o algo que tiene que ver con mi vida',
+                result: "principiante"
             },
             {
-                label: 'Uso la misma contraseña en todo, así no se me olvida'
+                label: 'Uso la misma contraseña en todo, así no se me olvida',
+                result: "principiante"
             },
             {
-                label: 'No me preocupo por recordar contraseñas, tengo un gestor de contraseñas que lo hace por mi.'
+                label: 'No me preocupo por recordar contraseñas, tengo un gestor de contraseñas que lo hace por mi.',
+                result: "seguridad"
             },
         ]
     },
@@ -202,15 +323,19 @@ const questions = {
         type: 'radio',
         text: '¿Qué significa esta imagen? ',
         image: 'assets/form-imgs/6/1.png',
+        solve: 'basic',
         options: [
             {
                 label: 'Es una licencia que dice puedo usar el contenido siempre que diga de quién es',
+                result: "principiante"
             },
             {
                 label: 'Ni idea',
+                result: "principiante"
             },
             {
                 label: 'Es una licencia que dice que puedo usar el contenido sin modificarlo',
+                result: "seguridad"
             },
         ]
         
@@ -219,6 +344,7 @@ const questions = {
         type: 'checkbox',
         text: '¿Cuáles de estas cosas sabes hacer?',
         images: true,
+        solve: 'q7',
         options: [
             {
                 label: '1',
@@ -275,15 +401,19 @@ const questions = {
     question8: {
         type: 'radio',
         text: '¿Conoces tu huella digital?',
+        solve: 'basic',
         options: [
             {
                 label: 'Conozco todo lo que hay sobre mi en internet y sé controlarlo (historial de ubicaciones, de búsquedas, el rastreo de facebook en otras webs...)',
+                result: ['seguridad', 'resolucion']
             },
             {
                 label: 'Ni idea',
+                result: 'principiante'
             },
             {
                 label: 'Sé algunas cosas',
+                result: 'principiante',
             },
         ]
         
@@ -291,15 +421,19 @@ const questions = {
     question9: {
         type: 'radio',
         text: 'Vas a cambiar tu sistema operativo a linux ¿qué harías?',
+        solve: 'basic',
         options: [
             {
                 label: 'Descargar la distribución que más me interese e instalarlo yo',
+                result: 'resolucion'
             },
             {
                 label: '¿Qué es eso?',
+                result: 'principiante'
             },
             {
                 label: 'Le pido al servicio técnico que lo haga por mí',
+                result: 'alfabeto'
             },
         ]
         
@@ -307,21 +441,27 @@ const questions = {
     question10: {
         type: 'radio',
         text: 'En el entorno digital sobre todo…',
+        solve: 'basic',
         options: [
             {
                 label: 'Creo',
+                result: 'creador'
             },
             {
                 label: 'Comunico',
+                result: 'comunicador'
             },
             {
                 label: 'Busco',
+                result: 'alfabeto'
             },
             {
                 label: 'Me protejo',
+                result: 'seguridad'
             },
             {
                 label: 'Resuelvo problemas',
+                result: 'resolucion'
             },
         ]
         
