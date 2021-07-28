@@ -3059,12 +3059,12 @@ function hideIframe() {
     if (e != null) {
         e.style.display = "none";
         e.style.backgroundImage = 'url("assets/clock2.gif")';
-        showChat();
         hideIframeButton();
         let c = document.getElementById('canvas-container');
         c.style.pointerEvents = "all";
         if (me) {
             me.activeLink = "";
+            showChat();
         }
         
         c.setAttribute("src", "");
