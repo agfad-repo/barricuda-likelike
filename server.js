@@ -58,7 +58,6 @@ let logFileName = '';
 const tLog = require('./src/traffic-log-management');
 const mailer = require('./src/mailer');
 const cron = require('node-cron');
-const { log } = require("util");
 
 //time before disconnecting (forgot the tab open?)
 var ACTIVITY_TIMEOUT = 10 * 60 * 1000;
@@ -110,56 +109,29 @@ app.use(express.static("public"));
 if (process.env.TRAFFICLOG != null) {
     allowTrafficLog = process.env.TRAFFICLOG.toLowerCase() === 'true';
 
-    if (process.env.SENDLOG != null && process.env.TRAFFICLOG.toLowerCase() === 'true') {
+    tLog.cleanUpLogs();
 
+    if (process.env.SENDLOG != null && process.env.TRAFFICLOG.toLowerCase() === 'true') {
         let timezone = "GMT";
         if (process.env.TIMEZONE != null) {
             timezone = process.env.TIMEZONE;
         }
 
-        // every day at 00:00 it changes log filename
+        // every day at 00:00
         cron.schedule('0 0 0 * * *', () => {
-            console.silentLog('--> cron activity: change log filename');
             logFileName = tLog.changeLogFileName(Date.now());
-            console.silentLog('new log filename ' + logFileName);
-            // testing
             mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
-        }, {
-            timezone: timezone
-        });
-
-        // every day at 04:00 it collects all previous day logs
-        // and move logs to archive folder
-        cron.schedule('0 4 * * *', () => {
-            console.silentLog('--> cron activity: generate yesterday resume');
-            let dailyResume = tLog.generateDailyLog();
-            // testing
-            mailer.sendMail('cron 04:00', 'generate yesterday resume ' + dailyResume);
-        }, {
-            timezone: timezone
-        });
-
-        // every monday at 06:00 it collects all daily logs from previous week
-        // and move daily logs to archiveDaily folder
+        }, { timezone: timezone });
+            
+        // every monday at 06:00  send a week report
         cron.schedule('0 6 * * 1', () => {
-            console.silentLog('--> cron activity: generate weekly resume');
-            let weeklyResume = tLog.generateWeeklyLog();
-            // testing
-            mailer.sendMail('cron monday 06:00', 'generate weekly resume ' + weeklyResume);
-        }, {
-            timezone: timezone
-        });
-    
-        // every monday at 06:30 it sends a mail with weekly report
-        // and move weekly logs to archiveWeekly folder
-        cron.schedule('30 6 * * 1', () => {
-            console.silentLog('--> cron activity: send weekly resume');
-            tLog.sendWeeklyLog();
-            // testing
-            mailer.sendMail('cron monday 06:30', 'send weekly resume');
-        }, {
-            timezone: timezone
-        });
+            tLog.collectWeekLogs('../logs');
+        }, { timezone: timezone });
+
+        // every month send a global report
+        cron.schedule('0 0 1 * *', () => {
+            tLog.collectGlobalLogs('../logs/weeks');
+        }, { timezone: timezone });
     }
     
     logFileName = tLog.serverStart(START_TIME);
@@ -867,6 +839,20 @@ function adminCommand(adminSocket, str) {
             case "on":
                 cmd.shift();
                 io.sockets.emit("onLights", cmd);
+                break;
+            
+            //trafic management
+            case "cleanLogs":
+                cmd.shift();
+                tLog.cleanUpLogs();
+                break;
+            case "collectWeek":
+                cmd.shift();
+                tLog.collectWeekLogs('../logs');
+                break;
+            case "collectGlobal":
+                cmd.shift();
+                tLog.collectGlobalLogs('../logs/weeks');
                 break;
         }
     }
