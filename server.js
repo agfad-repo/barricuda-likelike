@@ -120,7 +120,13 @@ if (process.env.TRAFFICLOG != null) {
         // every day at 00:00
         cron.schedule('0 0 0 * * *', () => {
             logFileName = tLog.changeLogFileName(Date.now());
-            mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
+            // mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
+        }, { timezone: timezone });
+
+        // for testing
+        // every day at 06:00  send the week report
+         cron.schedule('* 6 * * 1', () => {
+            tLog.sendLastWeekLog();
         }, { timezone: timezone });
             
         // every monday at 06:00  send a week report
@@ -849,6 +855,10 @@ function adminCommand(adminSocket, str) {
             case "collectWeek":
                 cmd.shift();
                 tLog.collectWeekLogs('../logs');
+                break;
+            case "sendLastWeekLog":
+                cmd.shift();
+                tLog.sendLastWeekLog();
                 break;
             case "collectGlobal":
                 cmd.shift();
