@@ -31,13 +31,13 @@ body {
 
 #mute {
     top: 30px;
-    left: 30px;
+    right: 30px;
     display: 'none';
 }
 
 #unmute {
     top: 30px;
-    left: 30px;
+    right: 30px;
 }
 
 #canvas-container {
