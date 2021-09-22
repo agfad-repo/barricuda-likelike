@@ -639,6 +639,11 @@ function newGame() {
         showChat();
     }
 
+    // start intro music if it exists
+    if (SOUNDS && SOUNDS.intro && !SOUNDS.intro._playing) {
+        loopMusic('intro');
+    }
+
     //this is not super elegant but I create another socket for the actual game
     //because I've got the data from the server and I don't want to reinitiate everything 
     //if the server restarts
@@ -3114,15 +3119,58 @@ function preventBehavior(e) {
 
 document.addEventListener("touchmove", preventBehavior, { passive: false });
 
+function muteAll()  {
+    Object.keys(SOUNDS).forEach((sound) => {
+        SOUNDS[sound].stop();
+    })
+}
+
+function loopMusic(music) {
+    console.silentLog('playing ' + music);
+    if (SOUNDS && SOUNDS[music] && !SOUNDS[music]._playing) {
+        console.silentLog('playing ' + music);
+        muteAll();
+        SOUNDS[music].loop();
+    }
+}
+
+function muteMusic() {
+    if (SOUNDS) {
+        Object.keys(SOUNDS).forEach((sound) => {
+            if (SOUNDS[sound]._playing) {
+                SOUNDS[sound].pause();
+            }
+        })
+    }
+    document.getElementById('mute').style.display = 'inherit';
+    document.getElementById('unmute').style.display = 'none';
+}
+
+function unmuteMusic() {
+    if (SOUNDS) {
+        Object.keys(SOUNDS).forEach((sound) => {
+            if (SOUNDS[sound]._paused) {
+                SOUNDS[sound].play();
+            }
+        })
+    }
+    document.getElementById('mute').style.display = 'none';
+    document.getElementById('unmute').style.display = 'inherit';
+}
+
 // Active
 window.addEventListener("focus", function () {
-    if (socket != null && me != null)
+    if (socket != null && me != null) {
         socket.emit("focus", { room: me.room });
+        unmuteMusic();
+    }
 });
 
 // Inactive
 window.addEventListener("blur", function () {
-    if (socket != null && me != null)
+    if (socket != null && me != null) {
         socket.emit("blur", { room: me.room });
+        muteMusic();
+    }
 });
 

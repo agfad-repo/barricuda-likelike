@@ -332,6 +332,30 @@ module.exports.anyRoomJoin = function(player, roomId) {
         generateFakePlayer(player, roomId);
     }
 
+    // music
+    switch (roomId) {
+        case 'r02Entrada':
+            io.to(player.id).emit('loopMusic', 'hall');
+            break;
+        case 'r06Reciclaje':
+            io.to(player.id).emit('loopMusic', 'vertedero');
+            break;
+        case 'r11Lago':
+            io.to(player.id).emit('loopMusic', 'phishing');
+            break;
+        case 'r13Netiqueta':
+            io.to(player.id).emit('loopMusic', 'error');
+            break;
+        case 'r12Resolucion':
+            io.to(player.id).emit('loopMusic', 'error');
+            break;
+        case 'r18Biblioteca':
+            io.to(player.id).emit('loopMusic', 'biblioteca');
+            break;
+        default:
+            io.to(player.id).emit('loopMusic', 'intro');
+            break;
+    }
 }
 
 module.exports.anyRoomLeave = function(player, roomId) {

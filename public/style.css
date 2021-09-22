@@ -19,6 +19,27 @@ body {
 	color: white;
 }
 
+.sound-icons {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    z-index: 1;
+    border-radius: 50%;
+    background: white;
+    padding: 6px
+}
+
+#mute {
+    top: 30px;
+    right: 30px;
+    display: 'none';
+}
+
+#unmute {
+    top: 30px;
+    right: 30px;
+}
+
 #canvas-container {
 	width: 800px;
 	height: 600px;

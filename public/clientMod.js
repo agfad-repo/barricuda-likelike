@@ -51,6 +51,10 @@ function initMod(playerId, roomId) {
 
             document.getElementById('defaultCanvas0').addEventListener('click', sendCommand);
         });
+
+        socket.on("loopMusic", function (music) {
+            loopMusic(music);
+        });
     }
 }
 
