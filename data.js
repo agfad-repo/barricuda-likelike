@@ -18,10 +18,12 @@ module.exports.IMAGES = [
 
 //miscellaneous sounds to preload
 module.exports.SOUNDS = [
-    ["beat1", "beat1.ogg"], //credit https://www.youtube.com/watch?v=ugLVpZm69DE
-    ["beat2", "beat2.ogg"], // credit https://www.youtube.com/watch?v=dPdoxIz0w24
-    ["beat3", "beat3.ogg"], //credit https://www.youtube.com/watch?v=XShEWT4MwJs
-    ["DJStop", "DJStop.mp3"]
+    ["intro", "music/Main.mp3"],
+    ["hall", "music/Hall.mp3"],
+    ["error", "music/System-Error.mp3"],
+    ["vertedero", "music/Vertedero.mp3"],
+    ["phishing", "music/Phishing.mp3"],
+    ["biblioteca", "music/Biblioteca.mp3"],
 ];
 
 module.exports.ROOMS = {
