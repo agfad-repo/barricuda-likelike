@@ -111,42 +111,32 @@ function afterPool2(data) {
         }
     }
 
-    // alfabeto https://arsgames.net/perfilesFAD/alfabeto.html
-    // comunicador https://arsgames.net/perfilesFAD/comunicadora.html
-    // creador https://arsgames.net/perfilesFAD/creadora.html
-    // experta https://arsgames.net/perfilesFAD/experta.html
-    // integrador https://arsgames.net/perfilesFAD/integradora.html
-    // principiante https://arsgames.net/perfilesFAD/principiante.html
-    // resolucion https://arsgames.net/perfilesFAD/resolucion.html
-
-    // seguridad ???
-
     let command;
 
     switch (value) {
         case "alfabeto":
-            command = { cmd: "text", txt: "Tu perfil es alfabeto", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/alfabeto.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es alfabeto", lines: 1, iframe: true, url:"./pages/perfilesFAD/alfabeto.html", postAction: true, actionId: "Survey2" };
             break;
         case "comunicador":
-            command = { cmd: "text", txt: "Tu perfil es comunicador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/comunicadora.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es comunicador", lines: 1, iframe: true, url:"./pages/perfilesFAD/comunicadora.html", postAction: true, actionId: "Survey2" };
             break;
         case "creador":
-            command = { cmd: "text", txt: "Tu perfil es creador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/creadora.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es creador", lines: 1, iframe: true, url:"./pages/perfilesFAD/creadora.html", postAction: true, actionId: "Survey2" };
             break;
         case "experta":
-            command = { cmd: "text", txt: "Tu perfil es experta", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/experta.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es experta", lines: 1, iframe: true, url:"./pages/perfilesFAD/experta.html", postAction: true, actionId: "Survey2" };
             break;
         case "integrador":
-            command = { cmd: "text", txt: "Tu perfil es integrador", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/integradora.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es integrador", lines: 1, iframe: true, url:"./pages/perfilesFAD/integradora.html", postAction: true, actionId: "Survey2" };
             break;
         case "principiante":
-            command = { cmd: "text", txt: "Tu perfil es principiante", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/principiante.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es principiante", lines: 1, iframe: true, url:"./pages/perfilesFAD/principiante.html", postAction: true, actionId: "Survey2" };
             break;
         case "resolucion":
-            command = { cmd: "text", txt: "Tu perfil es resolucion", lines: 1, iframe: true, url:"https://arsgames.net/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es resolucion", lines: 1, iframe: true, url:"./pages/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
             break;
         case "seguridad":
-            command = { cmd: "text", txt: "Tu perfil es seguridad", lines: 1, iframe: true, url:" https://arsgames.net/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            command = { cmd: "text", txt: "Tu perfil es seguridad", lines: 1, iframe: true, url:" ./pages/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
             break;
         default:
             break;
