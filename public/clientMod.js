@@ -153,52 +153,52 @@ const questions = {
         options: [
             {
                 label: '1',
-                image: 'assets/form-imgs/1/1.png',
+                image: 'assets/form-imgs/1/1.jpg',
                 result: 'creador',
             },
             {
                 label: '2',
-                image: 'assets/form-imgs/1/2.png',
+                image: 'assets/form-imgs/1/2.jpg',
                 result: 'comunicador',
             },
             {
                 label: '3',
-                image: 'assets/form-imgs/1/3.png',
+                image: 'assets/form-imgs/1/3.jpg',
                 result: 'comunicador',
             },
             {
                 label: '4',
-                image: 'assets/form-imgs/1/4.png',
+                image: 'assets/form-imgs/1/4.jpg',
                 result: 'resolucion',
             },
             {
                 label: '5',
-                image: 'assets/form-imgs/1/5.png',
+                image: 'assets/form-imgs/1/5.jpg',
                 result: 'comunicador',
             },
             {
                 label: '6',
-                image: 'assets/form-imgs/1/6.png',
+                image: 'assets/form-imgs/1/6.jpg',
                 result: 'comunicador',
             },
             {
                 label: '7',
-                image: 'assets/form-imgs/1/7.png',
+                image: 'assets/form-imgs/1/7.jpg',
                 result: 'principiante',
             },
             {
                 label: '8',
-                image: 'assets/form-imgs/1/8.png',
+                image: 'assets/form-imgs/1/8.jpg',
                 result: ['seguridad', 'resolucion'],
             },
             {
                 label: '9',
-                image: 'assets/form-imgs/1/9.png',
+                image: 'assets/form-imgs/1/9.jpg',
                 result: 'creador',
             },
             {
                 label: '10',
-                image: 'assets/form-imgs/1/10.png',
+                image: 'assets/form-imgs/1/10.jpg',
                 result: ['creador', 'seguridad', 'resolucion'],
             },
         ]
@@ -256,32 +256,32 @@ const questions = {
         options: [
             {
                 label: '1',
-                image: 'assets/form-imgs/4/1.png',
+                image: 'assets/form-imgs/4/1.jpg',
                 result: true,
             },
             {
                 label: '2',
-                image: 'assets/form-imgs/4/2.png',
+                image: 'assets/form-imgs/4/2.jpg',
                 result: true,
             },
             {
                 label: '3',
-                image: 'assets/form-imgs/4/3.png',
+                image: 'assets/form-imgs/4/3.jpg',
                 result: false,
             },
             {
                 label: '4',
-                image: 'assets/form-imgs/4/4.png',
+                image: 'assets/form-imgs/4/4.jpg',
                 result: false,
             },
             {
                 label: '5',
-                image: 'assets/form-imgs/4/5.png',
+                image: 'assets/form-imgs/4/5.jpg',
                 result: true,
             },
             {
                 label: '6',
-                image: 'assets/form-imgs/4/6.png',
+                image: 'assets/form-imgs/4/6.jpg',
                 result: true,
             },
         ]
@@ -343,52 +343,52 @@ const questions = {
             {
                 label: '1',
                 text: 'Memes',
-                image: 'assets/form-imgs/7/1.png',
+                image: 'assets/form-imgs/7/1.jpg',
             },
             {
                 label: '2',
                 text: 'Mods',
-                image: 'assets/form-imgs/7/2.png',
+                image: 'assets/form-imgs/7/2.jpg',
             },
             {
                 label: '3',
                 text: 'Apps',
-                image: 'assets/form-imgs/7/3.png',
+                image: 'assets/form-imgs/7/3.jpg',
             },
             {
                 label: '4',
                 text: 'Webs',
-                image: 'assets/form-imgs/7/4.png',
+                image: 'assets/form-imgs/7/4.jpg',
             },
             {
                 label: '5',
                 text: 'Editar Wikipedia',
-                image: 'assets/form-imgs/7/5.png',
+                image: 'assets/form-imgs/7/5.jpg',
             },
             {
                 label: '6',
                 text: 'Videojuegos',
-                image: 'assets/form-imgs/7/6.png',
+                image: 'assets/form-imgs/7/6.jpg',
             },
             {
                 label: '7',
                 text: 'Edición audio/música',
-                image: 'assets/form-imgs/7/7.png',
+                image: 'assets/form-imgs/7/7.jpg',
             },
             {
                 label: '8',
                 text: 'Edición video',
-                image: 'assets/form-imgs/7/8.png',
+                image: 'assets/form-imgs/7/8.jpg',
             },
             {
                 label: '9',
                 text: 'Otras',
-                image: 'assets/form-imgs/7/9.png',
+                image: 'assets/form-imgs/7/9.jpg',
             },
             {
                 label: '10',
                 text: 'Ninguna, noy así de freak',
-                image: 'assets/form-imgs/7/10.png',
+                image: 'assets/form-imgs/7/10.jpg',
             },
         ]
     },
