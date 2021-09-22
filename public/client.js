@@ -3119,13 +3119,11 @@ function preventBehavior(e) {
 
 document.addEventListener("touchmove", preventBehavior, { passive: false });
 
-
 function muteAll()  {
     Object.keys(SOUNDS).forEach((sound) => {
         SOUNDS[sound].stop();
     })
 }
-
 
 function loopMusic(music) {
     console.silentLog('playing ' + music);
@@ -3136,17 +3134,35 @@ function loopMusic(music) {
     }
 }
 
+function muteMusic() {
+    if (SOUNDS) {
+        Object.keys(SOUNDS).forEach((sound) => {
+            if (SOUNDS[sound]._playing) {
+                SOUNDS[sound].pause();
+            }
+        })
+    }
+    document.getElementById('mute').style.display = 'inherit';
+    document.getElementById('unmute').style.display = 'none';
+}
+
+function unmuteMusic() {
+    if (SOUNDS) {
+        Object.keys(SOUNDS).forEach((sound) => {
+            if (SOUNDS[sound]._paused) {
+                SOUNDS[sound].play();
+            }
+        })
+    }
+    document.getElementById('mute').style.display = 'none';
+    document.getElementById('unmute').style.display = 'inherit';
+}
+
 // Active
 window.addEventListener("focus", function () {
     if (socket != null && me != null) {
         socket.emit("focus", { room: me.room });
-        if (SOUNDS) {
-            Object.keys(SOUNDS).forEach((sound) => {
-                if (SOUNDS[sound]._paused) {
-                    SOUNDS[sound].play();
-                }
-            })
-        }
+        unmuteMusic();
     }
 });
 
@@ -3154,13 +3170,7 @@ window.addEventListener("focus", function () {
 window.addEventListener("blur", function () {
     if (socket != null && me != null) {
         socket.emit("blur", { room: me.room });
-        if (SOUNDS) {
-            Object.keys(SOUNDS).forEach((sound) => {
-                if (SOUNDS[sound]._playing) {
-                    SOUNDS[sound].pause();
-                }
-            })
-        }
+        muteMusic();
     }
 });
 
