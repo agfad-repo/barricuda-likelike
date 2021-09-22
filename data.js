@@ -159,7 +159,7 @@ module.exports.ROOMS = {
             // // #ff00ff
             // hff00ff: { cmd: "text", label: "papelera2", point: [60, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: false, url: "http://phonestory.org/", point: [40, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: false, url: "https://phonestory.org/", point: [40, 80], obstacle: false },
         },
         things: {
             papelera: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿cuál es el porcentaje de materiales reciclables de un teléfono móvil? Encuéntralo aquí y úsalo para conformar tu código", lines: 4, url:"https://www.recuperacion.org/infografia-ciudad/", iframe: true, point: [86, 87], obstacle: false }},
@@ -301,7 +301,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "nube oscura 1", txt: "¿Tienes una web propia? ¿hay una web que te encante visitar? Aquí puedes ver el impacto que tiene en huella de carbono:", url: "https://www.websitecarbon.com/", iframe: true, lines: 4, point: [40, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto", url: "http://www.eloriente.net/home/wp-content/uploads/2019/09/infographie-pollution-numerique-es.png", iframe: true, lines: 1, point: [60, 85], obstacle: false },
+            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto", url: "/pages/contaminacion-digital.html", iframe: true, lines: 1, point: [60, 85], obstacle: false },
             // #9900cc
             h9900cc: { cmd: "text", label: "nube oscura 3", txt: "La huella de carbono de internet", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 1, point: [80, 80], obstacle: false },
         },
@@ -404,7 +404,7 @@ module.exports.ROOMS = {
             // #0066ff
             h0066ff: { cmd: "text", label: "Videojuegos", txt: "Aprende a crear videojuegos", url: "https://scratch.mit.edu/", iframe: false, point: [47, 85], obstacle: false },
             // #999900
-            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "http://sampulator.com/", iframe: true, point: [66, 85], obstacle: false },
+            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "https://sampulator.com/", iframe: true, point: [66, 85], obstacle: false },
             // #0f8a61
             h0f8a61: { cmd: "text", label: "Realidad virtual", txt: "Aprende a crear realidad virtual", url: " https://hubs.mozilla.com/", iframe: false, point: [84, 85], obstacle: false },
             // #98504f
@@ -454,7 +454,7 @@ module.exports.ROOMS = {
             hbe1250: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [60, 95], enterPoint: [115, 85], obstacle: false },
 
             // #ff00ff
-            hff00ff: { cmd: "text", label: "arcade", point: [36, 80], obstacle: false },
+            hff00ff: { cmd: "text", label: "arcade", txt: "Si quieres podemos jugar (no es obligatorio), tendremos que llegar a una página específica de la Wikipedia a partir de otra, seleccionando los enlaces en cada artículo para llegar a nuestro objetivo. ¿De qué página parto y a cuál tengo que llegar?\n\nPide a alguien en la sala que te proponga un reto (debe asegurarse de que están en la wikipedia antes de empezar a jugar).\n  Si no hay nadie cerca prueba con estos: brecha digital - gamergate", lines: 15, point: [36, 80], obstacle: false },
             // #ff9900
             hff9900: { cmd: "text", label: "terminal", txt: "Si quieres podemos jugar (no es obligatorio), tendremos que llegar a una página específica de la Wikipedia a partir de otra, seleccionando los enlaces en cada artículo para llegar a nuestro objetivo. ¿De qué página parto y a cuál tengo que llegar?\n\nPide a alguien en la sala que te proponga un reto (debe asegurarse de que están en la wikipedia antes de empezar a jugar).\n  Si no hay nadie cerca prueba con estos: brecha digital - gamergate", lines: 15, point: [92, 80], obstacle: false },
             // #0066ff
