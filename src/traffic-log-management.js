@@ -46,28 +46,28 @@ module.exports = {
         this.createDirectory('logs/weeks');
         this.createDirectory('logs/global');
         this.createDirectory('public/logs');
-        let logFileName = './logs/' + startTime + '.txt';
+        let logFileName = './logs/' + startTime + '.csv';
         this.appendToLog(logFileName, startTime + ',serverStart');
         return logFileName;
     },
     changeLogFileName: function (time) {
         time = this.timeToLocale(new Date(time));
         time = this.timeToFileName(new Date(time));
-        let logFileName = './logs/' + time + '.txt';
+        let logFileName = './logs/' + time + '.csv';
         return logFileName;
     },
     generateLog: function (files, logDir, exportPath, archivePath) {
         // concatenate files
-        let f0 = files[0].split('.txt')[0];
+        let f0 = files[0].split('.csv')[0];
         if (f0.includes('_to_')) {
             f0 = f0.split('_to_')[0];
         }
-        let f1 = files[files.length - 1].split('.txt')[0];
+        let f1 = files[files.length - 1].split('.csv')[0];
         if (f1.includes('_to_')) {
             f1 = f1.split('_to_')[1];
         }
         let rangeString = f0 + '_to_' + f1;
-        let rangeLogFilename = path.join(exportPath, rangeString + '.txt');
+        let rangeLogFilename = path.join(exportPath, rangeString + '.csv');
 
         for (let index = 0; index < files.length; index++) {
             let filename = files[index];
@@ -116,7 +116,7 @@ module.exports = {
         fs.readdir(dirPath, function (err, files) {
             for (let index = 0; index < files.length; index++) {
                 let file = files[index];
-                if (file.split('.')[1] === 'txt' && file.split('T').length === 1) {
+                if (file.split('.')[1] === 'csv' && file.split('T').length === 1) {
                     let date = file.split('T')[0];
                     if (dateCollection.includes(date) === false) {
                         dateCollection.push(date);
@@ -139,7 +139,7 @@ module.exports = {
             let collection = {};
 
             for (let i = 0; i < files.length; i++) {
-                let filename = files[i].split('.txt')[0];
+                let filename = files[i].split('.csv')[0];
                 let fileDate = new Date(filename);
                 let fileWeek = getWeekNumber(fileDate);
                 // exclude current week files
@@ -174,14 +174,12 @@ module.exports = {
     },
     sendLastWeekLog: function() {
         let archiveDir = path.join(__dirname, "../logs/weeks");
-        let generateLog = this.generateLog;
         let sendFileByMail = this.sendFileByMail;
 
-        //get last file
+        //get last file in weeks archive
         this.getFilesFromPath(archiveDir, function(files) {
             let archiveDir = path.join(__dirname, "../logs/weeks");
             let fileUrl = path.join(archiveDir, files.sort().reverse()[0]);
-            // console.log(fileUrl)
             sendFileByMail(fileUrl, "last week report");
         })
     },
@@ -195,7 +193,7 @@ module.exports = {
             setTimeout(function() {
                 sendFileByMail(filename, "global Log");
                 // copy latest global report to public folder
-                fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.txt'), function() {
+                fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
                     console.silentLog('moving global');
                 });
             }, 5000);
