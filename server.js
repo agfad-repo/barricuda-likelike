@@ -19,8 +19,8 @@ SENDLOG = true
 MAILHOST = SMTP ongoing server
 MAILUSER = mail@domain.com
 MAILPASS = *****
-MAILTO = to@domain.com
-MAILBCC = bcc@domain.com
+MAILTO = to@domain.com,to2@domain2.com
+MAILBCC = bcc@domain.com,bcc2@domain2.com
 TIMEZONE = "Europe/Madrid"
 VERBOSE = false
 */
@@ -123,23 +123,23 @@ if (process.env.TRAFFICLOG != null) {
             mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
         }, { timezone: timezone });
 
-        // for testing
-        // every day at 06:00  send the week report
-        cron.schedule('0 6 * * *', () => {
-            mailer.sendMail('cron daily check', 'cron daily check');
-            tLog.sendLastWeekLog();
-        }, { timezone: timezone });
-            
-        // every monday at 06:30 send a week report
-        cron.schedule('30 6 * * 1', () => {
+        // every monday at 06:00 send a week report
+        cron.schedule('0 6 * * 1', () => {
             mailer.sendMail('cron weekly check', 'cron weekly check');
             tLog.collectWeekLogs('../logs');
         }, { timezone: timezone });
 
-        // first day of every month at 6:15 send a global report
-        cron.schedule('15 6 1 * *', () => {
+        // first day of every month at 7:00 send a global report
+        cron.schedule('0 7 1 * *', () => {
             mailer.sendMail('cron monthly check', 'cron monthly check');
             tLog.collectGlobalLogs('../logs/weeks');
+        }, { timezone: timezone });
+
+        // for testing
+        // every day at 08:00  send the week report
+        cron.schedule('0 8 * * *', () => {
+            mailer.sendMail('TEST cron daily check', 'cron daily check - testing');
+            tLog.sendLastWeekLog();
         }, { timezone: timezone });
     }
     
