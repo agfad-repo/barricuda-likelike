@@ -2019,7 +2019,11 @@ function isObstacle(x, y, room, a) {
         var c1 = a.get(px, py);
 
         //if not white check if color is obstacle
-        if (c1[0] != 255 || c1[1] != 255 || c1[2] != 255) {
+        // if (c1[0] != 255 || c1[1] != 255 || c1[2] != 255) {
+
+        // workaround to avoid color management problems in firefox
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=867594
+        if (c1[0] < 254 || c1[1] < 254 || c1[2] < 254) {
             var cmd = getCommand(c1, room);
 
             if (cmd != null)
