@@ -165,11 +165,24 @@ module.exports = {
         let archiveDir = path.join(__dirname, folder);
         let generateLog = this.generateLog;
         let sendFileByMail = this.sendFileByMail;
+        let today = this.timeToFileName(new Date());
         this.getUnstoredDailyLogsFromPath(archiveDir, function(files) {
-            let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
-            setTimeout(function() {
-                sendFileByMail(filename, "week Log");
-            }, 5000);
+            // exclude today file if it exist.
+            let collectableFiles = [];
+            for (let index = 0; index < files.length; index++) {
+                const element = files[index];
+                if (element.split('.csv')[0] !== today) {
+                    collectableFiles.push(element);
+                }
+            }
+            if (collectableFiles.length > 1) {
+                let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
+                setTimeout(function() {
+                    sendFileByMail(filename, "week Log");
+                }, 5000);
+            } else {
+                console.silentLog('collect Week: no files to collect');
+            }
         });
     },
     sendLastWeekLog: function() {
