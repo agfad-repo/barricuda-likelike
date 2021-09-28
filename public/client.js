@@ -1141,7 +1141,7 @@ function newGame() {
         //find the data thing
         var dataThing = ROOMS[t.room].things[t.thingId];
 
-        if (dataThing != null && t.room == me.room) {
+        if (me && dataThing != null && t.room == me.room) {
 
             //remove the visual representation
             removeThing(t.thingId, t.room);
