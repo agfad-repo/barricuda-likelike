@@ -80,6 +80,8 @@ var SETTINGS;
 //preloaded sound image asset from data.js
 var IMAGES, SOUNDS;
 
+var globalMute = false;
+
 //avatar linear speed, pixels per milliseconds
 var SPEED = 50;
 
@@ -3140,7 +3142,18 @@ function loopMusic(music) {
     }
 }
 
+function muteMusicButton() {
+    globalMute = true;
+    muteMusic()
+}
+
+function unmuteMusicButton() {
+    globalMute = false;
+    unmuteMusic()
+}
+
 function muteMusic() {
+    masterVolume(0);
     if (SOUNDS) {
         Object.keys(SOUNDS).forEach((sound) => {
             if (SOUNDS[sound]._playing) {
@@ -3148,11 +3161,13 @@ function muteMusic() {
             }
         })
     }
+
     document.getElementById('mute').style.display = 'inherit';
     document.getElementById('unmute').style.display = 'none';
 }
 
 function unmuteMusic() {
+    masterVolume(1);
     if (SOUNDS) {
         Object.keys(SOUNDS).forEach((sound) => {
             if (SOUNDS[sound]._paused) {
@@ -3160,6 +3175,7 @@ function unmuteMusic() {
             }
         })
     }
+
     document.getElementById('mute').style.display = 'none';
     document.getElementById('unmute').style.display = 'inherit';
 }
@@ -3168,7 +3184,9 @@ function unmuteMusic() {
 window.addEventListener("focus", function () {
     if (socket != null && me != null) {
         socket.emit("focus", { room: me.room });
-        unmuteMusic();
+        if (!globalMute) {
+            unmuteMusic();
+        }
     }
 });
 
@@ -3176,7 +3194,9 @@ window.addEventListener("focus", function () {
 window.addEventListener("blur", function () {
     if (socket != null && me != null) {
         socket.emit("blur", { room: me.room });
-        muteMusic();
+        if (!globalMute) {
+            muteMusic();
+        }
     }
 });
 
