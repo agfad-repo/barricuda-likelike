@@ -40,7 +40,7 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // // #0066ff
-            h0066ff: { cmd: "text", label: "créditos", txt:"aquí irán los creditos", lines: 8, point: [50, 80], obstacle: false },
+            h0066ff: { cmd: "text", label: "créditos", txt:"créditos", iframe: true, url:"./pages/creditos/creditos.html", lines: 1, point: [50, 80], obstacle: false },
             // #ff9900
             hff9900: { cmd: "enter", room: "r02Entrada", label: "entrada", point: [64, 60], enterPoint: [65, 95], obstacle: false },
         }
@@ -93,7 +93,7 @@ module.exports.ROOMS = {
         },
         things: {
             cookieMonsterA: { file: "salas/r03Cookies_Monster_Sprite_A.png", id: "cookie-monsterA", position: [91, 67], label: "mostruo de las galletas", frames: 1, frameDelay: 30, visible: true, },
-            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. Anota el número de elementos en el carrito de compra (ayuda: es en el minuto 1:30) te servirá para terminar el juego.\n\nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.", lines: 11, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
+            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. Anota el número de elementos en el carrito de compra (ayuda: es en el minuto 1:30) te servirá para terminar el juego.\nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.\nNOTA: el video es en inglés pero peudes activar la función de subtítulos si lo deseas", lines: 13, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
         }
     },
     r04SalaX: {
@@ -301,7 +301,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "nube oscura 1", txt: "¿Tienes una web propia? ¿hay una web que te encante visitar? Aquí puedes ver el impacto que tiene en huella de carbono:", url: "https://www.websitecarbon.com/", iframe: true, lines: 4, point: [40, 80], obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto", url: "/pages/contaminacion-digital.html", iframe: true, lines: 1, point: [60, 85], obstacle: false },
+            h0066ff: { cmd: "text", label: "nube oscura 2", txt: "¡Internet contamina! Mira cuanto", url: "/pages/polution/contaminacion-digital.html", iframe: true, lines: 1, point: [60, 85], obstacle: false },
             // #9900cc
             h9900cc: { cmd: "text", label: "nube oscura 3", txt: "La huella de carbono de internet", url: "https://www.custommade.com/blog/carbon-footprint-of-internet/", iframe: true, lines: 1, point: [80, 80], obstacle: false },
         },
@@ -404,7 +404,7 @@ module.exports.ROOMS = {
             // #0066ff
             h0066ff: { cmd: "text", label: "Videojuegos", txt: "Aprende a crear videojuegos", url: "https://scratch.mit.edu/", iframe: false, point: [47, 85], obstacle: false },
             // #999900
-            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "https://sampulator.com/", iframe: true, point: [66, 85], obstacle: false },
+            h999900: { cmd: "text", label: "Sonido", txt: "Aprende a crear sonido", url: "https://splice.com/sounds/beatmaker", iframe: false, point: [66, 85], obstacle: false },
             // #0f8a61
             h0f8a61: { cmd: "text", label: "Realidad virtual", txt: "Aprende a crear realidad virtual", url: " https://hubs.mozilla.com/", iframe: false, point: [84, 85], obstacle: false },
             // #98504f
@@ -454,7 +454,7 @@ module.exports.ROOMS = {
             hbe1250: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [60, 95], enterPoint: [115, 85], obstacle: false },
 
             // #ff00ff
-            hff00ff: { cmd: "text", label: "arcade", txt: "Si quieres podemos jugar (no es obligatorio), tendremos que llegar a una página específica de la Wikipedia a partir de otra, seleccionando los enlaces en cada artículo para llegar a nuestro objetivo. ¿De qué página parto y a cuál tengo que llegar?\n\nPide a alguien en la sala que te proponga un reto (debe asegurarse de que están en la wikipedia antes de empezar a jugar).\n  Si no hay nadie cerca prueba con estos: brecha digital - gamergate", lines: 15, point: [36, 80], obstacle: false },
+            hff00ff: { cmd: "text", label: "arcade", txt: "Juega.", iframe: false, url:"https://ludipe.itch.io/art", lines: 1, point: [36, 80], obstacle: false },
             // #ff9900
             hff9900: { cmd: "text", label: "terminal", txt: "Si quieres podemos jugar (no es obligatorio), tendremos que llegar a una página específica de la Wikipedia a partir de otra, seleccionando los enlaces en cada artículo para llegar a nuestro objetivo. ¿De qué página parto y a cuál tengo que llegar?\n\nPide a alguien en la sala que te proponga un reto (debe asegurarse de que están en la wikipedia antes de empezar a jugar).\n  Si no hay nadie cerca prueba con estos: brecha digital - gamergate", lines: 15, point: [92, 80], obstacle: false },
             // #0066ff
