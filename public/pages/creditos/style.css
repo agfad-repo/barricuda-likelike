@@ -1,0 +1,12 @@
+body {
+    background-color: #4cc6df;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 100%;
+}

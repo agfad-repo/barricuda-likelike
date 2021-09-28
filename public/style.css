@@ -23,7 +23,7 @@ body {
     position: absolute;
     width: 30px;
     height: 30px;
-    z-index: 1;
+    z-index: 10;
     border-radius: 50%;
     background: white;
     padding: 6px
@@ -64,6 +64,29 @@ body {
     display: none;
 }
 
+#start-info {
+    top: 0px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    z-index: 3;
+    background-color: #000;
+    opacity: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#start-info > div {
+    max-width: 900px;
+    padding: 30px;
+}
+
 .pool-section {
     top: 0px;
     position: absolute;
@@ -79,7 +102,7 @@ body {
     text-align: center;
 }
 
-.pool.section > form {
+.pool-section > form {
     padding: 50px;
 }
 

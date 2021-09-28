@@ -1,4 +1,16 @@
+@font-face {
+	font-family: monogram;
+	src: url("../../assets/monogram_extended.ttf");
+}
+
 body{
-	background-color: white;
-	color: black;
+    font-family: monogram;
+	background-color: black;
+    font-size: 1.5em;
+	color: white;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
