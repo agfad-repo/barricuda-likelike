@@ -76,26 +76,28 @@ function afterPool2(data) {
     for (let index = 0; index < data.length; index++) {
         const answer = data[index];
         const question = questions['question' + (index + 1)];
-        switch (question.solve) {
-            case 'basic':
-                if (answer.constructor.name === 'Array') {
-                    answer.forEach((result) => {
-                        let op = result.split('option')[1];
-                        option = question.options[op - 1];
-                        if (option.result.constructor.name === 'Array') {
-                            for (let j = 0; j < option.result.length; j++) {
-                                const element = option.result[j];
-                                addPoint(element, personalidad);
+        if (question.solve) {
+            switch (question.solve) {
+                case 'basic':
+                    if (answer.constructor.name === 'Array') {
+                        answer.forEach((result) => {
+                            let op = result.split('option')[1];
+                            option = question.options[op - 1];
+                            if (option.result.constructor.name === 'Array') {
+                                for (let j = 0; j < option.result.length; j++) {
+                                    const element = option.result[j];
+                                    addPoint(element, personalidad);
+                                }
+                            } else {
+                                addPoint(option.result, personalidad);
                             }
-                        } else {
-                            addPoint(option.result, personalidad);
-                        }
-                    });
-                }    
-                break;
-        
-            default:
-                break;
+                        });
+                    }    
+                    break;
+            
+                default:
+                    break;
+            }
         }
     }
 
@@ -146,6 +148,21 @@ function afterPool2(data) {
 
 const questions = {
     question1: {
+        type: 'radio',
+        text: 'Género:',
+        options: [
+            {
+                label: 'Mujer.',
+            },
+            {
+                label: 'Hombre.',
+            },
+            {
+                label: 'Otro.',
+            },
+        ]
+    },
+    question2: {
         type: 'checkbox',
         text: '¿Qué imágenes te definen más?',
         images: true,
@@ -203,51 +220,51 @@ const questions = {
             },
         ]
     },
-    question2: {
+    question3: {
         type: 'radio',
-        text: '¿sabes emplear comandos de búsquedas para obtener resultados más acertados?',
+        text: '¿Sabes emplear comandos de búsquedas para obtener resultados más acertados?',
         image: 'assets/form-imgs/2/1.png',
         imageClass: 'image600px',
         solve: 'basic',
         options: [
             {
-                label: 'Conozco todos esos comandos y muchos más',
+                label: 'Conozco todos esos comandos y muchos más.',
                 result: 'integrador',
             },
             {
-                label: 'Conozco algunos, otros no',
+                label: 'Conozco algunos, otros no.',
                 result: 'alfabeto',
             },
             {
-                label: 'No conocía ninguno',
+                label: 'No conocía ninguno.',
                 result: 'principiante',
             },
         ]
     },
-    question3: {
+    question4: {
         type: 'radio',
         text: 'Hace unos meses viste un video que te encantó en twitter y quieres enseñárselo a un amigo/a ¿cómo lo buscas?',
         solve: 'basic',
         options: [
             {
-                label: 'Lo tengo en una carpeta de videos en mis marcadores',
+                label: 'Lo tengo en una carpeta de videos en mis marcadores.',
                 result: 'integrador',
             },
             {
-                label: 'buscando en twitter por el tema del video para volverlo a encontrar',
+                label: 'Buscando en twitter por el tema del video para volverlo a encontrar.',
                 result: 'alfabeto',
             },
             {
-                label: 'ufff, no creo que lo vuelva a encontrar, pero se lo cuento',
+                label: 'Ufff, no creo que lo vuelva a encontrar, pero se lo cuento.',
                 result: 'principiante',
             },
             {
-                label: 'Con las opciones de búsqueda avanzada en el buscador',
+                label: 'Con las opciones de búsqueda avanzada en el buscador.',
                 result: 'alfabeto',
             },
         ]
     },
-    question4: {
+    question5: {
         type: 'checkbox',
         text: 'Selecciona todas las imágenes que son falsas',
         solve: 'q4',
@@ -286,13 +303,13 @@ const questions = {
             },
         ]
     },
-    question5: {
+    question6: {
         type: 'radio',
         text: 'Tus contraseñas…',
         solve: 'basic',
         options: [
             {
-                label: 'Son algo como 1234',
+                label: 'Son algo como 1234.',
                 result: "principiante"
             },
             {
@@ -300,11 +317,11 @@ const questions = {
                 result: "alfabeto"
             },
             {
-                label: 'fechas, lugares o algo que tiene que ver con mi vida',
+                label: 'Fechas, lugares o algo que tiene que ver con mi vida.',
                 result: "principiante"
             },
             {
-                label: 'Uso la misma contraseña en todo, así no se me olvida',
+                label: 'Uso la misma contraseña en todo, así no se me olvida.',
                 result: "principiante"
             },
             {
@@ -313,28 +330,28 @@ const questions = {
             },
         ]
     },
-    question6: {
+    question7: {
         type: 'radio',
         text: '¿Qué significa esta imagen? ',
         image: 'assets/form-imgs/6/1.png',
         solve: 'basic',
         options: [
             {
-                label: 'Es una licencia que dice puedo usar el contenido siempre que diga de quién es',
+                label: 'Es una licencia que dice puedo usar el contenido siempre que diga de quién es.',
                 result: "principiante"
             },
             {
-                label: 'Ni idea',
+                label: 'Ni idea.',
                 result: "principiante"
             },
             {
-                label: 'Es una licencia que dice que puedo usar el contenido sin modificarlo',
+                label: 'Es una licencia que dice que puedo usar el contenido sin modificarlo.',
                 result: "seguridad"
             },
         ]
         
     },
-    question7: {
+    question8: {
         type: 'checkbox',
         text: '¿Cuáles de estas cosas sabes hacer?',
         images: true,
@@ -342,63 +359,63 @@ const questions = {
         options: [
             {
                 label: '1',
-                text: 'Memes',
+                text: 'Memes.',
                 image: 'assets/form-imgs/7/1.jpg',
             },
             {
                 label: '2',
-                text: 'Mods',
+                text: 'Mods.',
                 image: 'assets/form-imgs/7/2.jpg',
             },
             {
                 label: '3',
-                text: 'Apps',
+                text: 'Apps.',
                 image: 'assets/form-imgs/7/3.jpg',
             },
             {
                 label: '4',
-                text: 'Webs',
+                text: 'Webs.',
                 image: 'assets/form-imgs/7/4.jpg',
             },
             {
                 label: '5',
-                text: 'Editar Wikipedia',
+                text: 'Editar Wikipedia.',
                 image: 'assets/form-imgs/7/5.jpg',
             },
             {
                 label: '6',
-                text: 'Videojuegos',
+                text: 'Videojuegos.',
                 image: 'assets/form-imgs/7/6.jpg',
             },
             {
                 label: '7',
-                text: 'Edición audio/música',
+                text: 'Edición audio/música.',
                 image: 'assets/form-imgs/7/7.jpg',
             },
             {
                 label: '8',
-                text: 'Edición video',
+                text: 'Edición video.',
                 image: 'assets/form-imgs/7/8.jpg',
             },
             {
                 label: '9',
-                text: 'Otras',
+                text: 'Otras.',
                 image: 'assets/form-imgs/7/9.jpg',
             },
             {
                 label: '10',
-                text: 'Ninguna, noy así de freak',
+                text: 'Ninguna, no soy así de friki.',
                 image: 'assets/form-imgs/7/10.jpg',
             },
         ]
     },
-    question8: {
+    question9: {
         type: 'radio',
         text: '¿Conoces tu huella digital?',
         solve: 'basic',
         options: [
             {
-                label: 'Conozco todo lo que hay sobre mi en internet y sé controlarlo (historial de ubicaciones, de búsquedas, el rastreo de facebook en otras webs...)',
+                label: 'Conozco todo lo que hay sobre mi en internet y sé controlarlo (historial de ubicaciones, de búsquedas, el rastreo de facebook en otras webs...).',
                 result: ['seguridad', 'resolucion']
             },
             {
@@ -406,19 +423,19 @@ const questions = {
                 result: 'principiante'
             },
             {
-                label: 'Sé algunas cosas',
+                label: 'Sé algunas cosas.',
                 result: 'principiante',
             },
         ]
         
     },
-    question9: {
+    question10: {
         type: 'radio',
         text: 'Vas a cambiar tu sistema operativo a linux ¿qué harías?',
         solve: 'basic',
         options: [
             {
-                label: 'Descargar la distribución que más me interese e instalarlo yo',
+                label: 'Descargar la distribución que más me interese e instalarlo yo.',
                 result: 'resolucion'
             },
             {
@@ -426,35 +443,35 @@ const questions = {
                 result: 'principiante'
             },
             {
-                label: 'Le pido al servicio técnico que lo haga por mí',
+                label: 'Le pido al servicio técnico que lo haga por mí.',
                 result: 'alfabeto'
             },
         ]
         
     },
-    question10: {
+    question11: {
         type: 'radio',
         text: 'En el entorno digital sobre todo…',
         solve: 'basic',
         options: [
             {
-                label: 'Creo',
+                label: 'Creo.',
                 result: 'creador'
             },
             {
-                label: 'Comunico',
+                label: 'Comunico.',
                 result: 'comunicador'
             },
             {
-                label: 'Busco',
+                label: 'Busco.',
                 result: 'alfabeto'
             },
             {
-                label: 'Me protejo',
+                label: 'Me protejo.',
                 result: 'seguridad'
             },
             {
-                label: 'Resuelvo problemas',
+                label: 'Resuelvo problemas.',
                 result: 'resolucion'
             },
         ]
