@@ -120,7 +120,7 @@ if (process.env.TRAFFICLOG != null) {
         // every day at 00:00
         cron.schedule('0 0 * * *', () => {
             logFileName = tLog.changeLogFileName(Date.now());
-            mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
+            // mailer.sendMail('cron 00:00', 'change log filename ' + logFileName);
         }, { timezone: timezone });
 
         // every monday at 06:00 send a week report
@@ -133,13 +133,6 @@ if (process.env.TRAFFICLOG != null) {
         cron.schedule('0 7 1 * *', () => {
             mailer.sendMail('cron monthly check', 'cron monthly check');
             tLog.collectGlobalLogs('../logs/weeks');
-        }, { timezone: timezone });
-
-        // for testing
-        // every day at 08:00  send the week report
-        cron.schedule('0 8 * * *', () => {
-            mailer.sendMail('TEST cron daily check', 'cron daily check - testing');
-            tLog.sendLastWeekLog();
         }, { timezone: timezone });
     }
     
