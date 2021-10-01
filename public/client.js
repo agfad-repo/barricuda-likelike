@@ -15,6 +15,7 @@ var QUICK_LOGIN = false;
 var DEBUG_CLICKS = false;
 var DEBUG_SPRITES = false;
 var DEBUG_CONSOLE = false;
+var MUTE_AUDIO = false;
 
 console.silentLog = function(msg) {
     if (DEBUG_CONSOLE) {
@@ -644,6 +645,10 @@ function newGame() {
     // start intro music if it exists
     if (SOUNDS && SOUNDS.intro && !SOUNDS.intro._playing) {
         loopMusic('intro');
+    }
+
+    if (MUTE_AUDIO) {
+        muteMusic();
     }
 
     //this is not super elegant but I create another socket for the actual game

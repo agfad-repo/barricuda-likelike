@@ -1,7 +1,13 @@
 const nodemailer = require("nodemailer");
 
 module.exports = {
-    sendLogMail: function (host, user, pass, to, bcc, subject, content, fileName, fileUrl, callback) {
+    sendMail: function (subject, content, fileName, fileUrl, callback) {
+        let host = process.env.MAILHOST;
+        let user = process.env.MAILUSER;
+        let pass = process.env.MAILPASS;
+        let to = process.env.MAILTO;
+        let bcc = process.env.MAILBCC;
+
         async function sendMail() {
             let transporter = nodemailer.createTransport({
                 host: host,
@@ -37,19 +43,5 @@ module.exports = {
             }
         }).catch(console.error);
     },
-    sendMail: function(subject, content, fileName, fileUrl, callback) {
-        this.sendLogMail(
-            process.env.MAILHOST, 
-            process.env.MAILUSER, 
-            process.env.MAILPASS, 
-            process.env.MAILTO, 
-            process.env.MAILBCC,
-            subject,
-            content,
-            fileName,
-            fileUrl,
-            callback
-        );
-    }
 };
 
