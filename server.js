@@ -649,7 +649,16 @@ io.on("connection", function (socket) {
             tLog.appendToLog(logFileName, socket.id, "poolAnswers", data);
             // console.silentLog(socket.id, "poolAnswers", data);
         } catch (e) {
-            console.silentLog("Error on closeIframe " + socket.id + " listener?");
+            console.silentLog("Error on poolAnswers " + socket.id + " listener?");
+            console.error(e);
+        }
+    })
+
+    socket.on("appendToLog", function (data) {
+        try {
+            tLog.appendToLog(logFileName, socket.id, data[0], [data[1]]);
+        } catch (e) {
+            console.silentLog("Error on appendToLog " + socket.id + " listener?");
             console.error(e);
         }
     })
