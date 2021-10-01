@@ -114,36 +114,46 @@ function afterPool2(data) {
     }
 
     let command;
+    let profile;
 
     switch (value) {
         case "alfabeto":
             command = { cmd: "text", txt: "Tu perfil es alfabeto", lines: 1, iframe: true, url:"./pages/perfilesFAD/alfabeto.html", postAction: true, actionId: "Survey2" };
+            profile = "alfabeto";
             break;
         case "comunicador":
             command = { cmd: "text", txt: "Tu perfil es comunicador", lines: 1, iframe: true, url:"./pages/perfilesFAD/comunicadora.html", postAction: true, actionId: "Survey2" };
+            profile = "comunicador";
             break;
         case "creador":
             command = { cmd: "text", txt: "Tu perfil es creador", lines: 1, iframe: true, url:"./pages/perfilesFAD/creadora.html", postAction: true, actionId: "Survey2" };
+            profile = "creador";
             break;
         case "experta":
             command = { cmd: "text", txt: "Tu perfil es experta", lines: 1, iframe: true, url:"./pages/perfilesFAD/experta.html", postAction: true, actionId: "Survey2" };
+            profile = "experta";
             break;
         case "integrador":
             command = { cmd: "text", txt: "Tu perfil es integrador", lines: 1, iframe: true, url:"./pages/perfilesFAD/integradora.html", postAction: true, actionId: "Survey2" };
+            profile = "integrador";
             break;
         case "principiante":
             command = { cmd: "text", txt: "Tu perfil es principiante", lines: 1, iframe: true, url:"./pages/perfilesFAD/principiante.html", postAction: true, actionId: "Survey2" };
+            profile = "principiante";
             break;
         case "resolucion":
             command = { cmd: "text", txt: "Tu perfil es resolucion", lines: 1, iframe: true, url:"./pages/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            profile = "resolucion";
             break;
         case "seguridad":
             command = { cmd: "text", txt: "Tu perfil es seguridad", lines: 1, iframe: true, url:" ./pages/perfilesFAD/resolucion.html", postAction: true, actionId: "Survey2" };
+            profile = "seguridad";
             break;
         default:
             break;
     }
     executeCommand(command);
+    socket.emit("appendToLog", ['profile', profile]);
 }
 
 const questions = {
