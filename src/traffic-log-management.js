@@ -1,7 +1,70 @@
+const { time } = require('console');
 const fs = require('fs');
 const path = require('path');
 const { start } = require('repl');
 const mailer = require('./mailer');
+
+const generateJson = function(fileUrl, callback) {
+    fs.readFile(fileUrl, function(err, buf) {
+        let visitors = {};
+        let poolNames = [];
+        let poolCounter = {};
+        let counter = 0;
+        const buffer = buf.toString().split('\n');
+        for (let i = 0; i < buffer.length; i++) {
+            const line = buffer[i];
+            const cmd = line.split(',')[2] || line.split(',')[1];
+            if (cmd === "serverStart" || cmd === undefined) {
+                continue;
+            }
+            const timestamp = line.split(',')[0];
+            const usr = line.split(',')[1];
+            switch (cmd) {
+                case "join":
+                    if (usr && !visitors[usr]) visitors[usr] = {};
+                    visitors[usr].join = timestamp;
+                    visitors[usr].name = line.split(',')[3];
+                    break;
+                case "profile":
+                    if (usr && !visitors[usr]) visitors[usr] = {};
+                    visitors[usr].profile = line.split('profile')[1];
+                    break;
+                case "poolAnswers":
+                    if (usr && !visitors[usr]) visitors[usr] = {};
+                    let data = line.split('poolAnswers,')[1].split(',');
+                    // remove first element (user ID)
+                    data.shift();
+                    let poolName = data.splice(0, 1);
+                    if (!poolCounter[poolName]) {
+                        poolCounter[poolName] = 0;
+                    }
+                    poolNames.push(poolName);
+                    visitors[usr][poolName] = data;
+                    poolCounter[poolName]++;
+                    counter++;
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        console.log('visitors: ' + Object.keys(visitors).length);
+        console.log('total pools: ' + counter);
+
+        for (let i = 0; i < Object.keys(poolCounter).length; i++) {
+            const poolName = Object.keys(poolCounter)[i];
+            const poolCount = poolCounter[poolName];
+            console.log(poolName + ' answered: ' + poolCount);    
+        }
+        let jsonUrl =fileUrl.split('.csv')[0] + '.json';
+        fs.writeFileSync(jsonUrl, JSON.stringify(visitors));
+        
+        let jsonFilename = jsonUrl.split('/')[fileUrl.split('/').length - 1];
+        if (callback) callback(jsonFilename, jsonUrl);
+    });
+};
+
 
 module.exports = {
     createDirectory: function(dirName) {
@@ -69,29 +132,33 @@ module.exports = {
         let rangeString = f0 + '_to_' + f1;
         let rangeLogFilename = path.join(exportPath, rangeString + '.csv');
 
+        fs.stat(rangeLogFilename, function(err, stat) {
+            if(err == null) {
+                fs.unlink(rangeLogFilename, (error) => {
+                    if (error) throw error;
+                })
+            }
+        });
+
         for (let index = 0; index < files.length; index++) {
             let filename = files[index];
-            console.silentLog('included and archived ' + filename);
+            //console.silentLog('included and archived ' + filename);
             let filePath = path.join(logDir, filename);
             fs.readFile(filePath, function(err, buf) {
                 fs.appendFile(rangeLogFilename, buf.toString(), function() {
                     fs.rename(filePath, path.join(archivePath, filename), function() {
-                        console.silentLog('moving daily ' + filename + ' to ' + archivePath);
+                        //console.silentLog('moving daily ' + filename + ' to ' + archivePath);
                     });
                 });
             })
         }
-
         return rangeLogFilename;
     },
     sendFileByMail: function (fileUrl, msg) {
         let fileName = fileUrl.split('/')[fileUrl.split('/').length - 1];
-        console.silentLog('sending file ' + fileName);
         let subject = "📊📋 " + msg + " 🕰️📬 " + fileName;
         let content = "Automatic traffic report. Do not reply.";
-        mailer.sendMail(subject, content, fileName, fileUrl, function() {
-            console.silentLog('sending weekly ' + fileName + ' to email');
-        });
+        mailer.sendMail(subject, content, fileName, fileUrl);
     },
     getWeekNumber: function(d) {
         // Copy date so don't modify original
@@ -106,9 +173,16 @@ module.exports = {
         // Return array of year and week number
         return [d.getUTCFullYear(), weekNo];
     },
-    getFilesFromPath: function (dirPath, callback) {
+    getFilesFromPath: function (dirPath, extension, callback) {
         fs.readdir(dirPath, function (err, files) {
-            callback(files);
+            let selectedFiles = [];
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.split('.')[1] === extension) {
+                    selectedFiles.push(file);
+                }
+            }
+            callback(selectedFiles);
         });
     },
     getUnstoredDailyLogsFromPath: function (dirPath, callback) {
@@ -158,6 +232,9 @@ module.exports = {
                 const days = collection[week];
                 console.silentLog(week, days, 'generating range Log and moving files to archive');
                 let filename = generateLog(days, archiveDir, path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
+                setTimeout(function() {
+                    let jsonUrl = generateJson(filename);
+                }, 2000)
             }
         });
     },
@@ -178,7 +255,9 @@ module.exports = {
             if (collectableFiles.length > 1) {
                 let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
                 setTimeout(function() {
-                    sendFileByMail(filename, "week Log");
+                    let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
+                        sendFileByMail(jsonUrl, "week Log");
+                    });
                 }, 5000);
             } else {
                 console.silentLog('collect Week: no files to collect');
@@ -190,21 +269,31 @@ module.exports = {
         let sendFileByMail = this.sendFileByMail;
 
         //get last file in weeks archive
-        this.getFilesFromPath(archiveDir, function(files) {
+        this.getFilesFromPath(archiveDir, 'csv', function(files) {
             let archiveDir = path.join(__dirname, "../logs/weeks");
             let fileUrl = path.join(archiveDir, files.sort().reverse()[0]);
-            sendFileByMail(fileUrl, "last week report");
-        })
+            let jsonUrl = generateJson(fileUrl, function(jsonFilename, jsonUrl){
+                sendFileByMail(jsonUrl, "last week report");
+            });
+        });
     },
     collectGlobalLogs: function(folder) {
         let archiveDir = path.join(__dirname, folder);
         let generateLog = this.generateLog;
         let sendFileByMail = this.sendFileByMail;
-        this.getFilesFromPath(archiveDir, function(files) {
+        this.getFilesFromPath(archiveDir, 'csv', function(files) {
             console.log(files);
             let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/global'), path.join(__dirname, '../logs/weeks'));
             setTimeout(function() {
-                sendFileByMail(filename, "global Log");
+                let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
+                    sendFileByMail(jsonUrl, "global Log");
+
+                    let globalPath = path.join(__dirname, '../public/logs/global.json');
+                    fs.copyFile(jsonUrl, globalPath, function() {
+                        console.silentLog('moving json to public global');
+                    });
+                });
+
                 // copy latest global report to public folder
                 fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
                     console.silentLog('moving global');
