@@ -858,14 +858,17 @@ function adminCommand(adminSocket, str) {
                 tLog.cleanUpLogs();
                 break;
             case "collectWeek":
+            case "cw":
                 cmd.shift();
                 tLog.collectWeekLogs('../logs');
                 break;
             case "sendLastWeekLog":
+            case "lw":
                 cmd.shift();
                 tLog.sendLastWeekLog();
                 break;
             case "collectGlobal":
+            case "cg":
                 cmd.shift();
                 tLog.collectGlobalLogs('../logs/weeks');
                 break;
