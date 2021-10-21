@@ -93,7 +93,7 @@ module.exports.ROOMS = {
         },
         things: {
             cookieMonsterA: { file: "salas/r03Cookies_Monster_Sprite_A.png", id: "cookie-monsterA", position: [91, 67], label: "mostruo de las galletas", frames: 1, frameDelay: 30, visible: true, },
-            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. Anota el número de elementos en el carrito de compra (ayuda: es en el minuto 1:30) te servirá para terminar el juego.\nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.\nNOTA: el video es en inglés pero peudes activar la función de subtítulos si lo deseas", lines: 13, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
+            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. Anota el número de elementos en el carrito de compra (ayuda: es en el minuto 1:30) te servirá para terminar el juego.\nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.\nNOTA: el video es en inglés pero puedes activar la función de subtítulos si lo deseas", lines: 13, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
         }
     },
     r04SalaX: {
@@ -149,9 +149,9 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #29adff
-            h29adff: { cmd: "enter", room: "r08Huella", label: "huella", point: [68, 47], enterPoint: [92, 95], obstacle: false },
+            h29adff: { cmd: "enter", room: "r08Huella", label: "Huella", point: [68, 47], enterPoint: [92, 95], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r07Marionetas", label: "marionetas", point: [10, 85], enterPoint: [115, 86], obstacle: false },
+            hffec27: { cmd: "enter", room: "r07Marionetas", label: "Que no jueguen contigo", point: [10, 85], enterPoint: [115, 86], obstacle: false },
             // #0066ff
             h0066ff: { cmd: "text", label: "móvil roto", txt: "¿qué pasa cuando me tiran? Datos e información sobre desechos electrónicos.", lines: 3, url:"https://es.statista.com/grafico/12308/mayores-generados-de-basura-tecnologica-del-mundo/", iframe: false, point: [86, 87], obstacle: false },
             // // #00cc99
@@ -159,7 +159,7 @@ module.exports.ROOMS = {
             // // #ff00ff
             // hff00ff: { cmd: "text", label: "papelera2", point: [60, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil jugando Phone Story. Tendrás que descargarlo e instalarlo ¿podrás?", lines: 6, iframe: false, url: "https://phonestory.org/", point: [40, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "móvil", txt: "¿Qué sabes sobre tu teléfono? ¿De qué materiales está hecho? ¿de dónde vienen? Averigua más sobre la historia de tu móvil investigando sobre el juego Phone Story.", lines: 6, iframe: false, url: "http://www.aeromental.com/2011/09/16/el-gameplay-de-phone-story-el-video-del-polemico-juego-que-fue-rechazado-en-la-app-store/", point: [40, 80], obstacle: false },
         },
         things: {
             papelera: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿cuál es el porcentaje de materiales reciclables de un teléfono móvil? Encuéntralo aquí y úsalo para conformar tu código", lines: 4, url:"https://www.recuperacion.org/infografia-ciudad/", iframe: true, point: [86, 87], obstacle: false }},
@@ -184,9 +184,9 @@ module.exports.ROOMS = {
         spawn: [58, 80, 75, 95],
         areaColors: {
             // #00e436
-            h00e436: { cmd: "enter", room: "r06Reciclaje", label: "reciclaje", point: [120, 85], enterPoint: [16, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r06Reciclaje", label: "Reciclaje", point: [120, 85], enterPoint: [16, 85], obstacle: false },
             // #ffec27
-            hffec27: { cmd: "enter", room: "r08Huella", label: "huella", point: [10, 86], enterPoint: [36, 95], obstacle: false },
+            hffec27: { cmd: "enter", room: "r08Huella", label: "Huella", point: [10, 86], enterPoint: [36, 95], obstacle: false },
             // #ff00ff
             hff00ff: { cmd: "text", label: "marioneta 1", txt: "cada vuelta al reloj gano una moneda, tengo que esperar 30 vueltas del reloj para ganar un diamante, si no estoy pendiente los perderé.", lines: 5, url: "https://derechoaljuego.digital/patronesoscuros/temporales/", iframe: true, point: [33, 86], obstacle: false },
             // #00cc99
@@ -212,7 +212,7 @@ module.exports.ROOMS = {
             // #ff0000
             hff0000: { cmd: "enter", room: "r06Reciclaje", label: "Materiales y residuos", point: [92, 95], enterPoint: [68, 47], obstacle: false },
             // #00e436
-            h00e436: { cmd: "enter", room: "r03Cookies", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r03Cookies", label: "Cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
             // h00e436: { cmd: "enter", room: "r12Resolucion", label: "cookies", point: [120, 84], enterPoint: [10, 85], obstacle: false },
             // #ff77a8
             // hff77a8: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [98, 72], enterPoint: [120, 92], obstacle: false },
@@ -259,7 +259,7 @@ module.exports.ROOMS = {
             // #ffec27
             hffec27: { cmd: "enter", room: "r10Nubes", label: "La nube", point: [10, 85], enterPoint: [60, 98], obstacle: false },
             // #00cc99
-            h00cc99: { cmd: "text", label: "news1", point: [97, 80], obstacle: false, txt: "juega", url:"https://juego.verdaderofalso.com/", iframe: true },
+            h00cc99: { cmd: "text", label: "news1", point: [97, 80], obstacle: false, txt: "juega", url:"https://juego.verdaderofalso.com/", iframe: false },
             // #ff00ff
             hff00ff: { cmd: "text", label: "news2", point: [30, 80], obstacle: false, txt: "aprende más", url:" https://datadetoxkit.org/es/misinformation/healthhoax/", iframe: true},
             // #9900cc
@@ -291,11 +291,11 @@ module.exports.ROOMS = {
             // #ff0000
             hff0000: { cmd: "enter", room: "r09FakeNews", label: "Fake News", point: [60, 98], enterPoint: [10, 86], obstacle: false },
             // #ff77a8
-            hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
+            hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, anota especialmente el número de conexiones de las Islas  Baleares (los circulitos blancos) que te servirán para completar el juego.", lines: 5, point: [46, 78], obstacle: false },
+            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, anota especialmente el número de conexiones de las Islas  Baleares, que te servirán para completar el juego.", lines: 5, point: [46, 78], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", label: "nube mediana", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: false, url:"https://submarine-cable-map-2017.telegeography.com/", iframe: false, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
+            hff9900: { cmd: "text", label: "nube mediana", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: false, url:"https://www.submarinecablemap.com/", iframe: false, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #689156
             h689156: { cmd: "text", label: "nube grande", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: false, url:"https://www.submarinecablemap.com", iframe: false, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #ff00ff
@@ -345,7 +345,7 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #00e436
-            h00e436: { cmd: "enter", room: "r14Creacion", label: "Planta 2", point: [110, 89], enterPoint: [15, 85], obstacle: false },
+            h00e436: { cmd: "enter", room: "r14Creacion", label: "Creación", point: [110, 89], enterPoint: [15, 85], obstacle: false },
             // #ffec27
             hffec27: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [10, 87], enterPoint: [99, 73], obstacle: false },
             // #33ffaa
@@ -408,7 +408,7 @@ module.exports.ROOMS = {
             // #0f8a61
             h0f8a61: { cmd: "text", label: "Realidad virtual", txt: "Aprende a crear realidad virtual", url: " https://hubs.mozilla.com/", iframe: false, point: [84, 85], obstacle: false },
             // #98504f
-            h98504f: { cmd: "text", label: "Apps", txt: "Aprende a crear aplicaciones", url: "https://appinventor.mit.edu/", iframe: true, point: [103, 85], obstacle: false },
+            h98504f: { cmd: "text", label: "Apps", txt: "Aprende a crear aplicaciones", url: "https://appinventor.mit.edu/", iframe: false, point: [103, 85], obstacle: false },
         },
         things: {
             nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: " Anota el número de bloques de eventos (los naranjas) que hay en scratch. Este número te servirá para terminar el juego", lines: 5, point: [80, 80] } }
@@ -497,15 +497,15 @@ module.exports.ROOMS = {
             hb75714: { cmd: "text", label: "ordenador", txt: "Introduce a continuación la clave de acceso", lines: 2, postAction: true, actionId: "Access", point: [64, 45], obstacle: false },
 
             // #ff00ff
-            hff00ff: { cmd: "text", lines: 5, label: "pista 1 Alfabetización digital", point: [25, 80], txt: "En el minuto 1:30 del video sobre las cookies ¿cuantos elementos aparecen en el carrito de compra?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/alfabetizacion-digital/", obstacle: false },
+            hff00ff: { cmd: "text", lines: 5, label: "pista 1 Alfabetización digital", point: [25, 80], txt: "En el mapa de los cables submarinos, ¿cuántos nodos tienen las Islas Baleares?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/alfabetizacion-digital/", obstacle: false },
             // #00cc99
             h00cc99: { cmd: "text", lines: 4, label: "pista 2 Comunicación", point: [49, 80], txt: "¿Cuántos temas hay para elegir en el juego sobre las fake news?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/comunicacion/", obstacle: false },
             // #9900cc
-            h9900cc: { cmd: "text", lines: 6, label: "pista 3 Creación digital", point: [90, 80], txt: "En el mapa de los cables submarinos, ¿Cuántos nodos (circulitos blancos) tienen las Islas Baleares?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/creacion-digital/", obstacle: false },
+            h9900cc: { cmd: "text", lines: 6, label: "pista 3 Creación digital", point: [90, 80], txt: "En el programa para crear videojuegos ‘Scratch’, ¿cuántos bloques de eventos (los naranjas) hay?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/creacion-digital/", obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", lines: 5, label: "pista 4 Seguridad digital", point: [30, 45], txt: "¿Cuántos objetos recogiste del vertedero para construir tu ordenador?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/seguridad-digital/", obstacle: false },
+            hff9900: { cmd: "text", lines: 5, label: "pista 4 Seguridad digital", point: [30, 45], txt: "En el minuto 1:30 del video sobre las cookies ¿cuántos elementos aparecen en el carrito de compra?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/seguridad-digital/", obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", lines: 6, label: "pista 5 Resolución de problemas", point: [79, 45], txt: "En el programa para crear videojuegos 'Scratch',\n¿cuántos bloques de eventos (los naranjas) hay?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/resolucion-de-problemas/", obstacle: false },
+            h0066ff: { cmd: "text", lines: 6, label: "pista 5 Resolución de problemas", point: [79, 45], txt: "¿Cuántos objetos recogiste del vertedero para construir tu ordenador?\n\n ¡revisa los contenidos!", iframe: true, url:"https://arsgames.net/resolucion-de-problemas/", obstacle: false },
 
         },
         things: {
