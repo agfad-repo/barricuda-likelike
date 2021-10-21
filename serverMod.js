@@ -790,6 +790,10 @@ module.exports.onNube = function(playerId) {
     }
 }
 
+module.exports.onPhishingDialogEnd = function(playerId) {
+    io.to(playerId).emit('godMessage', "Ten cuidado, dar datos a desconocidos puede traer problemas, incluso que te suplanten la personalidad");
+}
+
 module.exports.onPhishing = function(playerId) {
     let roomState = global.roomStates['r11Lago'];
     io.to(playerId).emit("showPhishing", 0);  
