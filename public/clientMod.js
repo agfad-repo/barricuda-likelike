@@ -94,7 +94,55 @@ function afterPool2(data) {
                         });
                     }    
                     break;
-            
+                case 'q4':
+                    let fails = 2;
+                    console.log(answer);
+                    if (answer.constructor.name === 'Array') {
+                        answer.forEach((result) => {
+                            let op = result.split('option')[1];
+                            option = question.options[op - 1];
+                            switch (option.label) {
+                                case '1':
+                                case '2':
+                                case '5':
+                                case '6':
+                                    fails++;
+                                    break;
+                                case '3':
+                                case '4':
+                                    fails--;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        });
+                    }
+                    switch (fails) {
+                        case 0:
+                            addPoint('integrador', personalidad);
+                            break;
+                        case 1:
+                            addPoint('alfabeto', personalidad);
+                            break;
+                        default:
+                            addPoint('principiante', personalidad);
+                            break;
+                    }
+                    break;
+                case 'q7':
+                    let counter = 0;
+                    console.log(answer);
+                    if (answer.constructor.name === 'Array') {
+                        answer.forEach((result) => {
+                            counter++;
+                        });
+                    }
+                    if (counter > 1) {
+                        addPoint('creador', personalidad);
+                    } else {
+                        addPoint('principiante', personalidad);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -102,7 +150,7 @@ function afterPool2(data) {
     }
 
     let v = 0;
-    let value = "";
+    let value = "principiante";
 
     for (let index = 0; index < Object.keys(personalidad).length; index++) {
         const p = Object.keys(personalidad)[index]
@@ -485,7 +533,6 @@ const questions = {
                 result: 'resolucion'
             },
         ]
-        
     },
 };
 
@@ -520,6 +567,9 @@ function showPhishingQuestion(msg) {
 
     screen = "user";
     hideChat();
+
+    var field = document.getElementById("phishing-field");
+    field.focus();
 }
 
 function hidePhishingQuestion() {
@@ -550,6 +600,7 @@ function phishingSubmit () {
                     socket.emit("action", "PlayerPhishing");
                 }
             }
+            socket.emit("action", "PhishingDialogEnd");
             document.getElementById("phishing-field").value = "";
             delete me.phishingTalk;
             hidePhishingQuestion();
@@ -570,6 +621,9 @@ function showAccessQuestion() {
     e = document.getElementById("access-container");
     if (e != null)
         e.style.display = "block";
+        
+    var input = document.getElementById("access-field");
+    input.focus();
 
     screen = "user";
     hideChat();
