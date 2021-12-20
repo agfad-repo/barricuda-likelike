@@ -614,6 +614,13 @@ io.on("connection", function (socket) {
             //call it!
             //console.silentLog("on" + aId + " exists in the mod, call it");
             MOD["on" + aId](socket.id);
+
+            try {
+                tLog.appendToLog(logFileName, socket.id, "action", [aId]);
+            } catch (e) {
+                console.silentLog("Error on action " + socket.id + " listener?");
+                console.error(e);
+            }            
         }
     });
 
