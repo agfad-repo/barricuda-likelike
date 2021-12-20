@@ -55,6 +55,24 @@ function initMod(playerId, roomId) {
         socket.on("loopMusic", function (music) {
             loopMusic(music);
         });
+
+        socket.on("showIntro", function() {
+            function sendCommand(event) {
+                socket.emit("action", "MovePlayerToHall");
+                document.getElementById('defaultCanvas0').removeEventListener('click', sendCommand)
+            }
+
+            document.getElementById('defaultCanvas0').addEventListener('click', sendCommand);
+        });
+
+        socket.on("showCookiesInfo", function() {
+            function sendCommand(event) {
+                socket.emit("action", "MovePlayerToCookies");
+                document.getElementById('defaultCanvas0').removeEventListener('click', sendCommand)
+            }
+
+            document.getElementById('defaultCanvas0').addEventListener('click', sendCommand);
+        });
     }
 }
 

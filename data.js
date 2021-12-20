@@ -42,11 +42,17 @@ module.exports.ROOMS = {
             // // #0066ff
             h0066ff: { cmd: "text", label: "créditos", txt:"créditos", iframe: true, url:"./pages/creditos/creditos.html", lines: 1, point: [50, 80], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "enter", room: "r02Entrada", label: "entrada", point: [64, 60], enterPoint: [65, 95], obstacle: false },
+            hff9900: { cmd: "action", actionId: "PatioExit", label: "entrada", point: [64, 60], obstacle: false },
         }
     },
     r02Entrada: {
         bg: "/salas/r02Entrada_Fondo.png",
+        frames: 1,
+        animations: { 
+            anim: [0, 1],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -61,7 +67,7 @@ module.exports.ROOMS = {
             // #0066ff
             h0066ff: { cmd: "enter", room: "r04SalaX", label: "cookie de terceros", point: [98, 72], enterPoint: [60, 95], obstacle: false },
             // #ff9900
-            hff9900: { cmd: "enter", room: "r03Cookies", label: "malware de secuestro de datos", point: [32, 72], enterPoint: [70, 95], obstacle: false },
+            hff9900: { cmd: "action", actionId: "CookiesIntro", label: "malware de secuestro de datos", point: [32, 72], enterPoint: [70, 95], obstacle: false },
         },
         things: {
             mesa: { file: "salas/r02Entrada_Sprite_Mesa.png", id: "mesa", offset: 7.5, scale: 2, position: [44, 57], frames: 1, frameDelay: 60, visible: true, },
@@ -71,6 +77,12 @@ module.exports.ROOMS = {
     },
     r03Cookies: {
         bg: "/salas/r03Cookies.png",
+        frames: 1,
+        animations: { 
+            anim: [0, 1],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
