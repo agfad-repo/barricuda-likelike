@@ -27,6 +27,12 @@ module.exports.initMod = function (io, gameState, DATA) {
     }
 
     global.roomStates = {
+        r01Patio: {
+            populated: false,
+            usersList: [],
+            talkCounter: 0,
+            registeredUsers: [],
+        },
         r02Entrada: {
             populated: false,
             ransomwareActive: false,
@@ -91,6 +97,21 @@ module.exports.initMod = function (io, gameState, DATA) {
     // | || (_| | |   <\__ \
     //  \__\__,_|_|_|\_\___/
     //                     
+
+    global.entryTalk = [
+        "¡Bienvenido!",
+        "Soy tu nuevo colega, me llamo Entry",
+        "estoy aquí para ayudarte.",
+        "Para terminar el juego",
+        "necesitarás encontrar un código",
+        "Recorre todas las sala para encontrarlo",
+        "Recuerda arrastrar el dedo (o el ratón)",
+        "sobre los objetos",
+        "para ver si son interactivos",
+        "Yo te iré dando pistas.",
+        "Y, por cierto,",
+        "se empieza entrando por esa puerta!",
+    ];
 
     global.recepcionistaTalk = [
         "¡Qué bien que estás aquí!",
@@ -162,6 +183,18 @@ module.exports.initMod = function (io, gameState, DATA) {
     // |_| \_|_|    \____|___/
     //                       
 
+    var entryNpc = new NPC({
+        id: "entry",
+        nickName: "entry",
+        room: "r01Patio",
+        x: 30,
+        y: 77,
+        avatar: 'robot',
+        colors: [2, 2, 1, 5],
+        labelColor: "#1e839d",
+        actionId: "Entry"
+    });
+
     var recepcionistaNpc = new NPC({
         id: "recepcionista",
         nickName: "recepcionista",
@@ -209,6 +242,21 @@ module.exports.initMod = function (io, gameState, DATA) {
         labelColor: "#1e839d",
         actionId: "Colabora"
     });
+
+    entryNpc.behavior = setTimeout(function ramble() {
+        var talkCounter = global.roomStates[entryNpc.room].talkCounter;
+        var talk = global.roomStates[entryNpc.room].talk;
+        var talkList = entryTalk;
+
+        if (talk === true) {
+            entryNpc.talk(talkList[talkCounter]);
+            global.increaseTalkCounter(entryNpc.room, talkList.length);
+            talk = global.roomStates[entryNpc.room].talk;
+            entryNpc.behavior = setTimeout(ramble, random(2000, 3000));
+        } else {
+            entryNpc.behavior = setTimeout(ramble, random(1000, 3000));
+        }
+    }, random(1000, 2000));
 
     divulgadorNpc.behavior = setTimeout(function ramble() {
         var talkCounter = global.roomStates[divulgadorNpc.room].talkCounter;
@@ -364,6 +412,35 @@ module.exports.anyRoomLeave = function(player, roomId) {
     }
 }
 
+module.exports.r01PatioJoin = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    roomState.usersList.push(player.id);
+
+    if (roomState.usersList.length === 1) {
+        global.resetTalk(roomId);
+        let talkValue = false;
+        if (roomState.registeredUsers.includes(player.id) === false) {
+            talkValue = true
+        }
+
+        setTimeout(function() {
+            roomState.talk = talkValue;
+        }, 2000);
+    }
+
+    setTimeout(function() {
+        roomState.talk = true;
+    }, 1000)
+}
+
+module.exports.r01PatioLeave = function(player, roomId) {
+    let roomState = global.roomStates[roomId];
+    var index = roomState.usersList.indexOf(player.id);
+    if (index !== -1) {
+        roomState.usersList.splice(index, 1);
+    }
+}
+
 module.exports.r02EntradaJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
@@ -388,16 +465,19 @@ module.exports.r02EntradaJoin = function(player, roomId) {
     }, 1000)
 }
 
+module.exports.r04SalaXJoin = function(player, roomId) {
+    io.to(player.id).emit("executeCommand", { cmd: "text", txt: "Has metido la pata, es importante que seas capaz de buscar información ¿por qué no buscas en internet o lo consultas con alguien y lo intentas de nuevo?", lines: 5 });
+}
+
+module.exports.r05SalaXCopiaJoin = function(player, roomId) {
+    io.to(player.id).emit("executeCommand", { cmd: "text", txt: "Has metido la pata, es importante que seas capaz de buscar información ¿por qué no buscas en internet o lo consultas con alguien y lo intentas de nuevo?", lines: 5 });
+}
+
 module.exports.r02EntradaLeave = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     var index = roomState.usersList.indexOf(player.id);
     if (index !== -1) {
         roomState.usersList.splice(index, 1);
-    }
-
-    if (roomState.usersList.length === 0) {
-        global.roomStates['r03Cookies'].monsterActive = false;
-        deactivateCookieMonster();
     }
 }
 
@@ -421,7 +501,6 @@ module.exports.r03CookiesLeave = function(player, roomId) {
     if (global.roomStates[roomId].usersList.length === 0) {
         global.roomStates['r03Cookies'].monsterActive = false;
         deactivateCookieMonster();
-        // console.silentLog('monstruo----------------off')
     }
 }
 
@@ -632,6 +711,23 @@ module.exports.onSurvey2 = function(playerId) {
     this.transferPlayer(playerId, "r18Biblioteca", "r01Patio", 64 * 2, 86 * 2);
 }
 
+module.exports.onPatioExit = function(playerId) {
+    io.to(playerId).emit('godMessage', "* Escucha lo que tiene que decir el robot divulgador\n\n* Pincha en el cuadro para realizar la encuesta\n\n* Escoge una de las puertas para salir");
+    io.to(playerId).emit('showIntro');
+}
+
+module.exports.onMovePlayerToHall = function(playerId) {
+    this.transferPlayer(playerId, "r01Patio", "r02Entrada", 65 * 2, 95 * 2);
+}
+
+module.exports.onCookiesIntro = function(playerId) {
+    io.to(playerId).emit('godMessage', "* Prueba las galletas\n(pinchando en ellas)\n\n* Habla con el Monstruo de las Galletas\n\n(Atención al video que te mostrará,\nel primer número del código lo encontrarás ahí)\n\n* Sal hacia la puerta que prefieras.");
+    io.to(playerId).emit('showCookiesInfo');
+}
+
+module.exports.onMovePlayerToCookies = function(playerId) {
+    this.transferPlayer(playerId, "r02Entrada", "r03Cookies", 70 * 2, 95 * 2);
+}
 
 module.exports.onCabinet = function(playerId,) {
     console.silentLog('cabinet----------------action');
@@ -662,6 +758,14 @@ module.exports.onDivulgador = function(playerId) {
         deactivateSurvey();
     }
 
+    setTimeout(function() {
+        roomState.talk = true;
+    }, 1000);
+}
+
+module.exports.onEntry = function(playerId) {
+    let roomState = global.roomStates["r01Patio"];
+    
     setTimeout(function() {
         roomState.talk = true;
     }, 1000);

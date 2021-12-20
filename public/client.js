@@ -787,23 +787,20 @@ function newGame() {
                         // with this approach background becomes the firsr sprite in allSprites
                         if (ROOMS[p.room].animations != null) {
 
-                            let bgAnim = createSprite(0, 0, 128, 100);
+                            let resolutionX = ROOMS[p.room].bgResolution ? ROOMS[p.room].bgResolution[0] : 128;
+                            let resolutionY = ROOMS[p.room].bgResolution ? ROOMS[p.room].bgResolution[1] : 100;
+
+                            let bgAnim = createSprite(0, 0, resolutionX, resolutionY);
                             bgAnim.background = true;
                         
-                            // this example manages a 128x6400 spritesheet (64 frames of 128x100)
-                            // there are 16 different light conditions x 4 frames each animation
-                            // name of each animation is prefix 'bg' +
-                            // a combination of 4 binary digits, related to: 
-                            // projector, hall lights, classroom lights, cave lights
-                            // in example, 'bg1001' is a scene where projector is on, hall (hall) lights ar off,
-                            // class (classroom) lights are off and cave (cave) light is on.
                             if (ROOMS[p.room].animations != null) {
                                 Object.keys(ROOMS[p.room].animations).forEach((animName) => {
                                     let startFrame = ROOMS[p.room].animations[animName][0];
                                     let duration = ROOMS[p.room].animations[animName][1];
                                     let endFrame = startFrame + duration;
-                                    let crop = bgg.get(0, 100 * startFrame, 128, 100 * endFrame);
-                                    let spritesheet = loadSpriteSheet(crop, NATIVE_WIDTH, NATIVE_HEIGHT, duration);
+                                    let crop = bgg.get(0, resolutionY * startFrame, resolutionX, resolutionY * endFrame);
+                                    let spritesheet = loadSpriteSheet(crop, resolutionX, resolutionY, duration);
+                                    // let spritesheet = loadSpriteSheet(crop, NATIVE_WIDTH, NATIVE_HEIGHT, duration);
                                     let anim = loadAnimation(spritesheet);
                                     anim.frameDelay = ROOMS[p.room].frameDelay;
                                     bgAnim.addAnimation(animName, anim);
@@ -813,17 +810,21 @@ function newGame() {
                             // set current lightState
                             //  TODO
                         
-                            bgAnim.depthOffset = -100;
+                            bgAnim.depthOffset = -resolutionY;
+                            if (ROOMS[p.room].bgScale != null)
+                                bgAnim.scale = ROOMS[p.room].bgScale;
+                            else
                             bgAnim.scale = 2;
-                            bgAnim.position.x = 128;
-                            bgAnim.position.y = 100;
-                        }
 
+                            bgAnim.position.x = NATIVE_WIDTH;
+                            bgAnim.position.y = NATIVE_HEIGHT;
+                        } else {
                         var ss = loadSpriteSheet(bgg, NATIVE_WIDTH, NATIVE_HEIGHT, f);
                         bg = loadAnimation(ss);
 
                         if (ROOMS[p.room].frameDelay != null) {
                             bg.frameDelay = ROOMS[p.room].frameDelay;
+                            }
                         }
                     }
 
@@ -1100,12 +1101,12 @@ function newGame() {
     );
 
 
-
+        //
+        //
     //when a server message arrives
     socket.on("godMessage",
         function (msg) {
             if (socket.id) {
-
                 longText = msg;
                 longTextLines = -1;
                 longTextAlign = "center";
@@ -1540,6 +1541,8 @@ function update() {
             if (label == me.nickName)
                 label = "";
 
+        // draw label a bit offseted to help mobile usage
+        const labelOffset = -20;
         //draw rollover label
         if (label != "" && longText == "") {
             textFont(font, FONT_SIZE);
@@ -1552,9 +1555,10 @@ function update() {
             }
             fill(UI_BG);
             noStroke();
-            rect(floor(lx), floor(mouseY - TEXT_H - TEXT_PADDING * 2), lw + TEXT_PADDING * 2 + 1, TEXT_H + TEXT_PADDING * 2 + 1);
+            rect(floor(lx), floor(mouseY - TEXT_H - TEXT_PADDING * 2) + labelOffset, lw + TEXT_PADDING * 2 + 1, TEXT_H + TEXT_PADDING * 2 + 1);
+
             fill(labelColor);
-            text(label, floor(lx + TEXT_PADDING) + 1, floor(mouseY - TEXT_PADDING));
+            text(label, floor(lx + TEXT_PADDING) + 1, floor(mouseY - TEXT_PADDING) + labelOffset);
         }
 
         //long text above everything
@@ -1578,7 +1582,7 @@ function update() {
                 rect(0, 0, width, height);
                 fill(LABEL_NEUTRAL_COLOR);
                 //-1 to avoid blurry glitch
-                text(longText, LONG_TEXT_PADDING, LONG_TEXT_PADDING, width - LONG_TEXT_PADDING * 2, height - LONG_TEXT_PADDING * 2 - 1);
+                text(longText, LONG_TEXT_PADDING, LONG_TEXT_PADDING - 30, width - LONG_TEXT_PADDING * 2, height - LONG_TEXT_PADDING * 2 - 1);
             }
             else {
 
