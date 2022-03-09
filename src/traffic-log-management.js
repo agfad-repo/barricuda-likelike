@@ -10,6 +10,11 @@ const generateJson = function(fileUrl, callback) {
         let poolNames = [];
         let poolCounter = {};
         let counter = 0;
+        if (buf === undefined) {
+            console.log('ERROR');
+            console.log(fileUrl);
+        }
+        console.silentLog('start json generation');
         const buffer = buf.toString().split('\n');
         for (let i = 0; i < buffer.length; i++) {
             const line = buffer[i];
@@ -142,15 +147,16 @@ module.exports = {
 
         for (let index = 0; index < files.length; index++) {
             let filename = files[index];
-            //console.silentLog('included and archived ' + filename);
             let filePath = path.join(logDir, filename);
-            fs.readFile(filePath, function(err, buf) {
-                fs.appendFile(rangeLogFilename, buf.toString(), function() {
-                    fs.rename(filePath, path.join(archivePath, filename), function() {
-                        //console.silentLog('moving daily ' + filename + ' to ' + archivePath);
-                    });
-                });
-            })
+
+            try {
+                const buf = fs.readFileSync(filePath)
+                fs.appendFileSync(rangeLogFilename, buf.toString())
+                fs.renameSync(filePath, path.join(archivePath, filename))
+                console.silentLog('collect and archive ' + filename);
+            } catch (e) {
+                throw new Error('something failed appending logs')
+            }
         }
         return rangeLogFilename;
     },
@@ -234,7 +240,7 @@ module.exports = {
                 let filename = generateLog(days, archiveDir, path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
                 setTimeout(function() {
                     let jsonUrl = generateJson(filename);
-                }, 2000)
+                }, 10000)
             }
         });
     },
@@ -258,7 +264,7 @@ module.exports = {
                     let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
                         sendFileByMail(jsonUrl, "week Log");
                     });
-                }, 5000);
+                }, 10000);
             } else {
                 console.silentLog('collect Week: no files to collect');
             }
@@ -298,7 +304,7 @@ module.exports = {
                 fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
                     console.silentLog('moving global');
                 });
-            }, 5000);
+            }, 10000);
             return files;
         });
     }
