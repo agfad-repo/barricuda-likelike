@@ -124,7 +124,7 @@ module.exports = {
         let logFileName = './logs/' + time + '.csv';
         return logFileName;
     },
-    generateLog: function (files, logDir, exportPath, archivePath) {
+    generateLog: function (files, logDir, exportPath, archivePath, callback) {
         // concatenate files
         let f0 = files[0].split('.csv')[0];
         if (f0.includes('_to_')) {
@@ -157,6 +157,10 @@ module.exports = {
             } catch (e) {
                 throw new Error('something failed appending logs')
             }
+        }
+
+        if (callback) {
+            callback(rangeLogFilename);
         }
         return rangeLogFilename;
     },
@@ -237,10 +241,9 @@ module.exports = {
                 week = Object.keys(collection)[index];
                 const days = collection[week];
                 console.silentLog(week, days, 'generating range Log and moving files to archive');
-                let filename = generateLog(days, archiveDir, path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
-                setTimeout(function() {
+                let filename = generateLog(days, archiveDir, path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'), function(filename) {
                     let jsonUrl = generateJson(filename);
-                }, 10000)
+                });
             }
         });
     },
@@ -259,12 +262,11 @@ module.exports = {
                 }
             }
             if (collectableFiles.length > 1) {
-                let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'));
-                setTimeout(function() {
+                let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'), function(filename) {
                     let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
                         sendFileByMail(jsonUrl, "week Log");
                     });
-                }, 10000);
+                });
             } else {
                 console.silentLog('collect Week: no files to collect');
             }
@@ -289,22 +291,20 @@ module.exports = {
         let sendFileByMail = this.sendFileByMail;
         this.getFilesFromPath(archiveDir, 'csv', function(files) {
             console.log(files);
-            let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/global'), path.join(__dirname, '../logs/weeks'));
-            setTimeout(function() {
+
+            let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/global'), path.join(__dirname, '../logs/weeks'), function(filename) {
                 let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
                     sendFileByMail(jsonUrl, "global Log");
-
                     let globalPath = path.join(__dirname, '../public/logs/global.json');
                     fs.copyFile(jsonUrl, globalPath, function() {
                         console.silentLog('moving json to public global');
                     });
                 });
-
                 // copy latest global report to public folder
                 fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
                     console.silentLog('moving global');
                 });
-            }, 10000);
+            });
             return files;
         });
     }
