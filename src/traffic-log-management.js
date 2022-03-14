@@ -65,11 +65,10 @@ const generateJson = function(fileUrl, callback) {
         let jsonUrl =fileUrl.split('.csv')[0] + '.json';
         fs.writeFileSync(jsonUrl, JSON.stringify(visitors));
         
-        let jsonFilename = jsonUrl.split('/')[fileUrl.split('/').length - 1];
-        if (callback) callback(jsonFilename, jsonUrl);
+        //let jsonFilename = jsonUrl.split('/')[fileUrl.split('/').length - 1];
+        if (callback) callback(jsonUrl);
     });
 };
-
 
 module.exports = {
     createDirectory: function(dirName) {
@@ -153,8 +152,8 @@ module.exports = {
                 const buf = fs.readFileSync(filePath)
                 fs.appendFileSync(rangeLogFilename, buf.toString())
                 fs.renameSync(filePath, path.join(archivePath, filename))
-                console.silentLog('collect and archive ' + filename);
             } catch (e) {
+                mailer.sendDebugMail('debug mail', 'something failed appending logs');
                 throw new Error('something failed appending logs')
             }
         }
@@ -262,13 +261,17 @@ module.exports = {
                 }
             }
             if (collectableFiles.length > 1) {
+                mailer.sendDebugMail('debug mail', 'collect Week: ready for generateLog');
                 let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'), function(filename) {
-                    let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
-                        sendFileByMail(jsonUrl, "week Log");
+                    mailer.sendDebugMail('debug mail', 'collect Week: ready for generateJson');
+                    let jsonUrl = generateJson(filename, function(jsonUrl){
+                        mailer.sendDebugMail('debug mail', 'collect Week: json generated');
+                        sendFileByMail(jsonUrl, "Week Log");
                     });
                 });
             } else {
                 console.silentLog('collect Week: no files to collect');
+                mailer.sendDebugMail('debug mail', 'collect Week: no files to collect');
             }
         });
     },
@@ -280,29 +283,32 @@ module.exports = {
         this.getFilesFromPath(archiveDir, 'csv', function(files) {
             let archiveDir = path.join(__dirname, "../logs/weeks");
             let fileUrl = path.join(archiveDir, files.sort().reverse()[0]);
-            let jsonUrl = generateJson(fileUrl, function(jsonFilename, jsonUrl){
+            let jsonUrl = generateJson(fileUrl, function(jsonUrl){
                 sendFileByMail(jsonUrl, "last week report");
             });
         });
     },
     collectGlobalLogs: function(folder) {
         let archiveDir = path.join(__dirname, folder);
+
+        console.log('folder: ', folder);
+        console.log('archiveDir: ', archiveDir);
+
         let generateLog = this.generateLog;
         let sendFileByMail = this.sendFileByMail;
         this.getFilesFromPath(archiveDir, 'csv', function(files) {
-            console.log(files);
-
+            // console.log(files);
             let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/global'), path.join(__dirname, '../logs/weeks'), function(filename) {
-                let jsonUrl = generateJson(filename, function(jsonFilename, jsonUrl){
-                    sendFileByMail(jsonUrl, "global Log");
-                    let globalPath = path.join(__dirname, '../public/logs/global.json');
-                    fs.copyFile(jsonUrl, globalPath, function() {
-                        console.silentLog('moving json to public global');
+                let jsonUrl = generateJson(filename, function(jsonUrl){
+                    // copy latest global JSON report to public folder
+                    fs.copyFile(jsonUrl, path.join(__dirname, '../public/logs/global.json'), function() {
+                        // send report by email
+                        sendFileByMail(jsonUrl, "global Log"); 
                     });
                 });
-                // copy latest global report to public folder
+                // copy latest global CSV report to public folder
                 fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
-                    console.silentLog('moving global');
+                    //
                 });
             });
             return files;
