@@ -151,7 +151,12 @@ module.exports.ROOMS = {
     r06Reciclaje: {
         bg: "/salas/r06Reciclaje2.png",
         frames: 2,
-        frameDelay: 30,
+        animations: { 
+            anim: [0, 2],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
+        frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
         area: "/salas/r06Reciclaje2_Int.png",
@@ -177,7 +182,7 @@ module.exports.ROOMS = {
             papelera: { file: "salas/r06Reciclaje_Sprites_NPCsA.png", id: "papelera", position: [40, 100 - 19], label: "papelera", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿cuál es el porcentaje de materiales reciclables de un teléfono móvil? Encuéntralo aquí y úsalo para conformar tu código", lines: 4, url:"https://www.recuperacion.org/infografia-ciudad/", iframe: true, point: [86, 87], obstacle: false }},
             contenedor: { file: "salas/r06Reciclaje_Sprites_NPCsB.png", id: "contenedor", position: [60, 100 - 19], label: "contenedor", frames: 2, frameDelay: 60, visible: true, command: { cmd: "text", label: "móvil roto", txt: "¿dónde tiro mis residuos electrónicos para que se traten correctamente?", lines: 3, url:"https://www.ecolec.es/reciclar-aparatos-electronicos/", iframe: true, point: [86, 87], obstacle: false }},
             // components
-            monitor: { command: { cmd: "action", actionId: "Monitor", point: [46, 75] }, file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [15, 26], label: "Monitor", frames: 1, frameDelay: 60, visible: false, },
+            monitor: { command: { cmd: "action", actionId: "Monitor", point: [50, 75] }, file: "salas/r06Reciclaje_Sprite_Monitor.png", id: "Monitor", position: [15, 26], label: "Monitor", frames: 1, frameDelay: 60, visible: false, },
             placa: { command: { cmd: "action", actionId: "Placa", point: [59, 68] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [40, 38], label: "Placa", frames: 1, frameDelay: 60, visible: false, },
             teclado: { command: { cmd: "action", actionId: "Teclado", point: [83, 67] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [80, 30], label: "Teclado", frames: 1, frameDelay: 60, visible: false, },
             mouse: { command: { cmd: "action", actionId: "Mouse", point: [110, 77] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [105, 50], label: "Mouse", frames: 1, frameDelay: 60, visible: false, },
@@ -185,8 +190,13 @@ module.exports.ROOMS = {
         }
     },
     r07Marionetas: {
-        frames: 4,
         bg: "/salas/r07Marionetas.png",
+        frames: 4,
+        animations: { 
+            anim: [0, 4],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 30,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -212,6 +222,11 @@ module.exports.ROOMS = {
     r08Huella: {
         bg: "/salas/r08Huella.png",
         frames: 2,
+        animations: { 
+            anim: [0, 2],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -252,11 +267,18 @@ module.exports.ROOMS = {
         things: {
             personaje: { file: "salas/r08Huella_NPC_Sprite.png", id: "personaje", position: [60, 77 - 11], frames: 4, frameDelay: 30, visible: true, label: "HuellaTRON", command: { cmd: "text", txt: "Uy si, las cookies de terceros son peligrosas para tu privacidad, seguro ya has aceptado muchas ¿revisamos tu huella digital?", lines: 4, point: [77, 88], obstacle: false }},
             // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
+            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [95, 70], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "El papelito pone: La biblioteca está detrás de las nubes, en la planta -1, al fondo!!!\n\nParece una pista.", lines: 5, point: [90, 80] } }
         }
         
     },
     r09FakeNews: {
         bg: "/salas/r09FakeNews.png",
+        frames: 2,
+        animations: { 
+            anim: [0, 1],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -286,6 +308,8 @@ module.exports.ROOMS = {
             transformacion: [3, 3], 
             cables: [6, 3],
         },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -346,7 +370,12 @@ module.exports.ROOMS = {
     },
     r12Resolucion: {
         bg: "/salas/r12Resolucion.png",
-        frames: 2,
+        frames: 4,
+        animations: { 
+            anim: [0, 2],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 30,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -370,12 +399,17 @@ module.exports.ROOMS = {
             placa: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [30, 65], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             teclado: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [20, 62], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
             mouse: { command: { cmd: "action", actionId: "Components", point: [30, 90] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [12, 66], label: "Componentes", frames: 1, frameDelay: 60, visible: false },
-            compu: { command: { cmd: "text", txt: "denunciar pishing", url: "https://ihackear.com/que-es-el-phishing/", iframe: true, actionId: 'DenunciarPhishing', postAction: true, point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "denunciar pishing", frames: 1, frameDelay: 60, visible: true },
+            compu: { command: { cmd: "text", txt: "denunciar phishing", url: "https://ihackear.com/que-es-el-phishing/", iframe: true, actionId: 'DenunciarPhishing', postAction: true, point: [85, 85] }, file: "salas/r12Resolucion_Compu2.png", id: "compu", position: [80, 55], label: "denunciar pishing", frames: 1, frameDelay: 60, visible: true },
         }
     },
     r13Netiqueta: {
         bg: "/salas/r13Netiqueta.png",
         frames: 2,
+        animations: { 
+            anim: [0, 2],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -391,12 +425,20 @@ module.exports.ROOMS = {
             h29adff: { cmd: "enter", room: "r12Resolucion", label: "Resolución", point: [100, 76], enterPoint: [10, 85], obstacle: false },
         },
         things: {
-            cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "Netiqueta", command: { cmd: "text", txt: "reglas netiqueta", iframe: true, url:"https://arsgames.net/netiqueta", lines: 1, point: [38, 86] } },
+            // cabinet: { file: "pico-cabinet.png", id: "cabinet", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "Netiqueta", command: { cmd: "text", txt: "reglas netiqueta", iframe: true, url:"https://arsgames.net/netiqueta", lines: 1, point: [38, 86] } },
+            cabinet1: { file: "pico-cabinet1.png", id: "cabinet1", offset: 9, position: [25, 64], frames: 1, frameDelay: 60, visible: true, label: "Netiqueta", command: { cmd: "text", txt: "¡Vaya, parece que has encontrado un atajo hacia la biblioteca!", lines: 3, postAction: true, actionId: "Atajo", point: [38, 85], obstacle: false } },
+            cabinet2: { file: "pico-cabinet2.png", id: "cabinet1", offset: 9, position: [48, 64], frames: 1, frameDelay: 60, visible: true, label: "Netiqueta", command: { cmd: "text", txt: "reglas netiqueta", iframe: true, url:"https://arsgames.net/netiqueta", lines: 1, point: [50, 86] } },
+            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "10100\n\n Parece el código.\n\n¡Ve a la biblioteca y busca el ordenador!", lines: 7, point: [80, 80] } }
         }
     },
     r14Creacion: {
         bg: "/salas/r14Creacion.png",
         frames: 2,
+        animations: { 
+            anim: [0,2],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -423,11 +465,18 @@ module.exports.ROOMS = {
             h98504f: { cmd: "text", label: "Apps", txt: "Aprende a crear aplicaciones", url: "https://appinventor.mit.edu/", iframe: false, point: [103, 85], obstacle: false },
         },
         things: {
-            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: " Anota el número de bloques de eventos (los naranjas) que hay en scratch. Este número te servirá para terminar el juego", lines: 5, point: [80, 80] } }
+            // nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: " Anota el número de bloques de eventos (los naranjas) que hay en scratch. Este número te servirá para terminar el juego", lines: 5, point: [80, 80] } }
+            // nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "10100\n\n Parece el código.\n\n¡Ve a la biblioteca! , ", lines: 5, point: [80, 80] } }
         }
     },
     r15Pasillo: {
         bg: "/salas/r15Pasillo.png",
+        frames: 1,
+        animations: { 
+            anim: [0,1],
+        },
+        bgScale: 1,
+        bgResolution: [256, 200],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -441,6 +490,8 @@ module.exports.ROOMS = {
             h00e436: { cmd: "enter", room: "r16Colabora", label: "colabora", point: [115, 85], enterPoint: [45, 96], obstacle: false },
             // #ffec27
             hffec27: { cmd: "enter", room: "r14Creacion", label: "creacion", point: [15, 85], enterPoint: [110, 85], obstacle: false },
+            // #ffec27
+            hff00ff: { cmd: "enter", room: "r18Biblioteca", label: "Biblioteca", point: [44, 75], enterPoint: [16, 87], obstacle: false },
             // // #00cc99
             // h00cc99: { cmd: "text", label: "news", point: [97, 80], obstacle: false },
             // // #ff00ff
@@ -448,6 +499,9 @@ module.exports.ROOMS = {
             // #9900cc
             // h9900cc: { cmd: "enter", room: "r17SalaCrypto", label: "cripto", point: [70, 80], enterPoint: [15, 85], obstacle: false },
             h9900cc: { cmd: "action", label: "cripto", point: [70, 80], actionId: "Crypto", obstacle: false },
+        },
+        things: {
+            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "10100\n\nParece el código.\n\n¡Ve a la biblioteca y busca el ordenador!", lines: 7, point: [80, 80] } }
         }
     },
     r16Colabora: {
@@ -476,6 +530,11 @@ module.exports.ROOMS = {
     r17SalaCrypto: {
         bg: "/salas/r17SalaCrypto.png",
         frames: 2,
+        animations: { 
+            anim: [0,2],
+        },
+        bgScale: 2,
+        bgResolution: [128, 100],
         frameDelay: 60,
         avatarScale: 3,
         pageBg: "#1c2016",
@@ -503,25 +562,26 @@ module.exports.ROOMS = {
         areaColors: {
             //h will be replaced by #
             // #aa2244
-            haa2244: { cmd: "enter", room: "r17SalaCrypto", label: "crypto", point: [15, 85], enterPoint: [86, 77], obstacle: false },
+            //haa2244: { cmd: "enter", room: "r17SalaCrypto", label: "crypto", point: [15, 85], enterPoint: [86, 77], obstacle: false },
+            haa2244: { cmd: "enter", room: "r15Pasillo", label: "pasillo", point: [15, 86], enterPoint: [44, 74], obstacle: false },
             // #b75714
             // hb75714: { cmd: "text", label: "ordenador", point: [64, 45], obstacle: false },
             hb75714: { cmd: "text", label: "ordenador", txt: "Introduce a continuación la clave de acceso", lines: 2, postAction: true, actionId: "Access", point: [64, 45], obstacle: false },
 
             // #ff00ff
-            hff00ff: { cmd: "text", lines: 5, label: "pista 1 Alfabetización digital", point: [25, 80], txt: "En el mapa de los cables submarinos, ¿cuántos nodos tienen las Islas Baleares?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/alfabetizacion-digital/", obstacle: false },
+            hff00ff: { cmd: "text", lines: 5, label: "1 Alfabetización digital", point: [25, 80], txt: "¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/alfabetizacion-digital/", obstacle: false },
             // #00cc99
-            h00cc99: { cmd: "text", lines: 4, label: "pista 2 Comunicación", point: [49, 80], txt: "¿Cuántos temas hay para elegir en el juego sobre las fake news?\n\n¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/comunicacion/", obstacle: false },
+            h00cc99: { cmd: "text", lines: 4, label: "2 Comunicación", point: [49, 80], txt: "¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/comunicacion/", obstacle: false },
             // #9900cc
-            h9900cc: { cmd: "text", lines: 6, label: "pista 3 Creación digital", point: [90, 80], txt: "En el programa para crear videojuegos ‘Scratch’, ¿cuántos bloques de eventos (los naranjas) hay?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/creacion-digital/", obstacle: false },
+            h9900cc: { cmd: "text", lines: 6, label: "3 Creación digital", point: [90, 80], txt: "¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/creacion-digital/", obstacle: false },
             // #ff9900
-            hff9900: { cmd: "text", lines: 5, label: "pista 4 Seguridad digital", point: [30, 45], txt: "En el minuto 1:30 del video sobre las cookies ¿cuántos elementos aparecen en el carrito de compra?\n\n ¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/seguridad-digital/", obstacle: false },
+            hff9900: { cmd: "text", lines: 5, label: "4 Seguridad digital", point: [30, 45], txt: "¡revisa de nuevo los contenidos!", iframe: true, url:"https://arsgames.net/seguridad-digital/", obstacle: false },
             // #0066ff
-            h0066ff: { cmd: "text", lines: 6, label: "pista 5 Resolución de problemas", point: [79, 45], txt: "¿Cuántos objetos recogiste del vertedero para construir tu ordenador?\n\n ¡revisa los contenidos!", iframe: true, url:"https://arsgames.net/resolucion-de-problemas/", obstacle: false },
+            h0066ff: { cmd: "text", lines: 6, label: "5 Resolución de problemas", point: [79, 45], txt: "¡revisa los contenidos!", iframe: true, url:"https://arsgames.net/resolucion-de-problemas/", obstacle: false },
 
         },
         things: {
-            nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "La sala de encriptación te devuelve la traducción del número en código binario.\n\nPara conocer el código binario que te abrirá las puertas suma todos los números que has ido recolectando a lo largo de todo el juego.", lines: 9, point: [80, 80] } }
+            // nota: { file: "/salas/r14Creacion_Sprite_Nota.png", id: "nota", label: "papelito", offset: 0, position: [85, 80], frames: 1, frameDelay: 60, visible: true, command: { cmd: "text", txt: "La sala de encriptación te devuelve la traducción del número en código binario.\n\nPara conocer el código binario que te abrirá las puertas suma todos los números que has ido recolectando a lo largo de todo el juego.", lines: 9, point: [80, 80] } }
         }
     },
 };
