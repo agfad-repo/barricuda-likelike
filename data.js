@@ -331,7 +331,7 @@ module.exports.ROOMS = {
             // #ff77a8
             hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
-            // hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, anota especialmente el número de conexiones de las Islas  Baleares, que te servirán para completar el juego.", lines: 5, point: [46, 78], obstacle: false },
+            hb75714: { cmd: "text", label: "cartel", txt: "La biblioteca está\nen la planta -1, al fondo.", lines: 2, point: [46, 78], obstacle: false },
             // #ff9900
             hff9900: { cmd: "text", label: "nube mediana", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: false, url:"https://www.submarinecablemap.com/", iframe: false, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #689156
