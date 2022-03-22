@@ -113,11 +113,6 @@ module.exports.initMod = function (io, gameState, DATA) {
         "se empieza entrando por esa puerta!",
     ];
 
-    global.recepcionistaTalk = [
-        "¡Qué bien que estás aquí!",
-        "Toma unas galletas de bienvenida",
-    ];
-
     global.divulgadorTalk = [
         "¡Hola! ¿Eres un robot? ¿No?",
         "Bueno, mejor para estar seguros",
@@ -132,16 +127,16 @@ module.exports.initMod = function (io, gameState, DATA) {
         "a la información de tus resultados,",
         "para acceder necesitarás",
         "encontrar el código.",
-        "Explora las salas,",
-        "hay fragmentos del código",
-        "por todos lados,",
-        "toma papel y boli y anótalos,",
-        "cuando hayas dado con la clave final,",
-        "encuentra el ordenador que está",
-        "en la biblioteca e introdúcelo.",
+        "introdúcelo en ordenador",
+        "de la biblioteca",
         "Empieza a explorar por la puerta",
         "que define correctamente",
         "qué es el ransomware."
+    ];
+
+    global.recepcionistaTalk = [
+        "¡Qué bien que estás aquí!",
+        "Toma unas galletas de bienvenida",
     ];
 
     global.netiquetaTalk = [
@@ -270,7 +265,17 @@ module.exports.initMod = function (io, gameState, DATA) {
             talk = global.roomStates[divulgadorNpc.room].talk;
             if (talk === false) {
                 global.roomStates[divulgadorNpc.room].surveyActive = true;
-                deactivateSurvey();
+                activateSurvey();
+
+                global.roomStates.r02Entrada.usersList.forEach(playerId => {
+                    if (!global.roomStates.r02Entrada.registeredUsers.includes(playerId)) {
+                        global.roomStates["r02Entrada"].registeredUsers.push(playerId);
+                        let command = { cmd: "text", txt: "Encuesta de 10 preguntas, para saber si eres un robot", lines: 2, pool: "pool1", section: "pool-section", label: "encuesta", point: [65, 95], obstacle: false };
+                        io.to(playerId).emit("executeCommand", command);
+                    }
+                });
+
+
             }
             divulgadorNpc.behavior = setTimeout(ramble, random(2000, 3000));
         } else {
@@ -451,7 +456,7 @@ module.exports.r02EntradaJoin = function(player, roomId) {
         if (roomState.registeredUsers.includes(player.id) === false) {
             roomState.ransomwareActive = false;
             roomState.surveyActive = false;
-            activateSurvey();
+            deactivateSurvey();
             talkValue = true
         }
 
@@ -512,6 +517,8 @@ module.exports.r06ReciclajeJoin = function(player, roomId) {
     
     if (room12.missionUsersList.includes(player.id) === true) {
         showComponents(true);
+    } else {
+        io.to(player.id).emit('godMessage', "* Habla con los contenedores y los móviles para saber lo que pasa con nuestros residuos");
     }
 }
 
@@ -539,19 +546,21 @@ module.exports.r06ReciclajeLeave = function(player, roomId) {
 }
 
 module.exports.r08HuellaJoin = function(player, roomId) {
-    // io.emit('musicExit');
-    // io.emit('musicOn', 1);
+    io.to(player.id).emit('godMessage', "* Habla con HuellaTron para aprender sobre tu privacidad\n\n* Pulsa sobre los espejos para saber más\n\n¡y mira, hay un papelito en el suelo!");
 }
 
 module.exports.r09FakeNewsJoin = function(player, roomId) {
-    // console.silentLog("MOD: " + player.nickName + " entered room " + roomId);
-    // io.emit('musicExit');
-    // io.emit('musicOn', 2);
+    io.to(player.id).emit('godMessage', "* Habla con M.Fake para saber como reconocer fake news");
+}
+
+module.exports.r07MarionetasJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "* Usa los mandos para detectar patrones oscuros y que no te engañen.");
 }
 
 module.exports.r10NubesJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
+    io.to(player.id).emit('godMessage', "* La nube también es un ordenador\n\n* Pulsa en las nubes para saber más sobre ellas");
 }
 
 module.exports.r10NubesLeave = function(player, roomId) {
@@ -567,13 +576,19 @@ module.exports.r10NubesLeave = function(player, roomId) {
         roomState.machineActive = false;
 }
 
+
+module.exports.r11LagoJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "* Habla con el pescador, pero...\n\n ...cuidado con lo que dices");
+}
+
+
 module.exports.r12ResolucionJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
     
-    
-    if (roomState.missionUsersList.includes(player.id) === true) {
-        let components = global.roomStates['r06Reciclaje'].userComponents[player.id];
+    let components = global.roomStates['r06Reciclaje'].userComponents[player.id];
+    if (components && roomState.missionUsersList.includes(player.id) === true) {
+        
 
         for (let index = 0; index < components.length; index++) {
             const element = components[index];
@@ -581,6 +596,8 @@ module.exports.r12ResolucionJoin = function(player, roomId) {
                 io.sockets.emit("thingChanged", { thingId: element, room: "r12Resolucion", property: "visible", value: true });
             }, 1000)
         }
+    } else {
+        io.to(player.id).emit('godMessage', "* Habla con Fixit para saber como arreglar las cosas\n\n* Usa el ordenador si quieres denunciar phishing");
     }
 }
 
@@ -603,6 +620,8 @@ module.exports.r13NetiquetaJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
     roomState.usersList.push(player.id);
 
+    io.to(player.id).emit('godMessage', "* Estudiar la netiqueta abre muchas puertas\n\n* Juega en las máquinas recreativas para saber más ;)\n\n¡y mira, hay otro papelito en el suelo!");
+
     setTimeout(function() {
         roomState.talk = true;
     }, 1000)
@@ -622,8 +641,9 @@ module.exports.r13NetiquetaLeave = function(player, roomId) {
 }
 
 module.exports.r14CreacionJoin = function(player, roomId) {
-    io.to(player.id).emit('godMessage', "¡Qué emoción que hayas llegado hasta aquí! Esta es una sala en la que puedes aprender a crear un montón de cosas.\n \n Explora libremente, crea y...\n \n creo que alguien dejó una nota para ti por algún lado, pero la perdí, búscala.");
+    io.to(player.id).emit('godMessage', "¡Qué emoción que hayas llegado hasta aquí! Esta es una sala en la que puedes aprender a crear un montón de cosas.\n \n Explora libremente, crea y disfruta\n\nEn el pasillo encontrarás la Biblioteca");
 }
+
 
 module.exports.r16ColaboraJoin = function(player, roomId) {
     let roomState = global.roomStates[roomId];
@@ -686,6 +706,14 @@ module.exports.r17SalaCryptoLeave = function(player, roomId) {
     }
 }
 
+module.exports.r15PasilloJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "Ah, parece que ya está ahí lo que buscas.\n\n¡y hay un papelito en el suelo!");
+}
+
+module.exports.r18BibliotecaJoin = function(player, roomId) {
+    io.to(player.id).emit('godMessage', "¡Por fín has llegado!\n\nSolo falta introducir el código en el ordenador");
+}
+
 //             _   _                 
 //   __ _  ___| |_(_) ___  _ __  ___ 
 //  / _` |/ __| __| |/ _ \| '_ \/ __|
@@ -701,7 +729,6 @@ module.exports.onCookies = function() {
 
 module.exports.onSurvey1 = function(playerId) {
     global.roomStates["r02Entrada"].ransomwareActive = true;
-    global.roomStates["r02Entrada"].registeredUsers.push(playerId);
     global.resetTalk("r02Entrada");
     global.roomStates["r02Entrada"].talk = true;
 }
@@ -709,24 +736,6 @@ module.exports.onSurvey1 = function(playerId) {
 module.exports.onSurvey2 = function(playerId) {
     io.to(playerId).emit('godMessage', "¡Gracias por participar!");
     this.transferPlayer(playerId, "r18Biblioteca", "r01Patio", 64 * 2, 86 * 2);
-}
-
-module.exports.onPatioExit = function(playerId) {
-    io.to(playerId).emit('godMessage', "* Escucha lo que tiene que decir el robot divulgador\n\n* Pincha en el cuadro para realizar la encuesta\n\n* Escoge una de las puertas para salir");
-    io.to(playerId).emit('showIntro');
-}
-
-module.exports.onMovePlayerToHall = function(playerId) {
-    this.transferPlayer(playerId, "r01Patio", "r02Entrada", 65 * 2, 95 * 2);
-}
-
-module.exports.onCookiesIntro = function(playerId) {
-    io.to(playerId).emit('godMessage', "* Prueba las galletas\n(pinchando en ellas)\n\n* Habla con el Monstruo de las Galletas\n\n(Atención al video que te mostrará,\nel primer número del código lo encontrarás ahí)\n\n* Sal hacia la puerta que prefieras.");
-    io.to(playerId).emit('showCookiesInfo');
-}
-
-module.exports.onMovePlayerToCookies = function(playerId) {
-    this.transferPlayer(playerId, "r02Entrada", "r03Cookies", 70 * 2, 95 * 2);
 }
 
 module.exports.onCabinet = function(playerId,) {
@@ -751,11 +760,14 @@ module.exports.onDivulgador = function(playerId) {
     if (roomState.registeredUsers.includes(playerId) === false) {
         roomState.ransomwareActive = false;
         roomState.surveyActive = false;
-        activateSurvey();
+        deactivateSurvey();
     } else {
         roomState.ransomwareActive = true;
         roomState.surveyActive = true;
-        deactivateSurvey();
+        activateSurvey();
+
+        let command = { cmd: "text", txt: "Encuesta de 10 preguntas para saber si eres un robot", lines: 2, pool: "pool1", section: "pool-section", label: "encuesta", point: [65, 95], obstacle: false };
+        io.to(playerId).emit("executeCommand", command);  
     }
 
     setTimeout(function() {
@@ -781,12 +793,12 @@ module.exports.onColabora = function(playerId) {
     roomState.talk = true;
 }
 
-const activateSurvey = function() {
+const deactivateSurvey = function() {
     io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: true });
     io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: false });
 }
 
-const deactivateSurvey = function() {
+const activateSurvey = function() {
     io.sockets.emit("thingChanged", { thingId: "pantalla1", room: "r02Entrada", property: "visible", value: false });
     io.sockets.emit("thingChanged", { thingId: "pantalla2", room: "r02Entrada", property: "visible", value: true });
 }
@@ -806,6 +818,7 @@ const showComponents = function(value) {
     io.sockets.emit("thingChanged", { thingId: "placa", room: "r06Reciclaje", property: "visible", value: value });
     io.sockets.emit("thingChanged", { thingId: "teclado", room: "r06Reciclaje", property: "visible", value: value });
     io.sockets.emit("thingChanged", { thingId: "mouse", room: "r06Reciclaje", property: "visible", value: value });
+    io.sockets.emit("thingChanged", { thingId: "cabinet1", room: "r06Reciclaje", property: "visible", value: value });
 }
 
 const showComponents2 = function(value) {
@@ -1014,4 +1027,34 @@ module.exports.onAccessSuccess = function(playerId) {
 
 module.exports.onAccessFailed = function(playerId) {
     io.to(playerId).emit('godMessage', "No es correcto, revisa tus pistas");
+}
+
+// intro to rooms
+
+// patio to hall
+module.exports.onPatioExit = function(playerId) {
+    io.to(playerId).emit('godMessage', "* Escucha lo que tiene que decir el robot divulgador\n\n* Pincha en el cuadro para realizar la encuesta\n\n* Escoge una de las puertas para salir");
+    io.to(playerId).emit('showIntro');
+}
+
+module.exports.onMovePlayerToHall = function(playerId) {
+    this.transferPlayer(playerId, "r01Patio", "r02Entrada", 65 * 2, 95 * 2);
+}
+
+// hall to cookies
+module.exports.onCookiesIntro = function(playerId) {
+    io.to(playerId).emit('godMessage', "* Prueba las galletas\n(pinchando en ellas)\n\n* Habla con el Monstruo de las Galletas\n\n* Sal hacia la puerta que prefieras.");
+    io.to(playerId).emit('showCookiesInfo');
+}
+
+module.exports.onMovePlayerToCookies = function(playerId) {
+    this.transferPlayer(playerId, "r02Entrada", "r03Cookies", 70 * 2, 95 * 2);
+}
+
+module.exports.onAtajo = function(playerId) {
+    this.transferPlayer(playerId, "r13Netiqueta", "r15Pasillo", 70 * 2, 95 * 2);
+}
+
+module.exports.onAtajo2 = function(playerId) {
+    this.transferPlayer(playerId, "r06Reciclaje", "r12Resolucion", 70 * 2, 95 * 2);
 }
