@@ -77,7 +77,11 @@ function initMod(playerId, roomId) {
 }
 
 function afterPool(data) {
+    let profile = evaluatePool(data);    
+
     socket.emit("action", "Survey1");
+    socket.emit("appendToLog", ['profile', profile]);
+
 }
 
 function addPoint(type, personalidad) {
@@ -88,7 +92,7 @@ function addPoint(type, personalidad) {
     }
 }
 
-function afterPool2(data) {
+function evaluatePool(data) {
     let personalidad = {};
 
     for (let index = 0; index < data.length; index++) {
@@ -178,6 +182,12 @@ function afterPool2(data) {
             value = p;
         }
     }
+
+    return value
+}
+
+function afterPool2(data) {
+    let value = evaluatePool(data);    
 
     let command;
     let profile;

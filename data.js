@@ -72,7 +72,9 @@ module.exports.ROOMS = {
         things: {
             mesa: { file: "salas/r02Entrada_Sprite_Mesa.png", id: "mesa", offset: 7.5, scale: 2, position: [44, 57], frames: 1, frameDelay: 60, visible: true, },
             pantalla1: { file: "salas/r02Entrada_Sprite_Pantalla01.png", id: "pantalla1", offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: true, },
-            pantalla2: { file: "salas/r02Entrada_Sprite_Pantalla02.png", id: "pantalla2", label: "encuesta",  offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: false, command: { cmd: "text", txt: "Encuesta de 10 preguntas", lines: 2, pool: "pool1", section: "pool-section", label: "encuesta", point: [65, 95], obstacle: false } },
+            pantalla2: { file: "salas/r02Entrada_Sprite_Pantalla02.png", id: "pantalla2", offset: 7.5, scale: 2, position: [44, 24], frames: 1, frameDelay: 60, visible: false, 
+            //label: "encuesta", command: { cmd: "text", txt: "Encuesta de 10 preguntas", lines: 2, pool: "pool1", section: "pool-section", label: "encuesta", point: [65, 95], obstacle: false }
+            },
         }
     },
     r03Cookies: {
@@ -105,7 +107,7 @@ module.exports.ROOMS = {
         },
         things: {
             cookieMonsterA: { file: "salas/r03Cookies_Monster_Sprite_A.png", id: "cookie-monsterA", position: [91, 67], label: "mostruo de las galletas", frames: 1, frameDelay: 30, visible: true, },
-            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. Anota el número de elementos en el carrito de compra (ayuda: es en el minuto 1:30) te servirá para terminar el juego.\nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.\nNOTA: el video es en inglés pero puedes activar la función de subtítulos si lo deseas", lines: 13, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
+            cookieMonsterB: { file: "salas/r03Cookies_Monster_Sprites.png", id: "cookie-monsterB", position: [91, 67], label: "mostruo de las galletas", frames: 2, frameDelay: 30, visible: false, command: { cmd: "text", label: "mostruo de las galletas", txt: "¿Aceptaste las cookies? Cuidado, no todas las cookies son lo que parecen. Mira este vídeo para descubrirlo. \nCuando lo hayas visto sal por la puerta de las cookies que son más peligrosas.\nNOTA: el video es en inglés pero puedes activar la función de subtítulos si lo deseas", lines: 13, url: "https://www.youtube.com/embed/4n2Syt0P4js?start=90", iframe: true, point: [84, 89], obstacle: false } },
         }
     },
     r04SalaX: {
@@ -186,7 +188,7 @@ module.exports.ROOMS = {
             placa: { command: { cmd: "action", actionId: "Placa", point: [59, 68] }, file: "salas/r06Reciclaje_Sprite_Placa.png", id: "Placa", position: [40, 38], label: "Placa", frames: 1, frameDelay: 60, visible: false, },
             teclado: { command: { cmd: "action", actionId: "Teclado", point: [83, 67] }, file: "salas/r06Reciclaje_Sprite_Teclado.png", id: "Teclado", position: [80, 30], label: "Teclado", frames: 1, frameDelay: 60, visible: false, },
             mouse: { command: { cmd: "action", actionId: "Mouse", point: [110, 77] }, file: "salas/r06Reciclaje_Sprite_Mouse.png", id: "Mouse", position: [105, 50], label: "Mouse", frames: 1, frameDelay: 60, visible: false, },
-            // command: { cmd: "text", txt: "", lines: 2, postAction: true, actionId: "Survey1",  label: "???", point: [65, 95], obstacle: false } },
+            cabinet1: { file: "pico-cabinet1.png", id: "cabinet1", offset: 9, position: [110, 71], frames: 1, frameDelay: 60, visible: false, label: "Arcade-Teleport", command: { cmd: "text", txt: "¡Vaya, parece que has encontrado un atajo hacia la sala de resolución de problemas!", lines: 3, postAction: true, actionId: "Atajo2", point: [105, 85], obstacle: false } },
         }
     },
     r07Marionetas: {
@@ -297,7 +299,7 @@ module.exports.ROOMS = {
             // #ff00ff
             hff00ff: { cmd: "text", label: "news2", point: [30, 80], obstacle: false, txt: "aprende más", url:" https://datadetoxkit.org/es/misinformation/healthhoax/", iframe: true},
             // #9900cc
-            h9900cc: { cmd: "text", label: "M. Fake", txt: "¡No soporto las fake news! Maldita desinformación ¿sabes reconocerlas?\n\n Mientras juegas fíjate en cuántos temas hay para elegir en el juego sobre las fake news y anótalo.", lines: 7, point: [69, 80], obstacle: false },
+            h9900cc: { cmd: "text", label: "M. Fake", txt: "¡No soporto las fake news!\n\n¡Maldita desinformación!\n\n¿sabes reconocerlas?", lines: 5, point: [69, 80], obstacle: false },
         }
     },
     r10Nubes: {
@@ -329,7 +331,7 @@ module.exports.ROOMS = {
             // #ff77a8
             hff77a8: { cmd: "enter", room: "r13Netiqueta", label: "Planta -1", point: [86, 77], enterPoint: [60, 95], obstacle: false },
             // #b75714
-            hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, anota especialmente el número de conexiones de las Islas  Baleares, que te servirán para completar el juego.", lines: 5, point: [46, 78], obstacle: false },
+            // hb75714: { cmd: "text", label: "cartel", txt: "Revisa bien los cables, anota especialmente el número de conexiones de las Islas  Baleares, que te servirán para completar el juego.", lines: 5, point: [46, 78], obstacle: false },
             // #ff9900
             hff9900: { cmd: "text", label: "nube mediana", txt:"La nube no es lo que parece, está compuesta de servidores y enormes cables que recorren el globo", postAction: false, url:"https://www.submarinecablemap.com/", iframe: false, actionId: "Nube", lines: 3, point: [60, 80], obstacle: false },
             // #689156
