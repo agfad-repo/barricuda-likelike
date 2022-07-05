@@ -13,17 +13,17 @@ console.silentLog = function(msg) {
 //.env content
 /*
 ADMINS=username1|pass1,username2|pass2
-PORT = 3000
-TRAFFICLOG = true
-SENDLOG = true
-MAILHOST = SMTP ongoing server
-MAILUSER = mail@domain.com
-MAILPASS = *****
-MAILTO = to@domain.com,to2@domain2.com
-MAILBCC = bcc@domain.com,bcc2@domain2.com
-DEBUGMAILTO = debugTo@domain.com
-TIMEZONE = "Europe/Madrid"
-VERBOSE = false
+PORT=3000
+TRAFFICLOG=true
+SENDLOG=true
+MAILHOST=SMTP ongoing server
+MAILUSER=mail@domain.com
+MAILPASS=*****
+MAILTO=to@domain.com,to2@domain2.com
+MAILBCC=bcc@domain.com,bcc2@domain2.com
+DEBUGMAILTO=debugTo@domain.com
+TIMEZONE="Europe/Madrid"
+VERBOSE=false
 */
 
 let allowTrafficLog = false;
@@ -117,33 +117,18 @@ if (process.env.TRAFFICLOG != null) {
         if (process.env.TIMEZONE != null) {
             timezone = process.env.TIMEZONE;
         }
-
+        
         // every day at 00:00
         cron.schedule('0 0 * * *', () => {
             logFileName = tLog.changeLogFileName(Date.now());
-            // mailer.sendDebugMail('debug mail', 'change log filename to ' + logFileName);
+            tLog.collectDailyGlobalLogs('../logs');
         }, { timezone: timezone });
-
-        // every monday at 06:00 send a week report
-        cron.schedule('0 6 * * 1', () => {
-            // mailer.sendDebugMail('debug mail', 'cron weekly check');
-            tLog.collectWeekLogs('../logs');
-        }, { timezone: timezone });
-
-        // every monday at 06:30 send a global report
-        cron.schedule('30 6 * * 1', () => {
-            // mailer.sendDebugMail('debug mail', 'cron monthly check');
-            tLog.collectGlobalLogs('../logs/weeks');
-        }, { timezone: timezone });
-
-        // // first day of every month at 7:00 send a global report
-        // cron.schedule('0 7 1 * *', () => {
-        //     mailer.sendDebugMail('debug mail', 'cron monthly check');
-        //     tLog.collectGlobalLogs('../logs/weeks');
-        // }, { timezone: timezone });
     }
     
+    tLog.collectDailyGlobalLogs('../logs');
+
     logFileName = tLog.serverStart(START_TIME);
+
 }
 
 //when a client connects the socket is established and I set up all the functions listening for events
@@ -867,24 +852,13 @@ function adminCommand(adminSocket, str) {
                 break;
             
             //trafic management
-            case "cleanLogs":
+            case "c":
+            case "collect":
                 cmd.shift();
-                tLog.cleanUpLogs();
-                break;
-            case "collectWeek":
-            case "cw":
-                cmd.shift();
-                tLog.collectWeekLogs('../logs');
-                break;
-            case "sendLastWeekLog":
-            case "lw":
-                cmd.shift();
-                tLog.sendLastWeekLog();
-                break;
-            case "collectGlobal":
-            case "cg":
-                cmd.shift();
-                tLog.collectGlobalLogs('../logs/weeks');
+                logFileName = tLog.changeLogFileName(Date.now());
+                tLog.collectDailyGlobalLogs('../logs', function() {
+                    tLog.appendToLog(logFileName, 'backup global data');
+                });
                 break;
         }
     }

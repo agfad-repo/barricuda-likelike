@@ -110,7 +110,6 @@ module.exports = {
         startTime = this.timeToFileName(new Date(startTime));
         this.createDirectory('logs');
         this.createDirectory('logs/archive');
-        this.createDirectory('logs/weeks');
         this.createDirectory('logs/global');
         this.createDirectory('public/logs');
         let logFileName = './logs/' + startTime + '.csv';
@@ -123,26 +122,8 @@ module.exports = {
         let logFileName = './logs/' + time + '.csv';
         return logFileName;
     },
-    generateLog: function (files, logDir, exportPath, archivePath, callback) {
-        // concatenate files
-        let f0 = files[0].split('.csv')[0];
-        if (f0.includes('_to_')) {
-            f0 = f0.split('_to_')[0];
-        }
-        let f1 = files[files.length - 1].split('.csv')[0];
-        if (f1.includes('_to_')) {
-            f1 = f1.split('_to_')[1];
-        }
-        let rangeString = f0 + '_to_' + f1;
-        let rangeLogFilename = path.join(exportPath, rangeString + '.csv');
-
-        fs.stat(rangeLogFilename, function(err, stat) {
-            if(err == null) {
-                fs.unlink(rangeLogFilename, (error) => {
-                    if (error) throw error;
-                })
-            }
-        });
+    generateDailyLog: function (files, logDir, exportPath, archivePath, callback) {
+        let outputFilename = path.join(exportPath, 'global.csv');
 
         for (let index = 0; index < files.length; index++) {
             let filename = files[index];
@@ -150,37 +131,23 @@ module.exports = {
 
             try {
                 const buf = fs.readFileSync(filePath)
-                fs.appendFileSync(rangeLogFilename, buf.toString())
+                fs.appendFileSync(outputFilename, buf.toString())
                 fs.renameSync(filePath, path.join(archivePath, filename))
             } catch (e) {
-                //mailer.sendDebugMail('debug mail', 'something failed appending logs');
                 throw new Error('something failed appending logs')
             }
         }
 
         if (callback) {
-            callback(rangeLogFilename);
+            callback(outputFilename);
         }
-        return rangeLogFilename;
+        return outputFilename;
     },
     sendFileByMail: function (fileUrl, msg) {
         let fileName = fileUrl.split('/')[fileUrl.split('/').length - 1];
         let subject = "📊📋 " + msg + " 🕰️📬 " + fileName;
         let content = "Automatic traffic report. Do not reply.";
         mailer.sendMail(subject, content, fileName, fileUrl);
-    },
-    getWeekNumber: function(d) {
-        // Copy date so don't modify original
-        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-        // Set to nearest Thursday: current date + 4 - current day number
-        // Make Sunday's day number 7
-        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-        // Get first day of year
-        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-        // Calculate full weeks to nearest Thursday
-        var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-        // Return array of year and week number
-        return [d.getUTCFullYear(), weekNo];
     },
     getFilesFromPath: function (dirPath, extension, callback) {
         fs.readdir(dirPath, function (err, files) {
@@ -194,124 +161,32 @@ module.exports = {
             callback(selectedFiles);
         });
     },
-    getUnstoredDailyLogsFromPath: function (dirPath, callback) {
-        let dateCollection = [];
-        fs.readdir(dirPath, function (err, files) {
-            for (let index = 0; index < files.length; index++) {
-                let file = files[index];
-                if (file.split('.')[1] === 'csv' && file.split('T').length === 1) {
-                    let date = file.split('T')[0];
-                    if (dateCollection.includes(date) === false) {
-                        dateCollection.push(date);
-                    }
-                } 
-            };
-            callback(dateCollection);
-        });
-    },
-    cleanUpLogs: function() {
-        const archiveDir = path.join(__dirname, '../logs');
-        // get all daily logs (except from current week) and generate weekly archives
-        let getWeekNumber = this.getWeekNumber;
-        let generateLog = this.generateLog;
-        let fileNameToTime = this.fileNameToTime;
-        let currentWeekNumber = getWeekNumber(new Date)[1];
+    collectDailyGlobalLogs: function(folder, callback) {
+        let sourceDir = path.join(__dirname, folder);
+        let archiveDir = path.join(__dirname, '../logs/archive');
+        let globalDir = path.join(__dirname, '../logs/global');
 
-        this.getUnstoredDailyLogsFromPath(archiveDir, function(files) {
-            let week = null
-            let collection = {};
-
-            for (let i = 0; i < files.length; i++) {
-                let filename = files[i].split('.csv')[0];
-                let fileDate = new Date(filename);
-                let fileWeek = getWeekNumber(fileDate);
-                // exclude current week files
-                if (fileWeek[1] !== currentWeekNumber) {
-                    if (Array.isArray(collection['week' + fileWeek[1]])) {
-                        collection['week' + fileWeek[1]].push(files[i]);
-                    } else {
-                        collection['week' + fileWeek[1]] = [];
-                        collection['week' + fileWeek[1]].push(files[i]);
-                    }
-                }
-            }
-
-            for (let index = 0; index < Object.keys(collection).length; index++) {
-                week = Object.keys(collection)[index];
-                const days = collection[week];
-                console.silentLog(week, days, 'generating range Log and moving files to archive');
-                let filename = generateLog(days, archiveDir, path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'), function(filename) {
-                    let jsonUrl = generateJson(filename);
-                });
-            }
-        });
-    },
-    collectWeekLogs: function(folder) {
-        let archiveDir = path.join(__dirname, folder);
-        let generateLog = this.generateLog;
+        let generateDailyLog = this.generateDailyLog;
         let sendFileByMail = this.sendFileByMail;
-        let today = this.timeToFileName(new Date());
-        this.getUnstoredDailyLogsFromPath(archiveDir, function(files) {
-            // exclude today file if it exist.
-            let collectableFiles = [];
-            for (let index = 0; index < files.length; index++) {
-                const element = files[index];
-                if (element.split('.csv')[0] !== today) {
-                    collectableFiles.push(element);
-                }
-            }
-            if (collectableFiles.length > 1) {
-                //mailer.sendDebugMail('debug mail', 'collect Week: ready for generateLog');
-                let filename = generateLog(collectableFiles, archiveDir,  path.join(__dirname, '../logs/weeks'), path.join(__dirname, '../logs/archive'), function(filename) {
-                    //mailer.sendDebugMail('debug mail', 'collect Week: ready for generateJson');
-                    let jsonUrl = generateJson(filename, function(jsonUrl){
-                        //mailer.sendDebugMail('debug mail', 'collect Week: json generated');
-                        sendFileByMail(jsonUrl, "Week Log");
-                    });
-                });
-            } else {
-                console.silentLog('collect Week: no files to collect');
-                //mailer.sendDebugMail('debug mail', 'collect Week: no files to collect');
-            }
-        });
-    },
-    sendLastWeekLog: function() {
-        let archiveDir = path.join(__dirname, "../logs/weeks");
-        let sendFileByMail = this.sendFileByMail;
-
-        //get last file in weeks archive
-        this.getFilesFromPath(archiveDir, 'csv', function(files) {
-            let archiveDir = path.join(__dirname, "../logs/weeks");
-            let fileUrl = path.join(archiveDir, files.sort().reverse()[0]);
-            let jsonUrl = generateJson(fileUrl, function(jsonUrl){
-                sendFileByMail(jsonUrl, "last week report");
-            });
-        });
-    },
-    collectGlobalLogs: function(folder) {
-        let archiveDir = path.join(__dirname, folder);
-
-        console.log('folder: ', folder);
-        console.log('archiveDir: ', archiveDir);
-
-        let generateLog = this.generateLog;
-        let sendFileByMail = this.sendFileByMail;
-        this.getFilesFromPath(archiveDir, 'csv', function(files) {
-            // console.log(files);
-            let filename = generateLog(files, archiveDir,  path.join(__dirname, '../logs/global'), path.join(__dirname, '../logs/weeks'), function(filename) {
+        this.getFilesFromPath(sourceDir, 'csv', function(files) {
+            //             generateDailyLog(files, logDir,   exportPath, archivePath, callback)
+            let filename = generateDailyLog(files, sourceDir,  globalDir, archiveDir, function(filename) {
                 let jsonUrl = generateJson(filename, function(jsonUrl){
                     // copy latest global JSON report to public folder
                     fs.copyFile(jsonUrl, path.join(__dirname, '../public/logs/global.json'), function() {
                         // send report by email
-                        sendFileByMail(jsonUrl, "global Log"); 
+                        if (process.env.SENDLOG.toLowerCase() === 'true') {
+                            sendFileByMail(jsonUrl, "global Log");
+                        };
                     });
+                     // copy latest global CSV report to public folder
+                    fs.copyFile(filename, path.join(__dirname, '../public/logs/global.csv'), function() {});
                 });
-                // copy latest global CSV report to public folder
-                fs.copyFile(filename, path.join(archiveDir, '../../public/logs/global.csv'), function() {
-                    //
-                });
+               
             });
+
+            if (callback) callback(filename);
             return files;
         });
-    }
+    },
 };
